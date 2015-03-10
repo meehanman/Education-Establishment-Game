@@ -10,22 +10,46 @@ package board;
  */
 public class SpecialSquare {
 	
-	String name;
-	String description;
-	Effect effect;
+	//The title that is displayed on the card
+	private String title;
+	//The description that is displayed on the card
+	private String description;
+	//TODO Look at effects
+	private Effect effect;
 	
-	public SpecialSquare(String name, String description, Effect effect) {
-		this.name = name;
-		this.description = description;
+	public SpecialSquare(Effect effect, String title, String description) {
 		this.effect = effect;
+		this.title = title;
+		this.description = description;
 	}
+	
 	
 	////////////////////////////////////////////////////
 	/**
-	/////////////////// METHODS ///////////////////////<
+ 	/////////////////// METHODS ///////////////////////<
 	**/
 	////////////////////////////////////////////////////	
 	
-	
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return the effect
+	 */
+	public Effect getEffect() {
+		return effect;
+	}
+
 	
 }

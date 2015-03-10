@@ -12,9 +12,9 @@ package board;
  */
 public class Effect {
 
-	int money;
-	int Position;
-	int outOfJailFree;
+	private int money;
+	private int Position;
+	private int outOfJailFree;
 	
 	
 	public Effect(int money, int position, int outOfJailFree) {
