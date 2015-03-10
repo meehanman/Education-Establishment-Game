@@ -14,13 +14,13 @@ package board;
 public class Cards {
 	
 	//The title that is displayed on the card
-	String title;
+	private String title;
 	//The description that is displayed on the card
-	String description;
+	private String description;
 	//TODO Look at effects
-	Effect effect;
+	private Effect effect;
 	//The Player who owns or Picked up the card
-	Player owner;
+	private Player owner;
 	
 	public Cards(Effect effect, String title, String description) {
 		this.effect = effect;
@@ -93,8 +93,5 @@ public class Cards {
 			return true;
 		}
 	}
-	
-	
-	
 	
 }

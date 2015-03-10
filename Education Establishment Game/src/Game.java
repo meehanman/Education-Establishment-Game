@@ -22,6 +22,11 @@ import board.Board;
  */
 public class Game {
 	
-	Board board;
+	public Board board;
+	
+	
+	public static void main(String[] args){
+		
+	}
 	
 }

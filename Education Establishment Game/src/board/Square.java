@@ -18,9 +18,9 @@ import board.establishment.Establishment;
 public class Square {
 
 	//The Square is an establishment Square
-	Establishment establishment;
+	private Establishment establishment;
 	//The Square is a Special Square
-	SpecialSquare specialSquare;
+	private SpecialSquare specialSquare;
 	
 	//Constructor 
 	public Square(Establishment establishment){
@@ -46,11 +46,23 @@ public class Square {
 	public Establishment getEstablishment() {
 		return establishment;
 	}
+	/**
+	 * @return if the current Square is an Establishment
+	 */
+	public boolean isEstablishment() {
+		return (establishment != null);
+	}
 
 	/**
 	 * @return the specialSquare
 	 */
 	public SpecialSquare getSpecialSquare() {
 		return specialSquare;
+	}
+	/**
+	 * @return if the current Square is a Special Square
+	 */
+	public boolean isSpecialSquare() {
+		return (specialSquare != null);
 	}
 }
