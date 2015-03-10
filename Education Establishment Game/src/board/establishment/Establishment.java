@@ -13,17 +13,17 @@ import board.Square;
  */
 public class Establishment {
 	
-	String name;
-	String description;
+	protected String name;
+	protected String description;
 	//The colour of the property. Same colour properties are used to allow for building regulations.
-	String colour;
+	protected String colour;
 	//Price to purchase
-	int price;
+	protected int price;
 	//Current Owner
-	Player owner;
+	protected protectedPlayer owner;
 	//Price to mortgage (In order to lift the mortgage, the owner must pay the Bank the amount of mortgage plus 10% interest.)
-	int mortgageValue;
-	boolean mortgaged;
+	protected int mortgageValue;
+	protected boolean mortgaged;
 	
 	
 	public Establishment(String name, String description, int price) {
@@ -41,7 +41,7 @@ public class Establishment {
 	////////////////////////////////////////////////////
 
 	/**
-	 * @return the owner
+	 * @return The Current Owner of this Establishment
 	 */
 	public Player getOwner() {
 		return owner;
@@ -49,28 +49,12 @@ public class Establishment {
 
 
 	/**
-	 * @param owner the owner to set
+	 * @param Change the owner if the Establishment
+	 * is baught or traded
 	 */
 	public void changeOwner(Player owner) {
 		this.owner = owner;
 	}
-
-
-	/**
-	 * @return the mortgaged
-	 */
-	public boolean isMortgaged() {
-		return mortgaged;
-	}
-
-
-	/**
-	 * @param mortgaged the mortgaged to set
-	 */
-	public void setMortgaged(boolean mortgaged) {
-		this.mortgaged = mortgaged;
-	}
-
 
 	/**
 	 * @return the name
@@ -105,11 +89,43 @@ public class Establishment {
 
 
 	/**
-	 * @return the mortgageValue
+	 * @return the mortgage Value
 	 */
 	public int getMortgageValue() {
 		return mortgageValue;
 	}
+	
+	/**
+	 * The unMortgage Value of a property is the mortgage property
+	 *  + 10%
+	 * 
+	 * @return the UnMortgage Value
+	 */
+	public int getUnmortgageValue() {
+		return (int)(mortgageValue*1.1);
+	}
+	
+	/**
+	 * 
+	 * @return Returns the mortgageValue 
+	 * 			to be given to the player
+	 */
+	public int MortgageProperty(){
+		this.mortgaged = true;
+		return getMortgageValue();
+	}
+	
+	/**
+	 * 
+	 * @return Returns the mortgageValue 
+	 * 			to be taken from the player
+	 */
+	public int unMortgageProperty(){
+		this.mortgaged = false;
+		return getUnmortgageValue();
+	}
+	
+	
 
 	
 	
