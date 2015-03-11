@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.ArrayList;
-
 import board.establishment.Establishment;
 
 public class Player {
@@ -63,7 +62,7 @@ public class Player {
 	}
 	public void sell(Establishment est, Player player){
 		//set the new owner of the property
-		est.setOwner(player);
+		est.changeOwner(player);
 	}
 	public void mortgage(Establishment est){
 		//get the mortgage value of the house

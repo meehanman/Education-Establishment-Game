@@ -1,6 +1,6 @@
 package board.establishment;
 
-import board.Square;
+import utils.Player;
 
 /**
  * 
@@ -20,7 +20,7 @@ public class Establishment {
 	//Price to purchase
 	protected int price;
 	//Current Owner
-	protected protectedPlayer owner;
+	protected Player owner;
 	//Price to mortgage (In order to lift the mortgage, the owner must pay the Bank the amount of mortgage plus 10% interest.)
 	protected int mortgageValue;
 	protected boolean mortgaged;
