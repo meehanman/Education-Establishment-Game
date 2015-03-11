@@ -1,5 +1,7 @@
 package board;
 
+import utils.Player;
+
 /**
  * 
  * Cards are what the player can pick up
@@ -86,7 +88,7 @@ public class Cards {
 	 * Returns if the card currently has an owner
 	 * @return the owner
 	 */
-	public Player hasOwner() {
+	public boolean hasOwner() {
 		if(owner==null){
 			return false;
 		}else{
