@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="1200.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#buttonClicked" prefHeight="25.0" prefWidth="87.0" text="Start Game" />
+        </items>
+      </ToolBar>
+      <BorderPane fx:id="paneGameBoard" layoutX="300.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0">
+         <bottom>
+            <Pane fx:id="paneBottom" prefHeight="75.0" prefWidth="641.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle fx:id="squareGo" arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="525.0" stroke="GREEN" strokeType="INSIDE" width="75.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="475.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="425.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="375.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="325.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="275.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="225.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="175.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="125.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" layoutX="75.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="75.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+               </children>
+            </Pane>
+         </bottom>
+         <top>
+            <Pane prefHeight="75.0" prefWidth="641.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="525.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="475.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="425.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="375.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="325.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="275.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="225.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="175.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="125.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="75.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+               </children>
+            </Pane>
+         </top>
+         <left>
+            <Pane prefHeight="450.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="388.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="338.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="288.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="238.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="188.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="138.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="88.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="38.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="-12.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+               </children>
+            </Pane>
+         </left>
+         <right>
+            <Pane prefHeight="450.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="388.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="338.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="288.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="238.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="188.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="138.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="88.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="38.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="13.0" layoutY="-12.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+               </children>
+            </Pane>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
