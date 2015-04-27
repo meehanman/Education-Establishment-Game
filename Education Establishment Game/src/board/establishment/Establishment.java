@@ -2,6 +2,7 @@ package board.establishment;
 
 import utils.Player;
 
+
 /**
  * 
  * The Establishment class is the superClass for 
@@ -11,7 +12,7 @@ import utils.Player;
  * @author Dean
  *
  */
-public class Establishment {
+public class Establishment{
 	
 	protected String name;
 	protected String description;
@@ -24,7 +25,6 @@ public class Establishment {
 	//Price to mortgage (In order to lift the mortgage, the owner must pay the Bank the amount of mortgage plus 10% interest.)
 	protected int mortgageValue;
 	protected boolean mortgaged;
-	
 	
 	public Establishment(String name, String description, int price) {
 

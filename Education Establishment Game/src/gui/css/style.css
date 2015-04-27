@@ -1,0 +1,32 @@
+.sqaure{
+	 -fx-background-color: #cde6d0; 
+	 -fx-border-width: 5;
+     -fx-border-color: black;
+     -fx-pref-width: 100;
+     -fx-pref-height: 150;
+}
+.Cornersqaure{
+	 -fx-background-color: #cde6d0; 
+	 -fx-border-width: 5;
+     -fx-border-color: black;
+     -fx-pref-width: 150;
+     -fx-pref-height: 150;
+}
+.squareTop {
+    -fx-pref-width: 100;
+    -fx-pref-height: 40;
+    -fx-border-width: 5;
+    -fx-border-color: black;
+}
+.squareTitle {
+}
+
+/*Colors*/
+.brown { -fx-background-color: #955436;}
+.lightblue { -fx-background-color: #aae0fa;}
+.pink { -fx-background-color: #d93a96;}
+.orange { -fx-background-color: #f8931d;}
+.red { -fx-background-color: #ed1b24;}
+.yellow { -fx-background-color: #fef200;}
+.green { -fx-background-color: #1fb25a;}
+.darkblue { -fx-background-color: #0072bb;}
