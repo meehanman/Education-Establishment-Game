@@ -8,7 +8,6 @@ public class Player {
 	double balance;
 	Piece token;
 	int position;
-	Loan loan;
 	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();
 	
 	/**

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SplashController">
+   <children>
+      <ImageView fitHeight="283.0" fitWidth="566.0" layoutX="117.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/HatterEntLogo.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="loadText" fill="#24a08a" layoutX="104.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loading" textAlignment="CENTER" wrappingWidth="591.2998046875">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font></Text>
+   </children>
+</AnchorPane>
