@@ -3,8 +3,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import board.establishment.Establishment;
+import javafx.stage.StageStyle;
 
 /**
  * 
@@ -28,12 +29,13 @@ public class EEGBoard extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		//Return the XML file
-		Parent root = FXMLLoader.load(getClass().getResource("MainBoard.fxml"));
-		Scene scene = new Scene(root,1200,800);
+		Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
+		//Scene scene = new Scene(root,1200,800);
+		Scene scene = new Scene(root,800,400);
 		
 		primaryStage.setResizable(true);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Education Establishment Game");		
+		primaryStage.initStyle(StageStyle.UNDECORATED);	
 		primaryStage.show();
 	}
 	

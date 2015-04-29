@@ -1,5 +1,7 @@
 import board.Board;
 
+import com.sun.javafx.css.Rule;
+
 /**
  * 
  * Main Game Class that contains the logic for the game
@@ -23,7 +25,7 @@ import board.Board;
 public class Game {
 	
 	public Board board;
-	
+	public Rule rules;
 	
 	
 	

@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -30,9 +31,11 @@ public class MainController implements Initializable{
 	@FXML private AnchorPane HeadNode;
 	@FXML private Group BoardNode;
 	
+	public Stage stageOwner;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-			
+		
 	}
 	
 	/**
@@ -49,16 +52,12 @@ public class MainController implements Initializable{
 		
 		ChangeEstablishmentSquare(GetSquarePane(BoardNode,i),"red",i+" <- Yo",i);
 	}
-
 	
 	//Example of something for a mouse event, and not an action event
 	public void squarePress(MouseEvent t) {
 		Rectangle r = (Rectangle) t.getSource();
 		r.setFill(Color.RED);
-
 	}
-	
-	
 	
 	
 	
