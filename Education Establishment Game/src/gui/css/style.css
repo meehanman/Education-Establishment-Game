@@ -20,7 +20,7 @@
 }
 .squareTitle {
 }
-.record-sales {
+.menu-button {
     -fx-padding: 8 15 15 15;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
     -fx-background-radius: 8;
@@ -33,14 +33,54 @@
     -fx-font-weight: bold;
     -fx-font-size: 2.1em;
 }
-.record-sales:hover {
+.menu-button:hover {
     -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
         #9d4024,
         #d86e3a,
         radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }
-
+.settings-overlay{
+	-fx-border-width:5;
+	-fx-border-color:black;
+	-fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #758e78 0%, white 100%)
+}
+.settings-overlay-top{
+	-fx-border-width:5;
+	-fx-border-color:black;
+	-fx-background-color: red;
+}
+.settings-button {
+    -fx-padding: 8 8 8 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 1,0,0,1 );
+}
+.settings-button:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #6b6b6b 0%, #acacac 100%),
+        #6b6b6b,
+        #acacac,
+        radial-gradient(center 50% 50%, radius 100%, #6b6b6b, #acacac);
+}
+.buttonCrusor{
+	-fx-cursor: hand;
+}
+/* Gradiants */
+.greenGrad{ 
+	-fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #16a313 0%, #479012 100%),
+        #fff,
+        #fff,
+        radial-gradient(center 50% 50%, radius 100%, #16a313,  #479012);
+        
+}
+.redGrad{ 
+	-fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a32413 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #d8413a, #c5302c);
+}
 /*Colors*/
 .brown { -fx-background-color: #955436;}
 .lightblue { -fx-background-color: #aae0fa;}
