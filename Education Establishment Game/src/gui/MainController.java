@@ -50,6 +50,7 @@ public class MainController implements Initializable{
 		btn.setText("Yo! " + i);
 		i++;
 		
+		
 		ChangeEstablishmentSquare(GetSquarePane(BoardNode,i),"red",i+" <- Yo",i);
 	}
 	

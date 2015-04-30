@@ -16,7 +16,7 @@ import javafx.util.Duration;
 
 /**
  * 
- * JAVAFX -> Code for #events from MainBoard.fxml
+ * JAVAFX -> Code for #events from SplashController.fxml
  * 
  * @author Dean
  *
@@ -30,7 +30,7 @@ public class SplashController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		//http://stackoverflow.com/questions/18781704/is-there-a-way-to-hide-a-stage-after-a-speficied-time
-		PauseTransition pause = new PauseTransition(Duration.seconds(2));
+		PauseTransition pause = new PauseTransition(Duration.seconds(5));
 		pause.setOnFinished(e -> {change();});
 		pause.play();
 		
@@ -57,7 +57,7 @@ public class SplashController implements Initializable{
 			stage.setTitle("Education Establishment Game");	
 		    Pane myPane = null;
 		       
-		    myPane = FXMLLoader.load(getClass().getResource("MainBoard.fxml"));
+		    myPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 			
 		    Scene scene = new Scene(myPane);
 		    stage.setScene(scene);
