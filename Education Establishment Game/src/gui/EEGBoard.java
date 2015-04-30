@@ -19,12 +19,6 @@ import javafx.stage.StageStyle;
 
 public class EEGBoard extends Application{
 
-	public static void main(String[] args){
-		
-		//Launch JavaFX Board
-		launch(args);
-	}
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -37,6 +31,11 @@ public class EEGBoard extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.initStyle(StageStyle.UNDECORATED);	
 		primaryStage.show();
+	}
+
+	public void Launch() {
+		// TODO Auto-generated method stub
+		launch();
 	}
 	
 	

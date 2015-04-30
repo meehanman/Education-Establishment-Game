@@ -1,3 +1,5 @@
+import gui.EEGBoard;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,6 +9,7 @@ import utils.Player;
 import board.Board;
 import board.establishment.Establishment;
 import board.establishment.Property;
+import board.establishment.Subject;
 
 /**
  * 
@@ -45,6 +48,11 @@ public class Game {
 		Scanner keyb = new Scanner(System.in);
 		int numOfPlayers = keyb.nextInt();
 		
+		
+		//GUI 
+		EEGBoard GUI = new EEGBoard();
+		GUI.Launch();
+		
 		for (int i = 0; i < numOfPlayers; i++){
 			//get player name.
 			System.out.println("Please enter a name");
@@ -56,12 +64,13 @@ public class Game {
 			players.add(new Player(tempName,new Piece(tempToken)));
 			
 			//launch the players into turns
-			while(playing == true)
+			while(playing == true){
 				System.out.println("please enter a command - commands"
 						+ " are roll, mortgage, bankrupt, end game,"
 						+ " buy, trade, end turn and upgrade");
 				System.out.println(players.get(currentTurn).getName() + "'s turn!");
 				takeTurn(keyb.nextLine(), players.get(currentTurn), board);
+			}
 		}
 		
 	}
