@@ -11,8 +11,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
+      <Pane layoutX="562.0" layoutY="118.0" prefHeight="513.0" prefWidth="513.0" style="-fx-background-color: #cddcd0;" />
       <Group fx:id="BoardNode" layoutX="252.0" layoutY="92.0" scaleX="0.6" scaleY="0.6">
          <children>
             <Pane layoutX="137.0" layoutY="705.0" prefHeight="150.0" prefWidth="1004.0">
