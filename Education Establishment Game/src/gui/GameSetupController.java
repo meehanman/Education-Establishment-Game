@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -21,9 +22,11 @@ import javafx.stage.Stage;
  *
  * @see https://www.youtube.com/watch?v=wOUmUcVbO2s (Totorial on JavaFX)
  */
-public class MainMenuController implements Initializable{
+public class GameSetupController implements Initializable{
 	
-	@FXML Button btnPlayGame,btnRules,btnExit;
+	@FXML Button btnPlayGame,btnExit;
+	@FXML Group gp1,gp2,gp3,gp4;
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -37,7 +40,7 @@ public class MainMenuController implements Initializable{
 			stage.setTitle("Education Establishment Game");	
 		    Pane myPane = null;
 		       
-		    myPane = FXMLLoader.load(getClass().getResource("GameSetup.fxml"));
+		    myPane = FXMLLoader.load(getClass().getResource("MainBoard.fxml"));
 			
 		    Scene scene = new Scene(myPane);
 		    stage.setScene(scene);
