@@ -19,10 +19,11 @@ public class Dice {
 	/**
 	 * rolls dice using random number generator
 	 * to create a new value for the dice. 
+	 * @return 
 	 */
-	public void roll(){
+	public int roll(){
 		value = (rand.nextInt(5) + 1);
-		
+		return value;
 	}
 	
 	

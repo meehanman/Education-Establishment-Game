@@ -1,18 +1,24 @@
 package utils;
 
 import java.util.ArrayList;
+
 import board.establishment.Establishment;
+import board.establishment.Property;
 
 public class Player {
 	String name;
 	double balance;
 	Piece token;
 	int position;
-	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();
-	
+	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();	
 	/**
 	 * PUBLICALLY ASSCESSIBLE METHODS
 	 */
+	
+	public Player(String name, Piece token){
+		this.name = name;
+		this.token = token;
+	}
 	
 	/**
 	 * retrive player's name.
@@ -47,11 +53,11 @@ public class Player {
 	}
 	
 	
-	public boolean buy(Establishment est){
+	public boolean buy(Property property){
 		//find cost of Establishment and test against user balance
-		if(this.balance > est.getPrice()){
+		if(this.balance > property.getPrice()){
 			//Return true as purchase is accepted.
-			this.balance -= est.getPrice();
+			this.balance -= property.getPrice();
 			return true;
 		}else{
 			//alert user that they cannot afford to buy this
@@ -68,13 +74,6 @@ public class Player {
 		this.balance += est.MortgageProperty();
 	}
 	
-	public ArrayList<Establishment> getPropertiesOwned() {
-		return propertiesOwned;
-	}
-	public void setPropertiesOwned(ArrayList<Establishment> propertiesOwned) {
-		this.propertiesOwned= propertiesOwned;
-	}
-	
 	public void move(int i){
 		if (this.position < (40 - i)){
 			this.position += i;
@@ -83,8 +82,24 @@ public class Player {
 		}
 	}
 	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
+	public void addBalance(double income){
+		this.balance += income;
+	}
+	
+	public void subBalance(double expenditure){
+		this.balance -= expenditure;
+	}
+
 	/**PRIVATE ACCESSIBLE METHODS
-	 * player tokens accessed interally only due
+	 * player tokens accessed internally only due
 	 * to only being set in constructor.
 	 */
 	private void playerToken(Piece token){
