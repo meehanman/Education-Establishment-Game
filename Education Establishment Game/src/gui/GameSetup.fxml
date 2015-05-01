@@ -12,7 +12,7 @@
 
 <AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" style="-fx-background-image: /img\EEGMenuBackground.jpg;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameSetupController">
 	 <children>
-      <ImageView fitHeight="848.0" fitWidth="1200.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="848.0" fitWidth="1200.0" layoutX="-1.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/EEGMenuBackground.jpg" />
          </image>
@@ -31,12 +31,12 @@
             <Group fx:id="grp1" layoutX="124.0" layoutY="95.0">
                <children>
                   <Rectangle fill="#49bcff" height="60.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                  <ImageView fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgCounterP1" fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/pieces/tophat.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
+                  <TextField fx:id="textFieldP1" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -46,12 +46,12 @@
             <Group fx:id="grp2" layoutX="431.0" layoutY="95.0">
                <children>
                   <Rectangle fill="#60ff92" height="60.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                  <ImageView fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgCounterP2" fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/pieces/cat.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
+                  <TextField fx:id="textFieldP2" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -61,12 +61,12 @@
             <Group fx:id="grp3" layoutX="115.0" layoutY="255.0">
                <children>
                   <Rectangle fill="#ff55f9" height="60.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                  <ImageView fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgCounterP3" fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/pieces/tophat.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
+                  <TextField fx:id="textFieldP3" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -76,21 +76,21 @@
             <Group fx:id="grp4" layoutX="435.0" layoutY="255.0">
                <children>
                   <Rectangle fill="#ff6666" height="60.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                  <ImageView fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgCounterP4" fitHeight="83.0" fitWidth="83.0" layoutX="22.0" layoutY="3.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/pieces/tophat.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
+                  <TextField fx:id="textFieldP4" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </TextField>
                </children>
             </Group>
-            <Group layoutX="-7.0" layoutY="-35.0">
+            <Group fx:id="grpAddPlayer3" layoutX="-7.0" layoutY="-35.0" onMouseClicked="#removeElement">
                <children>
-                  <Rectangle fx:id="btnAddPlayer3" arcHeight="5.0" arcWidth="5.0" fill="#bfbfbf" height="129.0" layoutX="100.0" layoutY="303.0" stroke="BLACK" strokeType="INSIDE" styleClass="buttonCrusor" width="175.0">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bfbfbf" height="129.0" layoutX="100.0" layoutY="303.0" onMouseClicked="#removeElement" stroke="BLACK" strokeType="INSIDE" styleClass="buttonCrusor" width="175.0">
                      <cursor>
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
@@ -102,9 +102,9 @@
                   </Text>
                </children>
             </Group>
-            <Group layoutX="296.0" layoutY="-45.0">
+            <Group fx:id="grpAddPlayer4" layoutX="296.0" layoutY="-45.0" onMouseClicked="#removeElement">
                <children>
-                  <Rectangle fx:id="btnAddPlayer4" arcHeight="5.0" arcWidth="5.0" fill="#bfbfbf" height="125.0" layoutX="110.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" styleClass="buttonCrusor" width="175.0">
+                  <Rectangle fx:id="btnAddPlayer4" arcHeight="5.0" arcWidth="5.0" fill="#bfbfbf" height="125.0" layoutX="110.0" layoutY="313.0" onMouseClicked="#removeElement" stroke="BLACK" strokeType="INSIDE" styleClass="buttonCrusor" width="175.0">
                      <cursor>
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
@@ -116,11 +116,16 @@
                   </Text>
                </children>
             </Group>
+            <Text fx:id="msgError" fill="RED" layoutX="14.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="666.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
       <Pane layoutX="285.0" layoutY="682.0" prefHeight="83.0" prefWidth="625.0" styleClass="settings-overlay">
          <children>
-            <Button fx:id="btnPlay" layoutX="453.0" layoutY="18.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="158.0" text="Play" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="btnPlay" layoutX="453.0" layoutY="18.0" mnemonicParsing="false" onAction="#playGame" prefHeight="29.0" prefWidth="158.0" text="Play" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>
@@ -130,7 +135,7 @@
                   <String fx:value="buttonCrusor" />
                </styleClass>
             </Button>
-            <Button fx:id="btnExit" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="158.0" text="Exit" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#navBack" prefHeight="29.0" prefWidth="158.0" text="Back" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>

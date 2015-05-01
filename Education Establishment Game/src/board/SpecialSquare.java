@@ -8,19 +8,18 @@ package board;
  * @author Dean
  *
  */
-public class SpecialSquare {
+public class SpecialSquare extends Square{
 	
-	//The title that is displayed on the card
-	private String title;
-	//The description that is displayed on the card
-	private String description;
-	//TODO Look at effects
+	public static enum Type { Go, ComunityChest, ChanceCard, Jail, GotoJail, FreeParking, IncomeTax, SuperTax };
+	private Type specialType;
 	private Effect effect;
 	
-	public SpecialSquare(Effect effect, String title, String description) {
+	public SpecialSquare(Type type, Effect effect) {
+		super(type.toString());
+		
+		this.specialType = type;
 		this.effect = effect;
-		this.title = title;
-		this.description = description;
+
 	}
 	
 	
@@ -29,26 +28,16 @@ public class SpecialSquare {
  	/////////////////// METHODS ///////////////////////<
 	**/
 	////////////////////////////////////////////////////	
-	
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
 
 	/**
 	 * @return the effect
 	 */
 	public Effect getEffect() {
 		return effect;
+	}
+	
+	public String getType(){
+		return specialType.toString();
 	}
 
 	

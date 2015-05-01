@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -15,6 +15,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import Game.Game;
+import board.SpecialSquare;
+import board.Square;
+import board.establishment.Bar;
+import board.establishment.Restaurant;
+import board.establishment.Subject;
 
 /**
  * 
@@ -26,42 +32,73 @@ import javafx.stage.Stage;
  */
 public class MainController implements Initializable{
 	
+	public static Game game;
 	//Create variables with names the same as ID's in the fxml 
 	//as these can be used then again in our functions	
+	@FXML private Text txtMessageOutput;
+	@FXML private ImageView imgDice; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
 	@FXML private AnchorPane HeadNode;
-	@FXML private Group BoardNode;
+	@FXML public Group BoardNode;
 	
 	public Stage stageOwner;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-	}
-	
-	/**
-	 * When the main button is clicked,
-	 * sets the text of the textArea
-	 * @param e
-	 */
-	int i = 0;
-	public void buttonClicked(ActionEvent e){
-		System.out.println("Yo! " + i);
-		Button btn = (Button)e.getSource();
-		btn.setText("Yo! " + i);
-		i++;
+		//Add event listeners to all the squares
+		for(int i = 0; i<game.board.Squares.length;i++){
+			GetSquarePane(BoardNode, i).setOnMouseClicked(this::squareClicked);
+		}
+
 		
 		
-		ChangeEstablishmentSquare(GetSquarePane(BoardNode,i),"red",i+" <- Yo",i);
+		//Add all the squares to the board
+		for(int i = 0; i<game.board.Squares.length;i++){
+			Square square = game.board.Squares[i];
+			
+			if(square.getSquareType().equals("Subject")){
+				Subject sub = (Subject)square;
+				ChangeEstablishmentSquare(GetSquarePane(BoardNode,i),sub.getColor(),sub.getName(),sub.getPrice());
+				
+			}else if(square.getSquareType().equals("Bar")){
+				Bar bar = (Bar)square;
+				ChangeBarSquare(GetSquarePane(BoardNode,i),bar.getName(),bar.getPrice());
+				
+			}else if(square.getSquareType().equals("Restaurant")){
+				Restaurant restaurant = (Restaurant)square;
+				ChangeBarSquare(GetSquarePane(BoardNode,i),restaurant.getName(),restaurant.getPrice());
+				
+			}else if(square.getSquareType().equals("SpecialSquare")){
+				SpecialSquare specialSquare = (SpecialSquare)square;
+			}
+		}
+		
 	}
 	
 	//Example of something for a mouse event, and not an action event
-	public void squarePress(MouseEvent t) {
-		Rectangle r = (Rectangle) t.getSource();
-		r.setFill(Color.RED);
+	public void diceRoll(MouseEvent t) {
+		game.board.dice.roll();
+		
+		txtMessageOutput.setText("Rolled: "+game.board.dice.getValue());
 	}
 	
-	
-	
+	public void squareClicked(MouseEvent event){
+		
+		String text = ((Text)((Pane) event.getSource()).getChildren().get(1)).getText();
+		System.out.println(text);
+		
+		int i=0;
+		for(Square square : game.board.Squares){
+			if(square.getName()==text){
+				txtMessageOutput.setText(square.getName()+" ("+i+")");
+				break;
+			}else{
+				i++;
+			}
+		}
+			
+	}
+
 	
 	
 	/**
@@ -79,6 +116,15 @@ public class MainController implements Initializable{
 		((Text)SquareName.getChildren().get(1)).setText(Title);
 		//The Money Text Box
 		((Text)SquareName.getChildren().get(2)).setText("£"+Price);
+		
+	}
+	public static void ChangeBarSquare(Pane SquareName, String Title, int Price){
+		
+		//Get(0) Title
+		((Text)SquareName.getChildren().get(0)).setText(Title);
+		//The Money Text Box
+		((Text)SquareName.getChildren().get(1)).setText("£"+Price);
+			
 	}
 	
 	/**
@@ -108,6 +154,8 @@ public class MainController implements Initializable{
 		return (Pane) ((Pane)(BoardNode.getChildren().get(rowLocation))).getChildren().get(squareLocation);
 		
 	}
+	
+	
 
 
 }

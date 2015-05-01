@@ -1,9 +1,9 @@
 package gui;
+import Game.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -17,8 +17,15 @@ import javafx.stage.StageStyle;
  * @see https://www.youtube.com/watch?v=wOUmUcVbO2s (Totorial on JavaFX)
  */
 
-public class EEGBoard extends Application{
+public class GUI extends Application{
 
+	private Game game;
+	
+	public static void main(String[] args){
+		launch();
+		
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -32,11 +39,12 @@ public class EEGBoard extends Application{
 		primaryStage.initStyle(StageStyle.UNDECORATED);	
 		primaryStage.show();
 	}
-
-	public void Launch() {
-		// TODO Auto-generated method stub
-		launch();
+	
+	public Game getGame(){
+		return this.game;
 	}
+
+
 	
 	
 

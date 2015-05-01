@@ -19,11 +19,11 @@ public class Restaurant extends Establishment {
 	//Multiplier value when the owner owns two properties
 	private int MULTIPLIER_TWO;
 	
-	public Restaurant(String name, String description, int price) {
-		super(name, description, price);
+	public Restaurant(String name,int price) {
+		super(name, price);
 		
-		MULTIPLIER_ONE = 4;
-		MULTIPLIER_TWO = 10;
+		this.MULTIPLIER_ONE = 4;
+		this.MULTIPLIER_TWO = 10;
 	}
 	
 	

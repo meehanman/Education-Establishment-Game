@@ -3,11 +3,10 @@ package utils;
 import java.util.ArrayList;
 
 import board.establishment.Establishment;
-import board.establishment.Property;
 
 public class Player {
 	String name;
-	double balance;
+	int balance;
 	Piece token;
 	int position;
 	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();	
@@ -15,11 +14,11 @@ public class Player {
 	 * PUBLICALLY ASSCESSIBLE METHODS
 	 */
 	
-	public Player(String name, Piece token){
+	public Player(String name, int pieceId){
 		this.name = name;
-		this.token = token;
+		this.token = new Piece(pieceId);
+		this.position = 0;
 	}
-	
 	/**
 	 * retrive player's name.
 	 * @return player's name.
@@ -48,16 +47,15 @@ public class Player {
 	 * set the player's current balance.
 	 * @param balance - new player's balance.
 	 */
-	public void setBalance(double balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
 	
-	
-	public boolean buy(Property property){
+	public boolean buy(Establishment establishment){
 		//find cost of Establishment and test against user balance
-		if(this.balance > property.getPrice()){
+		if(this.balance >= establishment.getPrice()){
 			//Return true as purchase is accepted.
-			this.balance -= property.getPrice();
+			this.balance -= establishment.getPrice();
 			return true;
 		}else{
 			//alert user that they cannot afford to buy this
@@ -65,9 +63,46 @@ public class Player {
 			return false;
 		}
 	}
-	public void sell(Establishment est, Player player){
-		//set the new owner of the property
-		est.changeOwner(player);
+	
+	/**
+	 * Allows the buyer to trade a property to another player 
+	 * 
+	 * @param establishment
+	 * @param buyer
+	 */
+	private void tradeProperty(Establishment establishment, Player buyer){
+		establishment.tradeProperty(this, buyer);
+	}
+	/**
+	 * Allows the player to sell a property to another player
+	 * @param establishment
+	 * @param buyer
+	 * @param Amount
+	 */
+	public void sellProperty(Establishment establishment, Player buyer, int Amount){
+		if(buyer.getBalance() >= Amount){
+			
+			//Trade the property to the buyer
+			tradeProperty(establishment, buyer);
+			//The buyer then gives this player the money
+			buyer.giveMoney(this, Amount);
+			
+		}
+	}
+	/**
+	 * Gives money from this Player to another Player
+	 * 
+	 * @param reciever Player to Recieve 
+	 * @param Amount of Money
+	 */
+	public boolean giveMoney(Player reciever,int Amount){
+		if(this.getBalance() >= Amount && Amount > 0){
+			reciever.addBalance(Amount);
+			this.addBalance(-Amount);
+			return true;
+		}else{
+			return false;
+		}
 	}
 	public void mortgage(Establishment est){
 		//get the mortgage value of the house
@@ -89,6 +124,13 @@ public class Player {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+	public void movePosition(int position) {
+		this.position += position;
+		
+		if(this.position>=40){
+			this.position=-40;
+		}
+	}
 	
 	public void addBalance(double income){
 		this.balance += income;
@@ -97,17 +139,6 @@ public class Player {
 	public void subBalance(double expenditure){
 		this.balance -= expenditure;
 	}
-
-	/**PRIVATE ACCESSIBLE METHODS
-	 * player tokens accessed internally only due
-	 * to only being set in constructor.
-	 */
-	private void playerToken(Piece token){
-		this.token = token;
-	}
-	
-	
-	
 	
 
 }
