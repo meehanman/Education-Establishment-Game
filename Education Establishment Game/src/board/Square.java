@@ -1,6 +1,5 @@
 package board;
 
-import board.establishment.Establishment;
 
 /**
  * 
@@ -17,52 +16,33 @@ import board.establishment.Establishment;
  */
 public class Square {
 
-	//The Square is an establishment Square
-	private Establishment establishment;
-	//The Square is a Special Square
-	private SpecialSquare specialSquare;
+	private String name;
 	
-	//Constructor 
-	public Square(Establishment establishment){
-		this.establishment = establishment;
-		this.specialSquare = null;
+	public Square(String n){
+		this.name = n;
 	}
-	
-	public Square(SpecialSquare specialSquare){
-		this.establishment = null;
-		this.specialSquare = specialSquare;
-	}
-
 	
 	////////////////////////////////////////////////////
 	/**
 	/////////////////// METHODS ///////////////////////<
 	**/
 	////////////////////////////////////////////////////	
-
+	
+	
 	/**
-	 * @return the establishment
+	 * @return the title
 	 */
-	public Establishment getEstablishment() {
-		return establishment;
+	public String getName() {
+		return name;
 	}
+	
 	/**
-	 * @return if the current Square is an Establishment
+	 * Will return the type of Establishment such as 
+	 * Bar/ Special Square / Subject / Restaurant
+	 * @return
 	 */
-	public boolean isEstablishment() {
-		return (establishment != null);
+	public String getSquareType(){
+		return this.getClass().getSimpleName();
 	}
-
-	/**
-	 * @return the specialSquare
-	 */
-	public SpecialSquare getSpecialSquare() {
-		return specialSquare;
-	}
-	/**
-	 * @return if the current Square is a Special Square
-	 */
-	public boolean isSpecialSquare() {
-		return (specialSquare != null);
-	}
+	
 }

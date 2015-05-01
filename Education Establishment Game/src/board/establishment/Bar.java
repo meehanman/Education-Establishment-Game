@@ -15,14 +15,14 @@ package board.establishment;
 
 public class Bar extends Establishment {
 	 
-	/** The barPrice is the amount owed to the owner
-	 *   whenever another player lands on the card **/
-	private int barPrice;
 	
-	public Bar(String name, String description, int price, int barPrice) {
-		super(name, description, price);
-		
-		this.barPrice = barPrice;
+	/**
+	 * 
+	 * @param name Name of Bar
+	 * @param price Price of Bar
+	 */
+	public Bar(String name, int price) {
+		super(name, price);
 	}
 	
 	////////////////////////////////////////////////////
@@ -30,14 +30,7 @@ public class Bar extends Establishment {
  	/////////////////// METHODS ///////////////////////<
 	**/
 	////////////////////////////////////////////////////
-	
-	/**
-	 * @return Returns the Bar Price that should 
-	 * 				be multiplied by the dice roll
-	 */
-	public int getBarPrice() {
-		return barPrice;
-	}
+
 	
 
 }

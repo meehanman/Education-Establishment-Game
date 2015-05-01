@@ -14,14 +14,16 @@ public class Effect {
 
 	private int money;
 	private int Position;
-	private int outOfJailFree;
+	private boolean outOfJailFree;
+	//CardPickup 0 = none, 1 = community chest, 2 = chance
+	private int cardPickup = 0;
 	
-	
-	public Effect(int money, int position, int outOfJailFree) {
+	public Effect(int money, int position, boolean outOfJailFree, int cardPickup) {
 		super();
 		this.money = money;
 		Position = position;
 		this.outOfJailFree = outOfJailFree;
+		this.cardPickup = cardPickup;
 	}
 	
 	
@@ -58,14 +60,14 @@ public class Effect {
 	/**
 	 * @return the outOfJailFree
 	 */
-	public int getOutOfJailFree() {
+	public boolean getOutOfJailFree() {
 		return outOfJailFree;
 	}
 	/**
 	 * @param outOfJailFree the outOfJailFree to set
 	 */
-	public void setOutOfJailFree(int outOfJailFree) {
+	public void setOutOfJailFree(boolean outOfJailFree) {
 		this.outOfJailFree = outOfJailFree;
 	}
-	
+
 }

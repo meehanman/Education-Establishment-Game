@@ -1,5 +1,7 @@
 package board.establishment;
 
+import utils.Player;
+
 /**
  * 
  * The Subject class contains the majority of the squares
@@ -11,16 +13,17 @@ package board.establishment;
  */
 public class Subject extends Establishment {
 
-	//The MAX number of houses including final Facilities
-	private int MAXHOUSES;
 	//The number of houses currently owned by the owner for the Establishment
 	private int houses;
+	//Taken from Monopoly Card
+	private int[] rent = new int[6];
 	
 	
-	public Subject(String name, String description, int price) {
-		super(name, description, price);
+	public Subject(String name, String color, int price, int[] rental) {
+		super(name, color, price);
 		
-		MAXHOUSES = 5;
+		this.houses = 0;
+		this.rent = rental;
 	}
 
 	
@@ -39,27 +42,21 @@ public class Subject extends Establishment {
 		return houses;
 	}
 	
-	/**
-	 * @return the houses
-	 */
-	public boolean isHouse() {
-		if(houses<MAXHOUSES){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
+
 	/**
 	 * 
-	 * More than 4 houses indicates the
-	 * Subject has got a Facilities
+	 * If the total amount of houses is max
+	 * then the player has a Facility on this location
 	 * 
 	 * @return True if they have Facilities 
 	 */
 	public boolean isFacility() {
 		
-		return !isHouse();
+		if(houses==rent.length){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -70,7 +67,7 @@ public class Subject extends Establishment {
 	 * @param Returns if a house was added
 	 */
 	public boolean addHouse() {
-		if(houses<=MAXHOUSES){
+		if(houses<=rent.length){
 			houses++;
 			return true;
 		}else{
@@ -92,6 +89,36 @@ public class Subject extends Establishment {
 		}else{
 			return false;
 		}
+	}
+
+
+
+	/**
+	 * @return the rent for a particular house
+	 * 0 - Site
+	 * 1 - 1 house
+	 * 2 - 2 houses
+	 * 3 - 3 houses
+	 * 4 - 4 houses
+	 * 5 - Facilities (HOTEL)
+	 */
+	public int getRent(int i) {
+		return rent[i];
+	}
+	public int getRent() {
+		return rent[getHouses()];
+	}
+	
+	/**
+	 * Allows someone to stay at the property (When they land on the square)
+	 */
+	public void rent(Player player){
+		if(player.getBalance() >= getRent()){
+			player.giveMoney(owner, getRent());
+		}else{
+			System.out.println("Not Enough Money: " + player.getName() + " cannot pay for their rent");
+		}
+		
 	}
 	
 	

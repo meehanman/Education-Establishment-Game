@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -11,9 +12,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import utils.Piece;
+import utils.Player;
+import Game.Game;
 /**
  * 
  * JAVAFX -> Code for #events from MainMenu.fxml
@@ -24,41 +32,132 @@ import javafx.stage.Stage;
  */
 public class GameSetupController implements Initializable{
 	
-	@FXML Button btnPlayGame,btnExit;
-	@FXML Group gp1,gp2,gp3,gp4;
+	public String[] counter;
+	
+	@FXML Button btnPlayGame,btnBack;
+	@FXML Group grp1,grp2,grp3,grp4; //Groups for current Players
+	@FXML TextField textFieldP1,textFieldP2,textFieldP3,textFieldP4;
+	@FXML Group grpAddPlayer3, grpAddPlayer4; //Add more player buttons
+	@FXML ImageView imgCounterP1,imgCounterP2,imgCounterP3,imgCounterP4;
+	@FXML Text msgError;
+	
+	int imageone=0,imagetwo=1,imagethree=2,imagefour=3; //Keeps the locations of what image is being shown
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		counter = Piece.possibleIcons;
 		
+		imgCounterP1.setImage(new Image("\\gui\\img\\pieces\\"+counter[imageone]+".png"));
+		imgCounterP2.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagetwo]+".png"));
+		imgCounterP3.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagethree]+".png"));
+		imgCounterP4.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagefour]+".png"));
 	}
 	
 	
 	public void playGame(ActionEvent e){
+		
+		ArrayList<Player> players = new ArrayList<Player>();
+		
+		//Add first two players
+		if(!textFieldP1.getText().isEmpty() && !textFieldP2.getText().isEmpty()){
+			players.add(new Player(textFieldP1.getText(),imageone));
+			players.add(new Player(textFieldP2.getText(),imageone));
+		}else{
+			msgError.setText("Error: Player 1 and Player 2 must have names!");
+			return;
+		}
+		
+		//Add if there are any more
+		if(!textFieldP3.getText().isEmpty()){
+			players.add(new Player(textFieldP3.getText(),imagethree));
+		}
+		if(!textFieldP4.getText().isEmpty()){
+			players.add(new Player(textFieldP4.getText(),imagefour));
+		}
+			
+		MainController.game = new Game(players);
 		try {
 			Stage stage = new Stage();
 			stage.setTitle("Education Establishment Game");	
 		    Pane myPane = null;
 		       
 		    myPane = FXMLLoader.load(getClass().getResource("MainBoard.fxml"));
+		    
+		    Scene scene = new Scene(myPane);
+		    stage.setScene(scene);
+
+		    stage.show();
+		    
+		    ((Stage) grpAddPlayer3.getScene().getWindow()).close();
+		      
+		} catch (IOException | NullPointerException io) {
+			System.out.println(io.getCause());
+		}
+
+	}
+	
+	public void navBack(ActionEvent e){
+		
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Education Establishment Game");	
+		    Pane myPane = null;
+		       
+		    myPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 			
 		    Scene scene = new Scene(myPane);
 		    stage.setScene(scene);
 
 		    stage.show();
 		    
-		    ((Stage) btnPlayGame.getScene().getWindow()).close();
+		    ((Stage) btnBack.getScene().getWindow()).close();
 		    
 		    
 		      
-		} catch (IOException io) {
-			// TODO Auto-generated catch block
-			io.printStackTrace();
-		}
+		} catch (IOException io) {}
 	}
 	
-	public void exitGame(ActionEvent e){
-		System.exit(0);
+	public void ChangePiece(MouseEvent e){
+		ImageView img = (ImageView)(e.getSource());
+		
+		if(img.getId().equals("imgCounterP1")){
+			if(imageone==counter.length-1){imageone=0;}
+			imageone++;
+			img.setImage(new Image("\\gui\\img\\pieces\\"+counter[imageone]+".png"));
+		}else if(img.getId().equals("imgCounterP2")){
+			if(imagetwo==counter.length-1){imagetwo=0;}
+			imagetwo++;
+			img.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagetwo]+".png"));
+		}else if(img.getId().equals("imgCounterP3")){
+			if(imagethree==counter.length-1){imagethree=0;}
+			imagethree++;
+			img.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagethree]+".png"));
+		}else if(img.getId().equals("imgCounterP4")){
+			if(imagefour==counter.length-1){imagefour=0;}
+			imagefour++;
+			img.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagefour]+".png"));
+		}
+		
+	}
+	
+	public void removeElement(MouseEvent e){
+		if(e.getSource().equals(grpAddPlayer3)){
+			System.out.println("Remove grpAddPlayer4");
+			grpAddPlayer3.setLayoutX(-10000);
+			grpAddPlayer3.setDisable(true);
+		}
+		
+		if(e.getSource().equals(grpAddPlayer4)){
+			if(grpAddPlayer3.isDisable()){
+				grpAddPlayer4.setLayoutX(-10000);
+			}else{
+				grpAddPlayer3.setLayoutX(-10000);
+				grpAddPlayer3.setDisable(true);
+			}
+			System.out.println("Remove grpAddPlayer4");
+		}
+		
 	}
 	
 

@@ -13,7 +13,7 @@ import utils.Player;
  * @author Dean
  *
  */
-public class Cards {
+public class Card {
 	
 	//The title that is displayed on the card
 	private String title;
@@ -24,7 +24,7 @@ public class Cards {
 	//The Player who owns or Picked up the card
 	private Player owner;
 	
-	public Cards(Effect effect, String title, String description) {
+	public Card(String title, String description,Effect effect) {
 		this.effect = effect;
 		this.title = title;
 		this.description = description;

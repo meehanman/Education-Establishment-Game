@@ -1,6 +1,7 @@
 package board.establishment;
 
 import utils.Player;
+import board.Square;
 
 
 /**
@@ -12,12 +13,10 @@ import utils.Player;
  * @author Dean
  *
  */
-public class Establishment{
+public class Establishment extends Square{
 	
-	protected String name;
-	protected String description;
 	//The colour of the property. Same colour properties are used to allow for building regulations.
-	protected String colour;
+	protected String color;
 	//Price to purchase
 	protected int price;
 	//Current Owner
@@ -26,12 +25,26 @@ public class Establishment{
 	protected int mortgageValue;
 	protected boolean mortgaged;
 	
-	public Establishment(String name, String description, int price) {
+	/**
+	 * Constructor for Subjects that have a color
+	 * @param name Name of Establishment
+	 * @param color Name of Color
+	 * @param price Price to Buy Square
+	 */
+	public Establishment(String name, String color, int price) {
+		super(name);
 
-		this.name = name;
-		this.description = description;
 		this.price = price;
 		this.mortgaged = false;
+		this.color = color;
+	}
+	
+	public Establishment(String name, int price) {
+		super(name);
+
+		this.price = price;
+		this.mortgaged = false;
+		this.color = null;
 	}
 
 	////////////////////////////////////////////////////
@@ -52,31 +65,31 @@ public class Establishment{
 	 * @param Change the owner if the Establishment
 	 * is baught or traded
 	 */
-	public void changeOwner(Player owner) {
+	private void changeOwner(Player owner) {
 		this.owner = owner;
 	}
-
+	
 	/**
-	 * @return the name
+	 * @param Change the owner if the Establishment
+	 * is bought or traded
+	 * 
+	 * @return True if property Trade Successful
 	 */
-	public String getName() {
-		return name;
+	public boolean tradeProperty(Player owner,Player newOwner) {
+		if(this.owner!=owner){ //Not owned yet
+			changeOwner(newOwner);
+			return true;
+		}else{
+			System.out.println("The property doesn't have an owner, or the owner supplied is not the current owner");
+			return false;
+		}
 	}
-
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
 
 	/**
 	 * @return the colour
 	 */
-	public String getColour() {
-		return colour;
+	public String getColor() {
+		return color;
 	}
 
 
@@ -124,11 +137,6 @@ public class Establishment{
 		this.mortgaged = false;
 		return getUnmortgageValue();
 	}
-	
-	
-
-	
-	
 
 	
 }
