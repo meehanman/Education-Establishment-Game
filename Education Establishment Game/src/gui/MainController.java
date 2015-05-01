@@ -79,7 +79,7 @@ public class MainController implements Initializable{
 	public void diceRoll(MouseEvent t) {
 		game.board.dice.roll();
 		
-		txtMessageOutput.setText("Rolled: "+game.board.dice.getValue());
+		txtMessageOutput.setText("Rolled: "+(game.board.dice.getValue()+game.board.dice.getValue()));
 	}
 	
 	public void squareClicked(MouseEvent event){
