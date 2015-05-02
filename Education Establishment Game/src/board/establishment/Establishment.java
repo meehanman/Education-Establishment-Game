@@ -65,7 +65,7 @@ public class Establishment extends Square{
 	 * @param Change the owner if the Establishment
 	 * is baught or traded
 	 */
-	private void changeOwner(Player owner) {
+	public void changeOwner(Player owner) {
 		this.owner = owner;
 	}
 	

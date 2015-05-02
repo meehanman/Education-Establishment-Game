@@ -79,7 +79,7 @@ public class Board {
 		//Row 2
 		Squares[10] = new SpecialSquare(Type.Jail, VisitingJail);
 		Squares[11] = new Subject("Archaeology", "pink", 60, new int[] {10,50,150,450,625,750});
-		Squares[12] = new Restaurant("Maggie Mays",150);
+		Squares[12] = new Restaurant("Boojum",150);
 		Squares[13] = new Subject("Geography", "pink", 60, new int[] {10,50,150,450,625,750});
 		Squares[14] = new Subject("xxxxxxxxxx", "pink", 60, new int[] {12,60,180,500,700,900});
 		Squares[15] = new Bar("Botanic Inn",200);
@@ -97,7 +97,7 @@ public class Board {
 		Squares[25] = new Bar("Ryans",200);
 		Squares[26] = new Subject("Maths", "yellow", 100, new int[] {22,110,330,800,975,1150});
 		Squares[27] = new Subject("Physics", "yellow", 100, new int[] {22,110,330,800,975,1150});
-		Squares[28] = new Restaurant("Boojum",150);
+		Squares[28] = new Restaurant("Maggie Mays",150);
 		Squares[29] = new Subject("Theoretical Physics", "yellow", 120, new int[] {24,120,360,850,1025,1200});
 		
 		//Row 4
