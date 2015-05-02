@@ -48,10 +48,7 @@ public class MainMenuController implements Initializable{
 		    
 		    
 		      
-		} catch (IOException io) {
-			// TODO Auto-generated catch block
-			io.printStackTrace();
-		}
+		} catch (IOException io) {}
 	}
 	
 	public void exitGame(ActionEvent e){

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
@@ -11,9 +12,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
-      <Group fx:id="BoardNode" layoutX="59.0" layoutY="134.0" scaleX="0.7" scaleY="0.7">
+      <Group fx:id="BoardNode" layoutX="195.0" layoutY="199.0" scaleX="0.7" scaleY="0.7">
          <children>
             <Pane layoutX="137.0" layoutY="705.0" prefHeight="150.0" prefWidth="1004.0">
                <children>
@@ -24,6 +25,7 @@
                               <Image url="@img/GO.png" />
                            </image>
                         </ImageView>
+                        <Canvas height="137.0" layoutX="6.0" layoutY="1.0" width="137.0" />
                      </children></Pane>
                   <Pane layoutX="758.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -38,6 +40,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
+                         <Canvas height="170.0" width="100.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="664.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
@@ -52,7 +55,7 @@
                               <Image url="@img/chest.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="570.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -67,7 +70,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="475.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -81,6 +84,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
+                     <Canvas height="170.0" width="100.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="380.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
@@ -100,6 +104,7 @@
                               <Image url="@img/bar.png" />
                            </image>
                         </ImageView>
+                     <Canvas height="170.0" width="100.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="285.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
@@ -115,7 +120,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="190.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -129,7 +134,7 @@
                               <Image url="@img/chance.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="95.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -144,7 +149,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -159,7 +164,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                </children>
             </Pane>
@@ -172,6 +177,7 @@
                               <Image url="@img/JustVisiting.png" />
                            </image>
                         </ImageView>
+                        <Canvas height="137.0" layoutX="5.0" layoutY="6.0" width="137.0" />
                      </children></Pane>
                   <Pane layoutX="758.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -186,7 +192,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="664.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -205,7 +211,7 @@
                               <Image url="@img/rest1.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="570.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -220,7 +226,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="475.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -235,7 +241,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="380.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -254,7 +260,7 @@
                               <Image url="@img/bar.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="285.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -269,22 +275,21 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="190.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
-                        <Pane styleClass="squareTop" />
-                        <Text layoutX="14.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject Text" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <ImageView fitHeight="90.0" fitWidth="84.0" layoutX="9.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/chest.png" />
+                           </image>
+                        </ImageView>
+                        <Text layoutX="16.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community Chest" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
-                              <Font name="Segoe UI" size="12.0" />
+                              <Font name="Segoe UI" size="13.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£ 99999" textAlignment="CENTER" wrappingWidth="71.13671875">
-                           <font>
-                              <Font name="Segoe UI Bold" size="12.0" />
-                           </font>
-                        </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="95.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -299,7 +304,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -314,7 +319,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                </children>
             </Pane>
@@ -327,6 +332,7 @@
                               <Image url="@img/parking.png" />
                            </image>
                         </ImageView>
+                        <Canvas height="137.0" layoutX="7.0" layoutY="7.0" width="137.0" />
                      </children></Pane>
                   <Pane layoutX="758.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -341,7 +347,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="664.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -355,7 +361,7 @@
                               <Font name="Segoe UI" size="13.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="570.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -370,7 +376,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="475.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -385,7 +391,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="380.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -404,7 +410,7 @@
                               <Image url="@img/bar.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="285.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -419,7 +425,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="190.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -434,7 +440,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="95.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -453,7 +459,7 @@
                               <Image url="@img/rest2.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -468,7 +474,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                </children>
             </Pane>
@@ -481,6 +487,7 @@
                               <Image url="@img/GotoJail.png" />
                            </image>
                         </ImageView>
+                        <Canvas height="137.0" layoutX="6.0" layoutY="7.0" width="137.0" />
                      </children></Pane>
                   <Pane layoutX="758.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -495,7 +502,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="664.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -510,7 +517,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="570.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -524,7 +531,7 @@
                               <Font name="Segoe UI" size="13.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="475.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -539,7 +546,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="380.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -558,7 +565,7 @@
                               <Image url="@img/bar.png" />
                            </image>
                         </ImageView>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="285.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -572,7 +579,7 @@
                               <Font name="Segoe UI" size="13.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="190.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -587,7 +594,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane layoutX="95.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -601,7 +608,7 @@
                               <Font name="Segoe UI" size="18.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
@@ -616,7 +623,7 @@
                               <Font name="Segoe UI Bold" size="12.0" />
                            </font>
                         </Text>
-                     </children>
+                     <Canvas height="170.0" width="100.0" /></children>
                   </Pane>
                </children>
             </Pane>
@@ -625,14 +632,22 @@
                   <Image url="@img/EEGBoardBackground.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgDice" fitHeight="60.0" fitWidth="61.0" layoutX="747.0" layoutY="558.0" onMouseClicked="#diceRoll" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgDice1" fitHeight="60.0" fitWidth="61.0" layoutX="310.0" layoutY="16.0" onMouseClicked="#diceRoll" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/die_face_4.png" />
+                  <Image url="@img/dice/1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgDice2" fitHeight="60.0" fitWidth="61.0" layoutX="390.0" layoutY="-27.0" onMouseClicked="#diceRoll" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/dice/6.png" />
                </image>
             </ImageView>
          </children>
       </Group>
       <Text fx:id="txtMessageOutput" fill="WHITE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Started" wrappingWidth="194.13671875" />
+      <Text fx:id="txtPropertyCard" fill="WHITE" layoutX="14.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="194.13671875" />
+      <Button fx:id="btnNextTurn" layoutX="14.0" layoutY="109.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Next Turn" />
+      <Button fx:id="btnBuyProperty" layoutX="14.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Buy Property" />
       
    </children>
 

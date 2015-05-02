@@ -18,6 +18,18 @@ public class Player {
 		this.name = name;
 		this.token = new Piece(pieceId);
 		this.position = 0;
+		this.balance = 1500;
+	}
+	/**
+	 * Constructors that has a custom balance value
+	 * @param name
+	 * @param pieceId
+	 */
+	public Player(String name, int pieceId, int balance){
+		this.name = name;
+		this.token = new Piece(pieceId);
+		this.position = 0;
+		this.balance = balance;
 	}
 	/**
 	 * retrive player's name.
@@ -51,15 +63,27 @@ public class Player {
 		this.balance = balance;
 	}
 	
+	/**
+	 * 
+	 * @param establishment
+	 * @return
+	 */
+	public Piece getToken(){
+		return this.token;
+	}
+	
 	public boolean buy(Establishment establishment){
 		//find cost of Establishment and test against user balance
 		if(this.balance >= establishment.getPrice()){
 			//Return true as purchase is accepted.
 			this.balance -= establishment.getPrice();
+			establishment.changeOwner(this);
+			System.out.println("Congratulations on your purchase of "+establishment.getName()+"!  You have £"+balance+" remaining!");
 			return true;
 		}else{
 			//alert user that they cannot afford to buy this
 			//by sending back false 
+			System.out.println("Your poor! You have £"+this.balance+" and this place costs £"+establishment.getPrice());
 			return false;
 		}
 	}
@@ -124,11 +148,15 @@ public class Player {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+	/**
+	 * Used to move the player around the board
+	 * @param position
+	 */
 	public void movePosition(int position) {
 		this.position += position;
 		
 		if(this.position>=40){
-			this.position=-40;
+			this.position-=40;
 		}
 	}
 	

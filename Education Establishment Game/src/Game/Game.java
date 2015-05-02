@@ -34,15 +34,14 @@ public class Game {
 	
 	public Board board; //Contains all the Squares, 
 	public ArrayList<Player> players = new ArrayList<Player>();
-	private int currentTurn; //Holds the location in the ArrayList of the players go
+	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private int currentGoes; //Used to track rolling doubles next go will call same player if not 0)
-	
+	private boolean diceRolled = false;
 	public Game(ArrayList<Player> players){
 		
 		this.players = players;
 		
 		board = new Board();
-		board.dice.roll();
 	
 	}
 	
@@ -53,8 +52,9 @@ public class Game {
 		Player player = getCurrentPlayer();
 		String typeOfSquare = square.getSquareType();
 		
-		if(typeOfSquare 		== "Subject"){
+		if(typeOfSquare.equals("Subject")){
 			Subject subject = (Subject)square; 
+			System.out.println("landOn(): Landed on "+subject.getName());
 			//If we land of a subject a few things can happen
 			//2. Owned - 
 				//Not me 
@@ -67,69 +67,67 @@ public class Game {
 				}
 				//Otherwise I've landed on my own property
 			}
-		}else if(typeOfSquare 	== 	"Bar"){
+		}else if(typeOfSquare.equals("Bar")){
 			Bar bar = (Bar)square; 
+			System.out.println("landOn(): Landed on "+bar.getName());
 			//If we land on a bar a few things can happen
 			//1. Not owned - Want to buy it?
 			//2. Owned
 				//How many owned? Pay the amount * rent to owner
-		}else if(typeOfSquare 	== 	"Restaurant"){
+		}else if(typeOfSquare.equals("Restaurant")){
 			Restaurant restaurant = (Restaurant)square; 
+			System.out.println("landOn(): Landed on "+restaurant.getName());
 			//If we land on a bar a few things can happen
 			//1. Not owned - Want to buy it?
 			//2. Owned
 				//How many owned? Pay Rent
-		}else if(typeOfSquare 	== 	"SpecialSquare"){
+		}else if(typeOfSquare.equals("SpecialSquare")){
 			SpecialSquare specialSquare = (SpecialSquare)square; 
+			System.out.println("landOn(): Landed on "+specialSquare.getName());
 			//The effect will apply to the user
 		}else{
-			System.out.println("Not Sure What Happened: Couldn't hind a type of Square we're on!");
+			System.out.println("landOn(): Not Sure What Happened: Couldn't find a type of Square we're on! "+typeOfSquare);
 		}
 		
 	}
-
 	/**
-	 * Sets the next Go up by incrementing the 
-	 * currentTurn to the next value
+	 * Updates the currentTurn
+	 * 
+	 * @important Uses currentGoes for users who have got Doubles etc.
 	 */
 	public void nextTurn(){
-		//If more than 0 goes, then user rolls again
-		if(currentGoes>0){
-			currentTurn--;
-		}
-		if(currentTurn<players.size()){
-			currentTurn++;
+		
+		//If the user has no extra goes
+		if(currentGoes==0){
+			if(currentTurn>=players.size()-1){
+				currentTurn=0;
+			}else{
+				currentTurn++;
+			}
 		}else{
-			currentTurn = 0;
+			currentGoes--;
 		}
+		//Allow the user to Roll the Dice
+		diceRolled=false;
+	}
+	/**
+	 * Roll dice method
+	 * @return Dice Rolls for UI
+	 */
+	public int[] rollDice(){
+		//Role the Dice
+		int[] diceRoll = board.dice.rollDice();
 		
-		takeGo();
+		//Move the player
+		movePlayer(board.dice.getValue());
+		
+		//Stop this player rolling the dice again
+		diceRolled=true;
+		
+		//Return the values for UI
+		return diceRoll;
 	}
 	
-	/**
-	 * Takes a go for the current player
-	 */
-	private void takeGo(){
-		int RollResult = rollDice();
-		
-		movePlayer(RollResult);
-	}
-	
-	/**
-	 * Roll's the 2 dice in the game and returns the result
-	 * @return
-	 */
-	public int rollDice(){
-		int die1Result = board.dice.roll();
-		int die2Result = board.dice.roll();
-		
-		//If roll doubles, give the player another go
-		if(die1Result == die2Result){
-			currentGoes++;
-		}
-		
-		return die1Result+die2Result;
-	}
 	
 	
 	/**
@@ -140,7 +138,7 @@ public class Game {
 		Player currentPlayer = getCurrentPlayer();
 		
 		currentPlayer.movePosition(i);
-		
+
 		landOn(board.Squares[currentPlayer.getPosition()]);
 	}
 	
@@ -148,8 +146,31 @@ public class Game {
 	 * Returns the current active player
 	 * @return
 	 */
-	private Player getCurrentPlayer(){
+	public Player getCurrentPlayer(){
 		return players.get(currentTurn);
 	}
-	
+	/**
+	 * Searches the players array for the player P and returns it's location
+	 * @param Player to search
+	 * @return Location in array
+	 */
+	public int getPlayerIndex(Player player){
+		int i=0;
+		for(Player p : players){
+			if(p.equals(player)){
+				return i;
+			}else{
+				i++;
+			}
+		}
+		return -1;
+			
+	}
+	/**
+	 * @Retrun if the dice can be rolled
+	 */
+	public boolean canRoll(){
+		return !diceRolled;
+	}
+		
 }

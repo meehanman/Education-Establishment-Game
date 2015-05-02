@@ -44,5 +44,6 @@ public class Square {
 	public String getSquareType(){
 		return this.getClass().getSimpleName();
 	}
+
 	
 }
