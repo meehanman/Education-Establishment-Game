@@ -129,38 +129,43 @@ public class Player {
 			return false;
 		}
 	}
-	
 	/**
-	 * Changes the players movement around the board
-	 * @param i
-	 * @return Retruns true if the user passes Go!
+	 * @return The players current Position
 	 */
-	public boolean move(int i){
-		if (this.position < (40 - i)){
-			this.position += i;
-			return false;
-		}else{
-			this.position = (this.position - 40) + i;
-			return true;
-		}
-	}
-	
 	public int getPosition() {
 		return position;
 	}
-
-	public void setPosition(int position) {
-		this.position = position;
+	/**
+	 * Sets the players position to a particular position on the board
+	 * @param i
+	 */
+	public void moveto(int i){
+		if (this.position < (40 - i)){
+			this.position += i;
+		}else{
+			this.position = (this.position - 40) + i;
+		}
 	}
 	/**
-	 * Used to move the player around the board
-	 * @param position
+	 * Changes the players movement around the board
+	 * 
+	 * If the user moves and passes go give200
+	 * if they land on go give400
+	 * 
+	 * @param i
 	 */
 	public void movePosition(int position) {
 		this.position += position;
 		
 		if(this.position>=40){
 			this.position-=40;
+			
+			//If the player has landed on Go! (They get 400, not 200)
+			if(this.position==0){
+				addBalance(400);
+			}else{
+				addBalance(200);
+			}
 		}
 	}
 	
