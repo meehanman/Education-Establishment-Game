@@ -10,6 +10,7 @@ public class Player {
 	Piece token;
 	int position;
 	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();	
+	boolean isInJail = false;
 	/**
 	 * PUBLICALLY ASSCESSIBLE METHODS
 	 */
@@ -186,6 +187,23 @@ public class Player {
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 *  Sends the user to jail
+	 */
+	public void SendToJail(){
+		this.isInJail = true;
+		this.position = 10;
+	}
+	/**
+	 *  Removes inJail Flag
+	 */
+	public void freeFromJail(){
+		this.isInJail = false;
+	}
+	public boolean isInJaul(){
+		return this.isInJail;
 	}
 	
 

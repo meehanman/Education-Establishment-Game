@@ -37,6 +37,7 @@ public class Game {
 	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private int currentGoes; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
+	private int doubledRolled = 0;
 	public Game(ArrayList<Player> players){
 		
 		this.players = players;
@@ -94,6 +95,7 @@ public class Game {
 			}else{
 				currentTurn++;
 			}
+			doubledRolled=0;
 		}else{
 			currentGoes--;
 		}
@@ -107,6 +109,15 @@ public class Game {
 	public int[] rollDice(){
 		//Role the Dice
 		int[] diceRoll = board.dice.rollDice();
+		
+		//Rolling Doubles
+		if(diceRoll[0]==diceRoll[1]){
+			currentGoes++;
+			doubledRolled++;
+			if(doubledRolled>=2){
+				getCurrentPlayer().SendToJail();
+			}
+		}
 		
 		//Move the player
 		movePlayer(board.dice.getValue());
