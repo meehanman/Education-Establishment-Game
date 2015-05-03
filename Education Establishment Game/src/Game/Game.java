@@ -112,7 +112,7 @@ public class Game {
 		int[] diceRoll = board.dice.rollDice();
 		
 		//Rolling Doubles
-		if(diceRoll[0]==diceRoll[1]){
+		if(board.dice.isDoubles()){
 			extraTurn=true;
 			//Starts counter for 3 rolls = GotoJail
 			doubledRolled++;
