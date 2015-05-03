@@ -68,7 +68,7 @@ public class Subject extends Establishment {
 	 * @param Returns if a house was added
 	 */
 	public boolean addHouse() {
-		if(houses<=rent.length){
+		if(houses< rent.length){
 			houses++;
 			return true;
 		}else{
@@ -154,6 +154,16 @@ public class Subject extends Establishment {
 		while(houses>0){
 			sellHouse();
 			}
+	}
+	
+	public void buyHouse(){
+		//if owner can afford buy house
+		if (owner.getBalance() > housePrice){
+			owner.subBalance(housePrice);
+			addHouse();
+		}
+		
+		
 	}
 	
 	

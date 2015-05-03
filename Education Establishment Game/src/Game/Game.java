@@ -2,6 +2,7 @@ package Game;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javafx.scene.paint.Color;
 import utils.Player;
 import board.Board;
 import board.SpecialSquare;
@@ -193,6 +194,52 @@ public class Game {
 		
 		return playersWithMoney>1?false:true;
 	}
+	
+	public void upgrade(Subject subject){
+		//if own all of a color and they are developed equally
+		if(ownsAllColor(subject) && equalDevelopment(subject)){
+			subject.buyHouse();
+		}
+	}
+	
+	public boolean equalDevelopment(Subject subject){
+		ArrayList<Subject> tempSubArray = getAllColor(subject.getColor());
+		for(int i = 0; i <tempSubArray.size();i++){
+			if((subject.getHouses() - tempSubArray.get(i).getHouses()) >= 1){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public ArrayList<Subject> getAllColor(String color){
+		ArrayList<Subject> tempSubArray = new ArrayList<Subject>(); 
+		for (Square square: board.Squares){
+			//If its an establishment then it can be upgraded
+			if(square instanceof Subject){
+				Subject tempSub = ((Subject)(square));
+
+				//If the establishment is same color check it is 
+				if(tempSub.getColor() == color ){
+					tempSubArray.add(tempSub);
+				}
+			}
+
+		}
+		return tempSubArray;
+	}
+	
+	public boolean ownsAllColor(Subject subject){
+		ArrayList<Subject> tempSubArray = getAllColor(subject.getColor());
+		for(int i = 0; i <tempSubArray.size();i++){
+			if(tempSubArray.get(i).getOwner() != subject.getOwner()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	
 	public void endGame(){
 		//for each property on the board
