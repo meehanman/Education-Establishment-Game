@@ -1,5 +1,7 @@
 package board.establishment;
 
+import board.Square;
+
 /**
  * 
  * Restaurant (formally known as utilities)
@@ -15,15 +17,13 @@ package board.establishment;
 public class Restaurant extends Establishment {
 
 	//Multiplier value when the owner owns one property
-	private int MULTIPLIER_ONE;
-	//Multiplier value when the owner owns two properties
-	private int MULTIPLIER_TWO;
+	private int[] multiplier = {0,0};
 	
 	public Restaurant(String name,int price) {
 		super(name, price);
 		
-		this.MULTIPLIER_ONE = 4;
-		this.MULTIPLIER_TWO = 10;
+		this.multiplier[0] = 4;
+		this.multiplier[1] = 10;
 	}
 	
 	
@@ -34,14 +34,25 @@ public class Restaurant extends Establishment {
 	////////////////////////////////////////////////////
 	
 	/**
-	 * TODO Need Player to be specified to calculate if owner owns
-	 * 			more than one
+	 * Calculates rent if you land on property bases on how many owned and diceRoll
 	 * 
-	 * @param diceRoll The value rolled for current players go
-	 * @return The amount payable
+	 * @param diceRoll
+	 * @param squares
+	 * @return
 	 */
-	public int calculateRent(int diceRoll){
-		return diceRoll * MULTIPLIER_ONE;
+	public int getRent(int diceRoll, Square[] squares){
+		int amountOwned=0;
+		//If this has an owner
+		if(hasOwner()){
+			for(Square square : squares){
+				//If the square is a Restaurant and the owner is this owner
+				if(square instanceof Restaurant && ((Establishment)(square)).getOwner().equals(getOwner())){
+					amountOwned++;
+				}
+			}
+		}
+		//If 1 is owned, then it will output the first value etc..
+		return diceRoll * multiplier[amountOwned];
 	}
 	
 }

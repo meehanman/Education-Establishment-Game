@@ -67,7 +67,7 @@ public class GameSetupController implements Initializable{
 		//Add first two players
 		if(!textFieldP1.getText().isEmpty() && !textFieldP2.getText().isEmpty()){
 			players.add(new Player(textFieldP1.getText(),imageone));
-			players.add(new Player(textFieldP2.getText(),imageone));
+			players.add(new Player(textFieldP2.getText(),imagetwo));
 		}else{
 			msgError.setText("Error: Player 1 and Player 2 must have names!");
 			return;
@@ -96,9 +96,14 @@ public class GameSetupController implements Initializable{
 		    
 		    ((Stage) grpAddPlayer3.getScene().getWindow()).close();
 		      
-		} catch (IOException | NullPointerException io) {
-			System.out.println(io.getCause());
+		} catch (IOException io) {
+			System.out.println("playGame(): IOError: "+io.toString());
+		} catch (NullPointerException np){
+			System.out.println("playGame(): NPError: "+np.toString());
+
 		}
+		
+		System.out.println("playGame(): "+"Method Finished");
 
 	}
 	
@@ -136,6 +141,7 @@ public class GameSetupController implements Initializable{
 	public void ChangePiece(MouseEvent e){
 		ImageView img = (ImageView)(e.getSource());
 		
+		try{
 		if(img.getId().equals("imgCounterP1")){
 			
 			if(imageone==counter.length-1){imageone=0;}else{imageone++;}
@@ -155,6 +161,9 @@ public class GameSetupController implements Initializable{
 			if(imagefour==counter.length-1){imagefour=0;}else{imagefour++;}
 			img.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagefour]+".png"));
 			
+		}
+		}catch(NullPointerException np){
+			System.out.println("ChangePiece(): "+"Looks like there fella, there's a problems with some of your Player counter Images");
 		}
 		
 	}

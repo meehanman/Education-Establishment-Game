@@ -23,7 +23,7 @@ public class Effect {
 		this.money = money;
 		Position = position;
 		this.outOfJailFree = outOfJailFree;
-		this.cardPickup = cardPickup;
+		this.setCardPickup(cardPickup);
 	}
 	
 	
@@ -68,6 +68,22 @@ public class Effect {
 	 */
 	public void setOutOfJailFree(boolean outOfJailFree) {
 		this.outOfJailFree = outOfJailFree;
+	}
+
+
+	/**
+	 * @return the cardPickup
+	 */
+	public int getCardPickup() {
+		return cardPickup;
+	}
+
+
+	/**
+	 * @param cardPickup the cardPickup to set
+	 */
+	public void setCardPickup(int cardPickup) {
+		this.cardPickup = cardPickup;
 	}
 
 }

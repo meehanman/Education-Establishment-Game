@@ -137,6 +137,14 @@ public class Establishment extends Square{
 		this.mortgaged = false;
 		return getUnmortgageValue();
 	}
+	/**
+	 * Returns if Establishment has got an owner
+	 * @return
+	 */
+	public boolean hasOwner(){
+		return this.owner!=null;
+	}
+
 
 	
 }
