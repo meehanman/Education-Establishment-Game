@@ -1,5 +1,6 @@
 package gui;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -398,9 +399,10 @@ public class MainController implements Initializable{
 	 * Updated the titleDeed UI
 	 * @param square
 	 */
-	@FXML Pane PneTitleDeed;
+	@FXML Pane PneTitleDeed,TITLEDEEDCOLOR;
 	@FXML Text titleDeedRent, titleDeedHouse1, titleDeedHouse2, titleDeedHouse3, titleDeedHouse4, titleDeedHouse5;
 	@FXML Text titleDeedPropertyName, titleDeedMortgage, titleDeedHouseCost, titleDeedHotelCost; 
+	String[] cssColors = {"brown","lightblue","pink","orange","red","yellow","green","darkblue"}; //USED TO Remove CSS styles for TitleDeed
 	public void updateTitleDeed(Square square){
 		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
 
@@ -408,7 +410,13 @@ public class MainController implements Initializable{
 		if(playerSquare.getSquareType().equals("Subject")){
 			Subject sub = (Subject)playerSquare;
 			PneTitleDeed.setVisible(true);
+			
 			titleDeedPropertyName.setText(sub.getName());
+			for(String color : cssColors){
+				TITLEDEEDCOLOR.getStyleClass().remove(color);
+			}
+			TITLEDEEDCOLOR.getStyleClass().add(sub.getColor());		
+			
 			
 			titleDeedRent.setText("RENT £"+sub.getRentInformation()[0]);
 			titleDeedHouse1.setText("£"+sub.getRentInformation()[1]);

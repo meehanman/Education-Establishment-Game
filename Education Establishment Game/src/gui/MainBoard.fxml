@@ -12,9 +12,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
-      <Group fx:id="BoardNode" layoutX="185.0" layoutY="243.0" scaleX="0.7" scaleY="0.7">
+      <Group fx:id="BoardNode" layoutX="184.0" layoutY="204.0" scaleX="0.7" scaleY="0.7">
          <children>
             <Pane layoutX="137.0" layoutY="705.0" prefHeight="150.0" prefWidth="1004.0">
                <children>
@@ -753,7 +753,7 @@
       <Button fx:id="btnMortgageProperty" disable="true" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Mortgage" />
       <Pane fx:id="PneTitleDeed" layoutX="60.0" layoutY="343.0" prefHeight="310.0" prefWidth="216.0" styleClass="propertyCard">
          <children>
-            <Pane layoutX="14.0" layoutY="14.0" prefHeight="72.0" prefWidth="186.0" style="-fx-border-color: black;" styleClass="lightblue">
+            <Pane fx:id="TITLEDEEDCOLOR" layoutX="14.0" layoutY="14.0" prefHeight="72.0" prefWidth="186.0" style="-fx-border-color: black;" styleClass="lightblue">
                <children>
                   <Text layoutX="58.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TITLE DEED" textAlignment="CENTER">
                      <font>
