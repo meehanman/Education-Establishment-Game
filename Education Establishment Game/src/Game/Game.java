@@ -35,7 +35,7 @@ public class Game {
 	public Board board; //Contains all the Squares, 
 	public ArrayList<Player> players = new ArrayList<Player>();
 	public int currentTurn; //Holds the location in the ArrayList of the players go
-	private int currentGoes; //Used to track rolling doubles next go will call same player if not 0)
+	private boolean extraTurn; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
 	private int doubledRolled = 0;
 	public Game(ArrayList<Player> players){
@@ -89,16 +89,17 @@ public class Game {
 	public void nextTurn(){
 		
 		//If the user has no extra goes
-		if(currentGoes==0){
+		if(extraTurn){
+			extraTurn = false;
+		}else{
 			if(currentTurn>=players.size()-1){
 				currentTurn=0;
 			}else{
 				currentTurn++;
 			}
-			doubledRolled=0;
-		}else{
-			currentGoes--;
+			doubledRolled=0;	
 		}
+			
 		//Allow the user to Roll the Dice
 		diceRolled=false;
 	}
@@ -112,7 +113,8 @@ public class Game {
 		
 		//Rolling Doubles
 		if(diceRoll[0]==diceRoll[1]){
-			currentGoes++;
+			extraTurn=true;
+			//Starts counter for 3 rolls = GotoJail
 			doubledRolled++;
 			if(doubledRolled>=2){
 				getCurrentPlayer().SendToJail();
