@@ -52,7 +52,7 @@ public class Player {
 	 * @return player's current balance.
 	 */
 	public int getBalance() {
-		return balance;
+		return this.balance;
 	}
 	
 	/**
@@ -129,16 +129,19 @@ public class Player {
 			return false;
 		}
 	}
-	public void mortgage(Establishment est){
-		//get the mortgage value of the house
-		this.balance += est.MortgageProperty();
-	}
 	
-	public void move(int i){
+	/**
+	 * Changes the players movement around the board
+	 * @param i
+	 * @return Retruns true if the user passes Go!
+	 */
+	public boolean move(int i){
 		if (this.position < (40 - i)){
 			this.position += i;
+			return false;
 		}else{
 			this.position = (this.position - 40) + i;
+			return true;
 		}
 	}
 	
@@ -161,12 +164,23 @@ public class Player {
 		}
 	}
 	
-	public void addBalance(double income){
+	public void addBalance(int income){
+		System.out.print("\nAddBalance(): "+getName()+" has £"+getBalance());
 		this.balance += income;
+		System.out.print("\n but now has "+getBalance()+" because "+income+" was added");
 	}
-	
-	public void subBalance(double expenditure){
-		this.balance -= expenditure;
+	/**
+	 * Subtracts balance from player account
+	 * @param expenditure
+	 * @return True if successful, false if the user doesn't have enough money
+	 */
+	public boolean subBalance(int expenditure){
+		if(getBalance()>=expenditure){
+			this.balance -= expenditure;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 

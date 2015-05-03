@@ -23,6 +23,7 @@ public class Establishment extends Square{
 	protected Player owner;
 	//Price to mortgage (In order to lift the mortgage, the owner must pay the Bank the amount of mortgage plus 10% interest.)
 	protected int mortgageValue;
+	//If the property was mortgaged
 	protected boolean mortgaged;
 	
 	/**
@@ -36,6 +37,7 @@ public class Establishment extends Square{
 
 		this.price = price;
 		this.mortgaged = false;
+		this.mortgageValue = price/2;
 		this.color = color;
 	}
 	
@@ -114,8 +116,14 @@ public class Establishment extends Square{
 	 * 
 	 * @return the UnMortgage Value
 	 */
-	public int getUnmortgageValue() {
+	public int getUnMortgageValue() {
 		return (int)(mortgageValue*1.1);
+	}
+	/**
+	 * 
+	 */
+	public boolean isMortgaged(){
+		return this.mortgaged;
 	}
 	
 	/**
@@ -123,9 +131,9 @@ public class Establishment extends Square{
 	 * @return Returns the mortgageValue 
 	 * 			to be given to the player
 	 */
-	public int MortgageProperty(){
+	public void Mortgage(){
 		this.mortgaged = true;
-		return getMortgageValue();
+		this.owner.addBalance(getMortgageValue());
 	}
 	
 	/**
@@ -133,9 +141,11 @@ public class Establishment extends Square{
 	 * @return Returns the mortgageValue 
 	 * 			to be taken from the player
 	 */
-	public int unMortgageProperty(){
+	public boolean unMortgage(){
 		this.mortgaged = false;
-		return getUnmortgageValue();
+		
+		//Return if we where able to take the balance from the user
+		return this.owner.subBalance(getUnMortgageValue());
 	}
 	/**
 	 * Returns if Establishment has got an owner
