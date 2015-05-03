@@ -81,7 +81,7 @@ public class Board {
 		Squares[11] = new Subject("Archaeology", "pink", 60, new int[] {10,50,150,450,625,750});
 		Squares[12] = new Restaurant("Boojum",150);
 		Squares[13] = new Subject("Geography", "pink", 60, new int[] {10,50,150,450,625,750});
-		Squares[14] = new Subject("xxxxxxxxxx", "pink", 60, new int[] {12,60,180,500,700,900});
+		Squares[14] = new Subject("Environmental Engineering", "pink", 60, new int[] {12,60,180,500,700,900});
 		Squares[15] = new Bar("Botanic Inn",200);
 		Squares[16] = new Subject("Zoology", "orange", 100, new int[] {14,70,200,550,750,950});
 		Squares[17] = new SpecialSquare(Type.ComunityChest, CommunityChest);

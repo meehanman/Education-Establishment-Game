@@ -47,7 +47,7 @@ public class MainController implements Initializable{
 	@FXML public Group BoardNode;
 	@FXML public Group grptopBarID,gpID1,gpID2,gpID3,gpID4; //The Top Bar Identification modules (ie Player Token, Color, Name, Money)
 	@FXML public Canvas exampleCanvas;
-	@FXML public Button btnNextTurn,btnBuyProperty;
+	@FXML public Button btnNextTurn,btnBuyProperty,btnMortgageProperty;
 	
 	public String[] playerColors = {"#49bcff","#60ff92","#ff55f9","#ff6666"};
 	
@@ -65,6 +65,7 @@ public class MainController implements Initializable{
 		//Button Event Handlers
 		btnNextTurn.setOnMouseClicked(this::takeNextTurn);
 		btnBuyProperty.setOnMouseClicked(this::buyProperty);
+		btnMortgageProperty.setOnMouseClicked(this::mortgageProperty);
 		
 		//Mouse Click
 		imgDice1.setOnMouseClicked(this::diceRoll);
@@ -115,32 +116,6 @@ public class MainController implements Initializable{
 	}
 	
 	/**
-	 * Method to move a piece around the board
-	 */
-	public void movePlayerPiece(MouseEvent event){
-		
-		System.out.println("===========");
-		game.nextTurn();
-		System.out.println("===========");
-		
-		//TEST TODO Testing getting the property data up
-		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
-		if(playerSquare.getSquareType().equals("Subject")){
-			Subject sub = (Subject)playerSquare;
-			
-			String s=game.getCurrentPlayer().getName()+ " landed on " + sub.getName()+"\n";
-			for (int i = 0; i < 5; i++) {
-				s += i + ") £"+sub.getRentInformation()[i]+"\n";
-			}
-			
-			txtPropertyCard.setText(s);
-
-		}
-		//Update the Scene
-		drawBoard();
-	}
-	
-	/**
 	 *  Next Turn Button
 	 *  @after Prompt user to roll dice
 	 */
@@ -175,6 +150,31 @@ public class MainController implements Initializable{
 		}
 		
 		//Update the Scene
+		drawBoard();
+	}
+	
+	/**
+	 * Allows a player to mortgage or un-mortgage a property they own
+	 * @param e
+	 */
+	public void mortgageProperty(MouseEvent e){
+		Square square = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		if(square instanceof Establishment){
+			Establishment est = (Establishment)square;
+			if(est.isMortgaged()){
+				//If the user was able to unMortgage the establishment
+				if(est.unMortgage()){
+					System.out.println(est.getOwner().getName() + " unMortgaged their property!");
+				}else{
+					System.out.println(est.getOwner().getName() + " Doesn't have enough to unmortgage their property!");
+				}
+				System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
+			}else{
+				est.Mortgage();
+				System.out.println(est.getOwner().getName() + " Mortgaged their property!");
+				System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
+			}
+		}
 		drawBoard();
 	}
 	
@@ -320,9 +320,28 @@ public class MainController implements Initializable{
 		//Update if the Buy Property Button should be Active
 		Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
 		if(landedSquare instanceof Establishment){
+			Establishment landedEstablishment = (Establishment)(landedSquare);
 				//Set the button property depending on if the landedSquare has an owner
-				btnBuyProperty.setDisable(((Establishment)(landedSquare)).hasOwner());
+				if(landedEstablishment.hasOwner()){
+					btnBuyProperty.setDisable(true);
+					btnMortgageProperty.setDisable(false);
+					if(landedEstablishment.isMortgaged()){
+						btnMortgageProperty.setText("UnMortgage");
+					}else{
+						btnMortgageProperty.setText("Mortgage");
+					}
+				}else{
+					btnBuyProperty.setDisable(false);
+					btnMortgageProperty.setDisable(true);
+				}
+		}else{
+			//If not an establishment then disable these buttons
+			btnBuyProperty.setDisable(true);
+			btnMortgageProperty.setDisable(true);
 		}
+		
+		//Update Property Information
+		drawPropertyInformation();
 		
 		//Update the Board Canvas
 		for(int i=0; i<game.board.Squares.length;i++){
@@ -373,6 +392,38 @@ public class MainController implements Initializable{
 			}
 		}
 			
+	}
+	
+	/**
+	 * Used to draw information about an establishment 
+	 * onto something ie the UI 
+	 */
+	public void drawPropertyInformation(){
+		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		
+		if(playerSquare.getSquareType().equals("Subject")){
+			Subject sub = (Subject)playerSquare;
+			//Output what's happened
+			String s=game.getCurrentPlayer().getName()+ " landed on " + sub.getName()+"\n";
+			//Output all the property Information
+			for (int i = 0; i < 5; i++) {
+				//Quick if Statement for houses/Site
+				s += i==0?"Site only:\t £"+sub.getRentInformation()[i]+"\n":
+					i+" house \t£"+sub.getRentInformation()[i]+"\n";
+			}
+			
+			txtPropertyCard.setText(s);
+
+		}else if(playerSquare.getSquareType().equals("Bar")){
+			Bar bar = (Bar)playerSquare;
+			String s=game.getCurrentPlayer().getName()+ " landed on a bar " + bar.getName()+"\n";
+
+		}else if(playerSquare.getSquareType().equals("Restaurant")){
+			Restaurant restaurant = (Restaurant)playerSquare;
+			String s=game.getCurrentPlayer().getName()+ " landed on the restaurant " + restaurant.getName()+"\n";
+
+			
+		}
 	}
 
 	

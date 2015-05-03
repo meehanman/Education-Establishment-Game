@@ -750,6 +750,7 @@
             </Group>
          </children>
       </Group>
+      <Button fx:id="btnMortgageProperty" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Mortgage" />
       
    </children>
 

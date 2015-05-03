@@ -50,7 +50,6 @@ public class Game {
 	 */
 	public void landOn(Square square){
 		//If its an establishment then it can be baught
-		System.out.println(square.getClass());
 		if(square instanceof Establishment){
 			Establishment est = ((Establishment)(square));
 			String typeOfSquare = est.getSquareType();
@@ -68,12 +67,16 @@ public class Game {
 				}else if(typeOfSquare.equals("Bar")){
 					Bar bar = (Bar)(est);
 					getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares));
+				}else{
+					System.out.println("landOn(): square type not found.."+square.getSquareType());
 				}
 			
-			}else{ //If it's a SpecialSquare
-				System.out.println("landOn(): You've landed on a special Square called "+square.getName());
+			}else{
+				System.out.println("landOn(): Establishment doesn't have an owner, or the owner is this owner.."+square.getName());
 			}
 			
+		}else{ //If it's a SpecialSquare
+			System.out.println("landOn(): square is not an instanceof Establishment.."+square.getName());
 		}
 		
 	}
