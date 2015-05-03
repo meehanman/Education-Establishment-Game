@@ -36,8 +36,8 @@ public class SpecialSquare extends Square{
 		return effect;
 	}
 	
-	public String getType(){
-		return specialType.toString();
+	public Type getType(){
+		return specialType;
 	}
 
 	

@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 import utils.Player;
 import board.Board;
-import board.Effect;
 import board.SpecialSquare;
 import board.Square;
 import board.establishment.Bar;
+import board.establishment.Establishment;
 import board.establishment.Restaurant;
 import board.establishment.Subject;
 
@@ -49,44 +49,31 @@ public class Game {
 	 * LOGIC: What to happen when a player lands on a square
 	 */
 	public void landOn(Square square){
-		Player player = getCurrentPlayer();
-		String typeOfSquare = square.getSquareType();
-		
-		if(typeOfSquare.equals("Subject")){
-			Subject subject = (Subject)square; 
-			System.out.println("landOn(): Landed on "+subject.getName());
-			//If we land of a subject a few things can happen
-			//2. Owned - 
-				//Not me 
-				//me 
-			if(subject.getOwner()==null){
-				//No owned - Want to buy it?
-			}else{
-				if(!subject.getOwner().equals(player)){
-					//Need to pay rent
+		//If its an establishment then it can be baught
+		System.out.println(square.getClass());
+		if(square instanceof Establishment){
+			Establishment est = ((Establishment)(square));
+			String typeOfSquare = est.getSquareType();
+
+			//If the establishment has an owner and it isn't the player they need to pay
+			if(est.hasOwner() && !(est.getOwner().equals(getCurrentPlayer()))){
+				if(typeOfSquare.equals("Subject")){
+					Subject sub = (Subject)(est);
+					getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent());
+
+				}else if(typeOfSquare.equals("Restaurant")){
+					Restaurant rest = (Restaurant)(est);
+					getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares));
+					
+				}else if(typeOfSquare.equals("Bar")){
+					Bar bar = (Bar)(est);
+					getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares));
 				}
-				//Otherwise I've landed on my own property
+			
+			}else{ //If it's a SpecialSquare
+				System.out.println("landOn(): You've landed on a special Square called "+square.getName());
 			}
-		}else if(typeOfSquare.equals("Bar")){
-			Bar bar = (Bar)square; 
-			System.out.println("landOn(): Landed on "+bar.getName());
-			//If we land on a bar a few things can happen
-			//1. Not owned - Want to buy it?
-			//2. Owned
-				//How many owned? Pay the amount * rent to owner
-		}else if(typeOfSquare.equals("Restaurant")){
-			Restaurant restaurant = (Restaurant)square; 
-			System.out.println("landOn(): Landed on "+restaurant.getName());
-			//If we land on a bar a few things can happen
-			//1. Not owned - Want to buy it?
-			//2. Owned
-				//How many owned? Pay Rent
-		}else if(typeOfSquare.equals("SpecialSquare")){
-			SpecialSquare specialSquare = (SpecialSquare)square; 
-			System.out.println("landOn(): Landed on "+specialSquare.getName());
-			//The effect will apply to the user
-		}else{
-			System.out.println("landOn(): Not Sure What Happened: Couldn't find a type of Square we're on! "+typeOfSquare);
+			
 		}
 		
 	}

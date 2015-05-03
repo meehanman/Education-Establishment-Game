@@ -25,11 +25,17 @@ public class Piece {
 	public int getIconId() {
 		return icon;
 	}
-	
+	/**
+	 * Returns Files name and File Type (xx.png)
+	 * @return
+	 */
 	public String getIconFileName() {
 		return possibleIcons[icon]+".png";
 	}
-	
+	/**
+	 * Returns Files name and reference from img (img/pieces/xx.png)
+	 * @return
+	 */
 	public String getIconFileLocation(){
 		return "img\\pieces\\"+getIconFileName();
 	}

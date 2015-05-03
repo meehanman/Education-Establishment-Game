@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import utils.Player;
 import Game.Game;
 import board.SpecialSquare;
+import board.SpecialSquare.Type;
 import board.Square;
 import board.establishment.Bar;
 import board.establishment.Establishment;
@@ -41,9 +42,10 @@ public class MainController implements Initializable{
 	//Create variables with names the same as ID's in the fxml 
 	//as these can be used then again in our functions	
 	@FXML private Text txtMessageOutput,txtPropertyCard;
-	@FXML private ImageView imgDice1,imgDice2; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
+	@FXML private ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
 	@FXML private AnchorPane HeadNode;
 	@FXML public Group BoardNode;
+	@FXML public Group grptopBarID,gpID1,gpID2,gpID3,gpID4; //The Top Bar Identification modules (ie Player Token, Color, Name, Money)
 	@FXML public Canvas exampleCanvas;
 	@FXML public Button btnNextTurn,btnBuyProperty;
 	
@@ -86,8 +88,13 @@ public class MainController implements Initializable{
 				
 			}else if(square.getSquareType().equals("SpecialSquare")){
 				SpecialSquare specialSquare = (SpecialSquare)square;
+				ChangeSpecialSquare(GetSquarePane(i),specialSquare);
+
 			}
 		}
+		
+		//Draw everything else
+		drawBoard();
 		
 	}
 	
@@ -101,6 +108,7 @@ public class MainController implements Initializable{
 			
 			txtMessageOutput.setText("Rolled: "+(game.board.dice.getValue()));
 			drawBoard();
+			btnNextTurn.setDisable(false);
 		}else{
 			System.out.println(game.getCurrentPlayer().getName()+", you cannot roll again.");
 		}
@@ -122,7 +130,7 @@ public class MainController implements Initializable{
 			
 			String s=game.getCurrentPlayer().getName()+ " landed on " + sub.getName()+"\n";
 			for (int i = 0; i < 5; i++) {
-				s += i + ") £"+sub.getRent(i)+"\n";
+				s += i + ") £"+sub.getRentInformation()[i]+"\n";
 			}
 			
 			txtPropertyCard.setText(s);
@@ -137,6 +145,7 @@ public class MainController implements Initializable{
 	 *  @after Prompt user to roll dice
 	 */
 	public void takeNextTurn(MouseEvent event){
+		btnNextTurn.setDisable(true);
 		if(game.canRoll()){
 			txtMessageOutput.setText("You must roll the dice before giving up your go "+game.getCurrentPlayer().getName());
 		}else{
@@ -162,7 +171,7 @@ public class MainController implements Initializable{
 				txtMessageOutput.setText("Could not buy " + est.getName());
 			}
 		}else{
-			System.out.println("User cannot buy this Square");
+			System.out.println("buyProperty(): User cannot buy this Square");
 		}
 		
 		//Update the Scene
@@ -239,6 +248,25 @@ public class MainController implements Initializable{
 		((Text)SquareName.getChildren().get(1)).setText("£"+Price);
 			
 	}
+	/**
+	 * Sets up the values for Bar and Restraunt Squares (Text,Text)
+	 * 
+	 * @param SquareName Square Object
+	 * @param Title Title of Subject e.g. Ollies
+	 * @param Price Price of Subject e.g. 400
+	 */
+	public static void ChangeSpecialSquare(Pane SquareName, SpecialSquare Square){
+		
+		if(Square.getType()==Type.IncomeTax||Square.getType()==Type.SuperTax){
+			//Get(0) Title
+			((Text)SquareName.getChildren().get(0)).setText(Square.getName().replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2"));
+			//The Money Text Box
+			((Text)SquareName.getChildren().get(1)).setText("Pay £"+-(Square.getEffect().getMoney()));
+		}
+		
+			
+	}
+	
 	
 	/**
 	 * From an Integer, it will return the Square Pane
@@ -266,15 +294,7 @@ public class MainController implements Initializable{
 		//Returns the squareLocation Pane Child of the rowLocation pane child of the headNode 
 		return (Pane) ((Pane)(BoardNode.getChildren().get(rowLocation))).getChildren().get(squareLocation);
 		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	
 	/**
@@ -284,6 +304,27 @@ public class MainController implements Initializable{
 	 */
 	public void drawBoard(){
 		
+		//Setup TopBar (Get the player index, and positions the topBarSelector depending on what this is ie 2 would be 1/2 way, 3 would be 3/4)
+		imgTopBarSelector.setX((imgTopBar.getFitWidth()/4)*(game.getPlayerIndex(game.getCurrentPlayer())));
+
+		//Update the values for each Player for the top bar
+		for(int i=0;i<game.players.size();i++){
+			Group group = (Group)(grptopBarID.getChildren().get(i));
+			group.setOpacity(1);
+			((Text)(group.getChildren().get(0))).setText(game.players.get(i).getName());
+			((Text)(group.getChildren().get(1))).setText("£"+game.players.get(i).getBalance());
+			((ImageView)(group.getChildren().get(3))).setImage(
+					new Image("\\gui\\"+game.players.get(i).getToken().getIconFileLocation()));
+		}
+
+		//Update if the Buy Property Button should be Active
+		Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		if(landedSquare instanceof Establishment){
+				//Set the button property depending on if the landedSquare has an owner
+				btnBuyProperty.setDisable(((Establishment)(landedSquare)).hasOwner());
+		}
+		
+		//Update the Board Canvas
 		for(int i=0; i<game.board.Squares.length;i++){
 			//SET UP VARIABLES
 			Square square = game.board.Squares[i];

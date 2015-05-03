@@ -92,8 +92,9 @@ public class Subject extends Establishment {
 	}
 
 
-
+	
 	/**
+	 * Calculates rent if you land on property bases on how many houses on property
 	 * @return the rent for a particular house
 	 * 0 - Site
 	 * 1 - 1 house
@@ -102,25 +103,16 @@ public class Subject extends Establishment {
 	 * 4 - 4 houses
 	 * 5 - Facilities (HOTEL)
 	 */
-	public int getRent(int i) {
-		return rent[i];
+	public int getRent(){
+		return rent[houses];
 	}
-	public int getRent() {
-		return rent[getHouses()];
-	}
-	
 	/**
-	 * Allows someone to stay at the property (When they land on the square)
+	 * Returns the rent information for UI
+	 * @return
 	 */
-	public void rent(Player player){
-		if(player.getBalance() >= getRent()){
-			player.giveMoney(owner, getRent());
-		}else{
-			System.out.println("Not Enough Money: " + player.getName() + " cannot pay for their rent");
-		}
-		
+	public int[] getRentInformation(){
+		return rent;
 	}
-	
 	
 	
 	

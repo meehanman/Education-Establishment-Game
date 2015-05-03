@@ -51,7 +51,7 @@ public class Player {
 	 * return current player's balance.
 	 * @return player's current balance.
 	 */
-	public double getBalance() {
+	public int getBalance() {
 		return balance;
 	}
 	
@@ -74,7 +74,7 @@ public class Player {
 	
 	public boolean buy(Establishment establishment){
 		//find cost of Establishment and test against user balance
-		if(this.balance >= establishment.getPrice()){
+		if(!establishment.hasOwner() && this.balance >= establishment.getPrice()){
 			//Return true as purchase is accepted.
 			this.balance -= establishment.getPrice();
 			establishment.changeOwner(this);
@@ -123,6 +123,7 @@ public class Player {
 		if(this.getBalance() >= Amount && Amount > 0){
 			reciever.addBalance(Amount);
 			this.addBalance(-Amount);
+			System.out.println(getName()+" gave "+Amount+" to "+reciever.getName());
 			return true;
 		}else{
 			return false;
