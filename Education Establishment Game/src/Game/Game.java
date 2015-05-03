@@ -1,5 +1,6 @@
 package Game;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import utils.Player;
 import board.Board;
@@ -37,6 +38,7 @@ public class Game {
 	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private boolean extraTurn; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
+	private boolean rentFlag;
 	private int doubledRolled = 0;
 	public Game(ArrayList<Player> players){
 		
@@ -81,6 +83,7 @@ public class Game {
 		}
 		
 	}
+	
 	/**
 	 * Updates the currentTurn
 	 * 
@@ -189,6 +192,46 @@ public class Game {
 		}
 		
 		return playersWithMoney>1?false:true;
+	}
+	
+	public void endGame(){
+		//for each property on the board
+		for (Square square: board.Squares){
+			//If its an establishment then it can be baught
+			if(square instanceof Establishment){
+				Establishment est = ((Establishment)(square));
+				String typeOfSquare = est.getSquareType();
+
+				//If the establishment has an owner and it isn't the player they need to pay
+				if(est.hasOwner()){
+					if(typeOfSquare.equals("Subject")){
+						Subject sub = (Subject)(est);
+						sub.sellAllHouses();
+					}
+					est.getOwner().addBalance(est.getPrice());
+				}
+			}
+
+		}
+		//if owned - sell all houses and the property
+		// adding the value to the player who owned it
+		//winner has the highest value and so on
+		
+		
+		//sorting algorithm to put players in the right order
+		ArrayList<Player> mplayers = new ArrayList<Player>();
+		Player highestValue = null;
+		while(players.size() > 0){
+			for(int i=players.size(); i > 0; i--){
+				if (players.get(i).getBalance() > highestValue.getBalance() || highestValue == null){
+					highestValue = players.get(i);
+				}
+				mplayers.add(highestValue);
+				players.remove(highestValue);
+			}
+		}
+		
+		players = mplayers;
 	}
 	
 		

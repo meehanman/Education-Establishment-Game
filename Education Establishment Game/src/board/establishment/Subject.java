@@ -133,6 +133,29 @@ public class Subject extends Establishment {
 		this.housePrice = housePrice;
 	}
 	
+	public void sellHouse(){
+		if(houses > (rent.length - 1)){
+			//remove facility and only refund price of one house
+			//also remove all houses.
+			owner.addBalance(housePrice);
+			houses = 0;
+		} else if (houses > 0) {
+			//remove a house and add price to owner's balance.
+			owner.addBalance(housePrice);
+			houses--;
+		} else {
+			//do not own any houses
+		}
+	}
+	
+	public void sellAllHouses(){
+		//sell all the houses on the property giving the money to 
+		//the owner
+		while(houses>0){
+			sellHouse();
+			}
+	}
+	
 	
 	
 	
