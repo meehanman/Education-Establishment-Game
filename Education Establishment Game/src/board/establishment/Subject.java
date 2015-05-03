@@ -1,6 +1,5 @@
 package board.establishment;
 
-import utils.Player;
 
 /**
  * 
@@ -64,7 +63,7 @@ public class Subject extends Establishment {
 	/**
 	 * 
 	 * Add a house to the Subject
-	 * (Adding the 4th house adds a  Facility)
+	 * (Adding the 4th house adds a Facility)
 	 * 
 	 * @param Returns if a house was added
 	 */
