@@ -17,13 +17,15 @@ public class Subject extends Establishment {
 	private int houses;
 	//Taken from Monopoly Card
 	private int[] rent = new int[6];
+	//Price of House (50,100,150 or 200) depending on side of board
+	private int housePrice;
 	
-	
-	public Subject(String name, String color, int price, int[] rental) {
+	public Subject(String name, String color, int price, int[] rental,int housePrice) {
 		super(name, color, price);
 		
 		this.houses = 0;
 		this.rent = rental;
+		this.setHousePrice(housePrice);
 	}
 
 	
@@ -112,6 +114,24 @@ public class Subject extends Establishment {
 	 */
 	public int[] getRentInformation(){
 		return rent;
+	}
+
+
+
+	/**
+	 * @return the housePrice
+	 */
+	public int getHousePrice() {
+		return housePrice;
+	}
+
+
+
+	/**
+	 * @param housePrice the housePrice to set
+	 */
+	public void setHousePrice(int housePrice) {
+		this.housePrice = housePrice;
 	}
 	
 	

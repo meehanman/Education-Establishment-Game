@@ -82,6 +82,7 @@ public class GameSetupController implements Initializable{
 		}
 			
 		MainController.game = new Game(players);
+		
 		try {
 			Stage stage = new Stage();
 			stage.setTitle("Education Establishment Game");	

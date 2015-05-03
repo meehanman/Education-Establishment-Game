@@ -20,6 +20,7 @@ public class SampleGUIHandlers {
 	 * Dependencies- ArrayList<Player>, Dice
 	 */
 	
+	/*
 	//TODO remove scanner in favor of GUI.
 	static Scanner keyb = new Scanner(System.in);
 	
@@ -107,5 +108,6 @@ public class SampleGUIHandlers {
 	public void diplayName(){
 		
 	}
+	*/
 	
 }
