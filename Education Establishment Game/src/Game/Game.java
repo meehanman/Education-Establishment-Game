@@ -162,5 +162,21 @@ public class Game {
 	public boolean canRoll(){
 		return !diceRolled;
 	}
+	/**
+	 * Game over Clause!
+	 * If more than one player has money
+	 * 
+	 */
+	public boolean isGameOver(){
+		int playersWithMoney = 0;
+		for(Player p : players){
+			if(p.getBalance()>=0){
+				playersWithMoney++;
+			}
+		}
+		
+		return playersWithMoney>1?false:true;
+	}
+	
 		
 }

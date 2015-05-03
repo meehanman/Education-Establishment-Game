@@ -1,12 +1,3 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import utils.Dice;
-import utils.Piece;
-import utils.Player;
-import board.Board;
-import board.establishment.Establishment;
-import board.establishment.Property;
 
 /**
  * 
@@ -28,6 +19,7 @@ import board.establishment.Property;
  * 
  * @see http://tesuji.org/pub/Monopoly.java (<- Implementation of this class)
  */
+/*
 public class Game {
 	
 	private Board board;
@@ -271,3 +263,5 @@ public class Game {
 	
 	
 }
+
+*/

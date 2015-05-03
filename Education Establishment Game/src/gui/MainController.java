@@ -108,11 +108,11 @@ public class MainController implements Initializable{
 			imgDice2.setImage(new Image("\\gui\\img\\dice\\"+diceRoll[1]+".png"));
 			
 			txtMessageOutput.setText("Rolled: "+(game.board.dice.getValue()));
-			drawBoard();
 			btnNextTurn.setDisable(false);
 		}else{
 			System.out.println(game.getCurrentPlayer().getName()+", you cannot roll again.");
 		}
+		drawBoard();
 	}
 	
 	/**
@@ -341,7 +341,7 @@ public class MainController implements Initializable{
 		}
 		
 		//Update Property Information
-		drawPropertyInformation();
+		updateTitleDeed(game.board.Squares[game.getCurrentPlayer().getPosition()]);
 		
 		//Update the Board Canvas
 		for(int i=0; i<game.board.Squares.length;i++){
@@ -395,35 +395,41 @@ public class MainController implements Initializable{
 	}
 	
 	/**
-	 * Used to draw information about an establishment 
-	 * onto something ie the UI 
+	 * Updated the titleDeed UI
+	 * @param square
 	 */
-	public void drawPropertyInformation(){
+	@FXML Pane PneTitleDeed;
+	@FXML Text titleDeedRent, titleDeedHouse1, titleDeedHouse2, titleDeedHouse3, titleDeedHouse4, titleDeedHouse5;
+	@FXML Text titleDeedPropertyName, titleDeedMortgage, titleDeedHouseCost, titleDeedHotelCost; 
+	public void updateTitleDeed(Square square){
 		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+
 		
 		if(playerSquare.getSquareType().equals("Subject")){
 			Subject sub = (Subject)playerSquare;
-			//Output what's happened
-			String s=game.getCurrentPlayer().getName()+ " landed on " + sub.getName()+"\n";
-			//Output all the property Information
-			for (int i = 0; i < 5; i++) {
-				//Quick if Statement for houses/Site
-				s += i==0?"Site only:\t £"+sub.getRentInformation()[i]+"\n":
-					i+" house \t£"+sub.getRentInformation()[i]+"\n";
-			}
+			PneTitleDeed.setVisible(true);
+			titleDeedPropertyName.setText(sub.getName());
 			
-			txtPropertyCard.setText(s);
-
-		}else if(playerSquare.getSquareType().equals("Bar")){
-			Bar bar = (Bar)playerSquare;
-			String s=game.getCurrentPlayer().getName()+ " landed on a bar " + bar.getName()+"\n";
-
-		}else if(playerSquare.getSquareType().equals("Restaurant")){
-			Restaurant restaurant = (Restaurant)playerSquare;
-			String s=game.getCurrentPlayer().getName()+ " landed on the restaurant " + restaurant.getName()+"\n";
-
+			titleDeedRent.setText("RENT £"+sub.getRentInformation()[0]);
+			titleDeedHouse1.setText("£"+sub.getRentInformation()[1]);
+			titleDeedHouse2.setText("£"+sub.getRentInformation()[2]);
+			titleDeedHouse3.setText("£"+sub.getRentInformation()[3]);
+			titleDeedHouse4.setText("£"+sub.getRentInformation()[4]);
+			titleDeedHouse5.setText("£"+sub.getRentInformation()[5]);
 			
+			titleDeedMortgage.setText("Mortgage Value £"+sub.getMortgageValue());
+			titleDeedHouseCost.setText("Houses cost £"+sub.getHousePrice()+" each");
+			titleDeedHotelCost.setText("Hotels, £"+sub.getHousePrice()+" each \nplus 4 houses");
+		}else if(playerSquare.getSquareType().equals("Bar") || playerSquare.getSquareType().equals("Restaurant")){
+			Establishment est = (Establishment)playerSquare;
+			
+			System.out.println(game.getCurrentPlayer().getName()+ " landed on a bar " + est.getName()+"\n");
+			
+			PneTitleDeed.setVisible(false);
+		}else if(square.getSquareType().equals("SpecialSquare")){
+			PneTitleDeed.setVisible(false);
 		}
+
 	}
 
 	

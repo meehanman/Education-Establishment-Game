@@ -90,3 +90,10 @@
 .yellow { -fx-background-color: #fef200;}
 .green { -fx-background-color: #1fb25a;}
 .darkblue { -fx-background-color: #0072bb;}
+
+/* Card Back */
+.propertyCard{
+	-fx-background-color:white;
+ 	-fx-border-width: 5;
+ 	-fx-border-color: black;
+}

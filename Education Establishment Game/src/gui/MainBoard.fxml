@@ -650,7 +650,7 @@
       </Group>
       <Text fx:id="txtMessageOutput" fill="WHITE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Started" wrappingWidth="194.13671875" />
       <Text fx:id="txtPropertyCard" fill="WHITE" layoutX="14.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="194.13671875" />
-      <Button fx:id="btnNextTurn" disable="true" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Next Turn" />
+      <Button fx:id="btnNextTurn" disable="true" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="End Turn" />
       <Button fx:id="btnBuyProperty" disable="true" layoutX="14.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Buy Property" />
       <Group layoutX="485.0" layoutY="-5.0">
          <children>
@@ -751,6 +751,118 @@
          </children>
       </Group>
       <Button fx:id="btnMortgageProperty" disable="true" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Mortgage" />
+      <Pane fx:id="PneTitleDeed" layoutX="60.0" layoutY="343.0" prefHeight="310.0" prefWidth="216.0" styleClass="propertyCard">
+         <children>
+            <Pane layoutX="14.0" layoutY="14.0" prefHeight="72.0" prefWidth="186.0" style="-fx-border-color: black;" styleClass="lightblue">
+               <children>
+                  <Text layoutX="58.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TITLE DEED" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="titleDeedPropertyName" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROPERTYNAME" textAlignment="CENTER" wrappingWidth="186.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Text fx:id="titleDeedRent" layoutX="14.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RENT £00" textAlignment="CENTER" wrappingWidth="186.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Group>
+               <children>
+                  <Group>
+                     <children>
+                        <Text fx:id="titleDeedHouse4" layoutX="131.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£2000" textAlignment="RIGHT" wrappingWidth="70.00006103515625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 4 Houses" wrappingWidth="113.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Text layoutX="14.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 1 House" wrappingWidth="113.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="titleDeedHouse1" layoutX="131.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£2000" textAlignment="RIGHT" wrappingWidth="70.00006103515625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Text fx:id="titleDeedHouse3" layoutX="131.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£2000" textAlignment="RIGHT" wrappingWidth="70.00006103515625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 3 Houses" wrappingWidth="113.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Text layoutX="14.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With HOTEL" wrappingWidth="113.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="titleDeedHouse5" layoutX="131.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£2000" textAlignment="RIGHT" wrappingWidth="70.00006103515625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Text fx:id="titleDeedHouse2" layoutX="131.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="£2000" textAlignment="RIGHT" wrappingWidth="70.00006103515625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 2 Houses" wrappingWidth="113.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+               </children>
+            </Group>
+            <Text fx:id="titleDeedMortgage" layoutX="14.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mortgage Value £200" textAlignment="CENTER" wrappingWidth="186.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="titleDeedHouseCost" layoutX="16.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Houses cost £200 each" textAlignment="CENTER" wrappingWidth="186.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="titleDeedHotelCost" layoutX="27.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hotels, £200 each plus 4 houses" textAlignment="CENTER" wrappingWidth="160.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
       
    </children>
 
