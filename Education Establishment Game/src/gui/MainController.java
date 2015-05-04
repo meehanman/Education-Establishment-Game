@@ -49,7 +49,6 @@ public class MainController implements Initializable{public MainController() {
 	@FXML Group BoardNode;
 	@FXML Group grptopBarID,gpID1,gpID2,gpID3,gpID4; //The Top Bar Identification modules (ie Player Token, Color, Name, Money)
 	@FXML Canvas exampleCanvas;
-	@FXML Button btnNextTurn,btnBuyProperty,btnMortgageProperty;
 	//Manage Screen and Manage Property
 	@FXML Group GrpManagePopover, GrpManagePropertyPopover;
 	@FXML Text ManageText, ManagePropertyText; 
@@ -72,6 +71,11 @@ public class MainController implements Initializable{public MainController() {
 	//SpecialCardPopup
 	@FXML Pane pneSpecialCard;
 	@FXML Text SpecialCardTitle, SpecialCardText;
+	@FXML ImageView specialCardImage;
+	//Other
+	@FXML Group grpPopupMessage;
+	@FXML Text PopUpTitle, PopUpMessage;
+	@FXML ImageView imgYourRoll;
 	
 	
 	
@@ -91,9 +95,9 @@ public class MainController implements Initializable{public MainController() {
 			
 		}
 		//Button Event Handlers
-		btnNextTurn.setOnMouseClicked(this::endTurn);
+		//btnBoardEndTurn.setOnMouseClicked(this::endTurn);
 		ManageBuy.setOnMouseClicked(this::buyProperty);
-		btnMortgageProperty.setOnMouseClicked(this::mortgageProperty);
+		//btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
 		
 		//New Button Events
 		ManageBuy.setOnMouseClicked(this::buyProperty);
@@ -114,6 +118,7 @@ public class MainController implements Initializable{public MainController() {
 		
 		//Handler to remove InfoCards
 		pneSpecialCard.setOnMouseClicked(this::hideSpecialCard);
+		grpPopupMessage.setOnMouseClicked(this::hideAlert);
 		
 		//DiceRoll Click
 		grpDice.setOnMouseClicked(this::diceRoll);
@@ -152,8 +157,9 @@ public class MainController implements Initializable{public MainController() {
 			imgDice1.setImage(new Image("\\gui\\img\\dice\\"+diceRoll[0]+".png"));
 			imgDice2.setImage(new Image("\\gui\\img\\dice\\"+diceRoll[1]+".png"));
 			
-			txtMessageOutput.setText("Rolled: "+(game.board.dice.getValue()));
-			btnNextTurn.setVisible(true);
+			btnBoardEndTurn.setVisible(true);
+			
+			showAlert("Dice Roll", "You've Rolled "+game.board.dice.getValue());
 			
 			//Check what's been rolled and do UI changes
 			Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
@@ -164,11 +170,11 @@ public class MainController implements Initializable{public MainController() {
 				if(specialSquare.getType()==Type.ChanceCard){
 					//Display Card UI
 					Card pickedUpCard = game.board.ChanceCardsDeck.showLastCard();
-					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
+					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription(),true);
 				}else if(specialSquare.getType()==Type.CommunityChest){
 					//Display Card UI
 					Card pickedUpCard = game.board.ComunityCheckCardsChest.showLastCard();
-					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
+					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription(),false);
 				}
 			}
 			
@@ -183,15 +189,17 @@ public class MainController implements Initializable{public MainController() {
 	 *  @after Prompt user to roll dice
 	 */
 	public void endTurn(MouseEvent event){
-		btnNextTurn.setVisible(false);
+		btnBoardEndTurn.setVisible(false);
 		hideManagePopover();
 		if(game.canRoll()){
-			txtMessageOutput.setText("You must roll the dice before giving up your go "+game.getCurrentPlayer().getName());
+			showAlert("Don't Rock and Roll", "You must roll the dice before giving up your go "+game.getCurrentPlayer().getName());
+			imgYourRoll.setVisible(true);
 		}else{
+			imgYourRoll.setVisible(false);
 			//Set the next turn in the game logic
 			game.nextTurn();
 			//Output message
-			txtMessageOutput.setText(game.getCurrentPlayer().getName()+", it's your go!");
+			showAlert("Welcome",game.getCurrentPlayer().getName()+", it's your go!");
 			//Update the Scene
 			drawBoard();
 		}
@@ -205,9 +213,11 @@ public class MainController implements Initializable{public MainController() {
 		if(square instanceof Establishment){
 			Establishment est = (Establishment)square;
 			if(game.getCurrentPlayer().buy(est)){
-				txtMessageOutput.setText("Baught " + est.getName());
+				hideManagePopover();
+				showAlert("Property Bought", "Congratulations on your new property "+est.getName());
+				
 			}else{
-				txtMessageOutput.setText("Could not buy " + est.getName());
+				showAlert("Your poor!","Could not buy " + est.getName());
 			}
 		}else{
 			System.out.println("buyProperty(): User cannot buy this Square");
@@ -380,7 +390,10 @@ public class MainController implements Initializable{public MainController() {
 			((ImageView)(group.getChildren().get(3))).setImage(
 					new Image("\\gui\\"+game.players.get(i).getToken().getIconFileLocation()));
 		}
-
+		
+		//Update the dice Sign
+		imgYourRoll.setVisible(game.canRoll());
+		
 		//Update if the Buy Property Button should be Active
 		Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
 		if(landedSquare instanceof Establishment){
@@ -388,20 +401,20 @@ public class MainController implements Initializable{public MainController() {
 				//Set the button property depending on if the landedSquare has an owner
 				if(landedEstablishment.hasOwner()){
 					ManageBuy.setVisible(false);
-					btnMortgageProperty.setVisible(true);
+					btnMortgageManageProperty.setVisible(true);
 					if(landedEstablishment.isMortgaged()){
-						btnMortgageProperty.setText("UnMortgage");
+						btnMortgageManageProperty.setText("UnMortgage");
 					}else{
-						btnMortgageProperty.setText("Mortgage");
+						btnMortgageManageProperty.setText("Mortgage");
 					}
 				}else{
 					ManageBuy.setVisible(true);
-					btnMortgageProperty.setVisible(false);
+					btnMortgageManageProperty.setVisible(false);
 				}
 		}else{
 			//If not an establishment then disable these buttons
 			ManageBuy.setVisible(false);
-			btnMortgageProperty.setVisible(false);
+			btnMortgageManageProperty.setVisible(false);
 		}
 		
 		//Update Property Information
@@ -516,9 +529,8 @@ public class MainController implements Initializable{public MainController() {
 			
 			//Update what Deed to show
 			PneTitleDeed.setVisible(false);
-			PneBarDeed.setVisible(false);
-			PneRestaurantDeed.setVisible(true);
-			
+			PneBarDeed.setVisible(true);
+			PneRestaurantDeed.setVisible(false);
 		}else if(playerSquare.getSquareType().equals("Restaurant")){
 			Restaurant restaurant = (Restaurant)playerSquare;
 			
@@ -648,9 +660,18 @@ public class MainController implements Initializable{public MainController() {
 	 * Open UI for Chance Card etc.
 	 * @param title
 	 * @param text
+	 * @param chance If a chance card or not
 	 */
-	public void showSpecialCard(String title, String text){
+	public void showSpecialCard(String title, String text,boolean chance){
 		pneSpecialCard.setVisible(true);
+		
+		if(chance){
+			specialCardImage.setImage(new Image("\\gui\\img\\chance.png"));
+		}else{
+			specialCardImage.setImage(new Image("\\gui\\img\\chest.png"));
+		}
+		
+		
 		SpecialCardTitle.setText(title); 
 		SpecialCardText.setText(text);
 	}
@@ -659,6 +680,23 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void hideSpecialCard(){
 		pneSpecialCard.setVisible(false);
+	}
+	/**
+	 * 
+	 * @param title
+	 * @param message
+	 */
+	public void showAlert(String title, String message){
+		System.out.println("Alert Shown: "+message);
+		grpPopupMessage.setVisible(true);
+		PopUpTitle.setText(title);
+		PopUpMessage.setText(message);
+	}
+	public void hideAlert(){
+		grpPopupMessage.setVisible(false);
+	}
+	public void hideAlert(MouseEvent e){
+		hideAlert();
 	}
 	/**
 	 * TODO DELETE

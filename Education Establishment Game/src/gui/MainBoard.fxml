@@ -45,7 +45,7 @@
                   </Pane>
                   <Pane layoutX="664.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
-                        <Text layoutX="16.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community Chest" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="16.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acidemia " textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -74,7 +74,7 @@
                   </Pane>
                   <Pane layoutX="475.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
-                        <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INCOME TAX" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BUDGET CUT" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="18.0" />
                            </font>
@@ -124,7 +124,7 @@
                   </Pane>
                   <Pane layoutX="190.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
-                        <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Experence" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -284,7 +284,7 @@
                               <Image url="@img/chest.png" />
                            </image>
                         </ImageView>
-                        <Text layoutX="16.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community Chest" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="16.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acidemia" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -356,7 +356,7 @@
                               <Image url="@img/chance.png" />
                            </image>
                         </ImageView>
-                        <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Experence" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -526,7 +526,7 @@
                               <Image url="@img/chest.png" />
                            </image>
                         </ImageView>
-                        <Text layoutX="15.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community Chest" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="15.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acidemia " textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -598,7 +598,7 @@
                   </Pane>
                   <Pane layoutX="95.0" prefHeight="200.0" prefWidth="200.0" styleClass="sqaure">
                      <children>
-                        <Text layoutX="16.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LUXURY TAX" textAlignment="CENTER" wrappingWidth="71.13671875">
+                        <Text layoutX="16.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER TAX" textAlignment="CENTER" wrappingWidth="71.13671875">
                            <font>
                               <Font name="Segoe UI" size="18.0" />
                            </font>
@@ -646,6 +646,11 @@
                   </ImageView>
                </children>
             </Group>
+            <ImageView fx:id="imgYourRoll" fitHeight="182.0" fitWidth="185.0" layoutX="483.0" layoutY="-105.0" pickOnBounds="true" preserveRatio="true" rotate="-5.7" visible="false">
+               <image>
+                  <Image url="@img/YourRoll.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
       <Group layoutX="485.0" layoutY="-5.0">
@@ -1101,20 +1106,25 @@
             <String fx:value="greenGrad" />
          </styleClass>
       </Button>
-      <Group>
+      <Group fx:id="grpPopupMessage" layoutX="583.0" layoutY="-198.0" onMouseClicked="#hideAlert" visible="false">
          <children>
+            <Rectangle fx:id="grayOut" arcHeight="5.0" arcWidth="5.0" fill="#00000071" height="937.0" layoutX="-670.0" layoutY="190.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" />
             <Pane layoutX="22.0" layoutY="548.0" prefHeight="200.0" prefWidth="243.0" styleClass="settings-overlay">
                <children>
                   <Pane prefHeight="50.0" prefWidth="243.0" styleClass="settings-overlay-top">
                      <children>
-                        <Text fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EXAMPLE ALERT" textAlignment="CENTER" wrappingWidth="243.0">
+                        <Text fx:id="PopUpTitle" fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EXAMPLE ALERT" textAlignment="CENTER" wrappingWidth="243.0">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-                  <Text layoutX="8.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Select a Property" textAlignment="CENTER" wrappingWidth="226.13671875" />
+                  <Text fx:id="PopUpMessage" layoutX="8.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Select a Property" textAlignment="CENTER" wrappingWidth="226.13671875">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Text>
+                  <Text layoutX="8.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="CENTER" wrappingWidth="226.13671875" />
                </children>
             </Pane>
          </children>
@@ -1133,22 +1143,26 @@
             <String fx:value="greenGrad" />
          </styleClass>
       </Button>
-      <Pane fx:id="pneSpecialCard" layoutX="572.0" layoutY="353.0" prefHeight="213.0" prefWidth="363.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">
+      <Group>
          <children>
-            <Text fx:id="SpecialCardTitle" layoutX="120.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance Card">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-            </Text>
-            <Text fx:id="SpecialCardText" layoutX="22.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A really long type of text that discribes the text that is shown on the chance card or the community chest is displayed here." wrappingWidth="171.13671875" />
-            <ImageView fitHeight="134.0" fitWidth="123.0" layoutX="220.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img/chest.png" />
-               </image>
-            </ImageView>
-            <Text layoutX="22.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="RIGHT" wrappingWidth="318.30859375" />
+            <Pane fx:id="pneSpecialCard" layoutX="572.0" layoutY="353.0" prefHeight="213.0" prefWidth="363.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">
+               <children>
+                  <Text fx:id="SpecialCardTitle" layoutX="120.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance Card">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="SpecialCardText" layoutX="22.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A really long type of text that discribes the text that is shown on the chance card or the community chest is displayed here." wrappingWidth="171.13671875" />
+                  <ImageView fx:id="specialCardImage" fitHeight="134.0" fitWidth="123.0" layoutX="220.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/chest.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="22.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="RIGHT" wrappingWidth="318.30859375" />
+               </children>
+            </Pane>
          </children>
-      </Pane>
+      </Group>
       
    </children>
 
