@@ -139,6 +139,9 @@ public class MainController implements Initializable{public MainController() {
 		grpPopupMessage.setOnMouseClicked(this::hideAlert);
 		grayOut.setOnMouseClicked(this::hideAlert);
 		
+		//Default set Mortgage button false
+		btnMortgageManageProperty.setVisible(false);
+
 		//Event handlers for the top bar
 		for(int i = 0; i < game.players.size(); i++){
 			grptopBarID.getChildren().get(i).setOnMouseClicked(this::playerClick);
@@ -261,6 +264,7 @@ public class MainController implements Initializable{public MainController() {
 			//If it has an owner, and the owner is the current player
 			if(est.hasOwner() && est.getOwner().equals(game.getCurrentPlayer())){
 				if(est.isMortgaged()){
+					btnMortgageManageProperty.setVisible(true);
 					//If the user was able to unMortgage the establishment
 					if(est.unMortgage()){
 						btnMortgageManageProperty.setText("Mortgage");
@@ -275,9 +279,6 @@ public class MainController implements Initializable{public MainController() {
 					System.out.println(est.getOwner().getName() + " Mortgaged their property!");
 					System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
 				}
-				btnMortgageManageProperty.setVisible(true);
-			}else{
-				btnMortgageManageProperty.setVisible(false);
 			}
 		}
 		drawBoard();
@@ -309,8 +310,6 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void OtherSquareClicked(MouseEvent event){
 
-
-		
 		if(!tradeActive){
 			selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
 			showManagePropertyPopover(true);
@@ -454,26 +453,19 @@ public class MainController implements Initializable{public MainController() {
 						//Set the button property depending on if the landedSquare has an owner
 						if(landedEstablishment.hasOwner()){
 							ManageBuy.setVisible(false);
-							btnMortgageManageProperty.setVisible(true);
 							if(landedEstablishment.isMortgaged()){
-								btnMortgageManageProperty.setText("UnMortgage");
 							}else{
-								btnMortgageManageProperty.setText("Mortgage");
 							}
 							
 							if(landedEstablishment.isMortgaged()){
-								btnMortgageManageProperty.setText("UnMortgage");
 							}else{
-								btnMortgageManageProperty.setText("Mortgage");
 							}
 						}else{
 							ManageBuy.setVisible(true);
-							btnMortgageManageProperty.setVisible(false);
 						}
 				}else{
 					//If not an establishment then disable these buttons
 					ManageBuy.setVisible(false);
-					btnMortgageManageProperty.setVisible(false);
 				}
 				
 				//Update Property Information
@@ -513,6 +505,14 @@ public class MainController implements Initializable{public MainController() {
 							//Draw any Land
 							gc.setFill(Color.web(playerColors[game.getPlayerIndex(owner)]));
 							gc.fillRoundRect(0,150,100,20, 20, 20);
+							
+							if(((Establishment)(square)).isMortgaged()){
+								Image img = new Image("gui//MortgagedStamp.png");
+								//Need to work on moving them around so more than one can fit on screen
+								gc.drawImage(img, 10, 40, 40, 40);	
+							}
+							
+							
 							if(square.getSquareType().equals("Subject")){
 								Subject sub = ((Subject)square);
 								System.out.println("sub.getHouses(): "+sub.getHouses());
@@ -557,6 +557,7 @@ public class MainController implements Initializable{public MainController() {
 	String[] cssColors = {"brown","lightblue","pink","orange","red","yellow","green","darkblue"}; //USED TO Remove CSS styles for TitleDeed
 	/**
 	 * Updated the titleDeed UI
+	 * using the last selectedSquare
 	 * @param square
 	 */
 	public void updateTitleDeed(){
@@ -590,7 +591,7 @@ public class MainController implements Initializable{public MainController() {
 			titleDeedHotelCost.setText("Hotels, £"+sub.getHousePrice()+" each \nplus 4 houses");
 			
 			//Update what Deed to show
-			PneTitleDeed.setVisible(true);
+			PneTitleDeed.setVisible(true);PneTitleDeed.toFront();
 			PneBarDeed.setVisible(false);
 			PneRestaurantDeed.setVisible(false);
 		}else if(selectedSquare.getSquareType().equals("Bar")){
@@ -607,8 +608,8 @@ public class MainController implements Initializable{public MainController() {
 			titleDeedBarMortgage.setText("Mortgage Value £"+bar.getMortgageValue());
 			
 			//Update what Deed to show
-			PneTitleDeed.setVisible(true);
-			PneBarDeed.setVisible(false);
+			PneTitleDeed.setVisible(false);
+			PneBarDeed.setVisible(true);PneBarDeed.toFront();
 			PneRestaurantDeed.setVisible(false);
 		}else if(selectedSquare.getSquareType().equals("Restaurant")){
 			Restaurant restaurant = (Restaurant)selectedSquare;
@@ -616,21 +617,21 @@ public class MainController implements Initializable{public MainController() {
 			System.out.println("Title Deed for Restaurant Updated!!"+restaurant.getName());
 			
 			//Find out if bar was at first half or second half to find the image by number
-			int restNum = getSquareIndex(restaurant.getName())<20?0:1;
-			
+			int restNum = getSquareIndex(restaurant.getName())<20?1:2;
+
 			//Update titleDeed
 			try{
-			RestaurantDeedImage.setImage(new Image("\\gui\\img\\rest"+restNum+".png"));
+			RestaurantDeedImage.setImage(new Image("gui\\img\\rest"+restNum+".png"));
 			}catch(IllegalArgumentException e){
-				System.out.println("Cannot find your Image");
+				System.out.println("ERROR: Cannot find your Image");
 			}
 			RestaurantDeedName.setText(restaurant.getName());;
 			RestaurantDeedMortgage.setText("Mortgage Value £"+restaurant.getMortgageValue());
 			
 			//Update what Deed to show
-			PneTitleDeed.setVisible(true);
+			PneTitleDeed.setVisible(false);
 			PneBarDeed.setVisible(false);
-			PneRestaurantDeed.setVisible(false);
+			PneRestaurantDeed.setVisible(true);PneRestaurantDeed.toFront();
 		}else{
 			showDeeds(false);
 			return;
@@ -648,7 +649,8 @@ public class MainController implements Initializable{public MainController() {
 	 * @param b
 	 */
 	public void showManagePopover(){
-				
+			
+		//Validation against SpecialSqaures
 		if(!(selectedSquare instanceof Establishment)){
 			return;
 		}
@@ -660,8 +662,17 @@ public class MainController implements Initializable{public MainController() {
 		
 		if(establishment.hasOwner()){
 			txtManagePropertyOwnedBy.setText("Owned by"+establishment.getOwner().getName());
+			//If the owner is the current owner, then show the mortgage value
+			if(!establishment.isMortgaged() && establishment.getOwner().equals(game.getCurrentPlayer())){
+				btnMortgageManageProperty.setText("unmortgage");
+				btnMortgageManageProperty.setVisible(true);
+			}else{
+				btnMortgageManageProperty.setText("mortgage");
+				btnMortgageManageProperty.setVisible(true);
+			}
 		}else{
 			txtManagePropertyOwnedBy.setText("Not Owned");
+			btnMortgageManageProperty.setVisible(false);
 		}
 		
 		
@@ -757,6 +768,7 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void showSpecialCard(String title, String text,boolean chance){
 		pneSpecialCard.setVisible(true);
+		pneSpecialCard.toFront();
 		
 		if(chance){
 			specialCardImage.setImage(new Image("\\gui\\img\\chance.png"));
