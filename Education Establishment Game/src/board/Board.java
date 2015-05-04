@@ -34,25 +34,26 @@ public class Board {
 	
 	private void initialiseComunityChestCards(){
 		Card[] ComunityCards = {
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0))
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
+				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false))
 		};
 		
 		ComunityCheckCardsChest = new CardDeck(ComunityCards);
@@ -60,25 +61,24 @@ public class Board {
 	
 	private void initialiseChanceCards(){
 		Card[] ChanceCards = {
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0))
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
+			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false))
 		};
 		
 		ChanceCardsDeck = new CardDeck(ChanceCards);
@@ -87,15 +87,15 @@ public class Board {
 	private void initialiseSquares(){
 		
 		//Default Effects
-		Effect PassGo = new Effect(200, 0, false,0);
-		Effect IncomeTax = new Effect(-200,0,false,0);
-		Effect SuperTax = new Effect(-100,0,false,0);
-		Effect VisitingJail = new Effect(0,0,false,0);
-		Effect GotoJail = new Effect(0,0,false,0);
-		Effect FreeParking = new Effect(0,0,false,0); //TODO
+		Effect PassGo = new Effect(200, 0, false,0,false,false);
+		Effect IncomeTax = new Effect(-200,0,false,0,false,false);
+		Effect SuperTax = new Effect(-100,0,false,0,false,false);
+		Effect VisitingJail = new Effect(0,0,false,0,false,false);
+		Effect GotoJail = new Effect(0,0,false,0,false,false);
+		Effect FreeParking = new Effect(0,0,false,0,false,false); //TODO
 		//Card Pickups
-		Effect CommunityChest = new Effect(0, 0, false,1);
-		Effect ChanceCard = new Effect(0, 0, false,2);
+		Effect CommunityChest = new Effect(0, 0, false,1,false,false);
+		Effect ChanceCard = new Effect(0, 0, false,2,false,false);
 		 
 		Squares = new Square[40];
 		
