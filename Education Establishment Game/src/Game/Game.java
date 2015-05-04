@@ -158,7 +158,7 @@ public class Game {
 				Subject sub = ((Subject)(square));
 				String typeOfSquare = sub.getSquareType();
 				
-				if(typeOfSquare.equals("Subject")){
+				if(sub.hasOwner() && typeOfSquare.equals("Subject")){
 					if(sub.getOwner().equals(player)){
 						houseCount += sub.getHouses();
 					}
@@ -229,7 +229,7 @@ public class Game {
 	 * @param bal2 - the amount of money player2 wants to trade.
 	 */
 	public void trade(Player player1, ArrayList<Establishment> est1, int bal1, Player player2,
-			ArrayList<Establishment> est2, int bal2){
+		ArrayList<Establishment> est2, int bal2){
 		//swap player1's establishments with player2.
 		swapOwner(est1,player2);
 		//swap player2's establishments with player1.
