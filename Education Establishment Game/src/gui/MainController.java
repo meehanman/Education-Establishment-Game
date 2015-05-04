@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -10,14 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import utils.Player;
 import Game.Game;
 import board.Card;
@@ -40,10 +42,14 @@ import board.establishment.Subject;
 public class MainController implements Initializable{public MainController() {
 }
 	public static Game game;
+	boolean tradeActive = false;
+	private Square selectedSquare;
+	public String[] playerColors = {"#49bcff","#60ff92","#ff55f9","#ff6666"};
+	
+	Trade tradeowner, othertrader;
 	//Create variables with names the same as ID's in the fxml 
 	//as these can be used then again in our functions	
-	@FXML Text txtMessageOutput,txtPropertyCard;
-	@FXML ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar;
+	@FXML ImageView imgDice1,imgDice2, imgTopBarSelector,imgTopBar;
 	@FXML Group grpDice;
 	@FXML AnchorPane HeadNode;
 	@FXML Group BoardNode;
@@ -73,13 +79,17 @@ public class MainController implements Initializable{public MainController() {
 	@FXML Text SpecialCardTitle, SpecialCardText;
 	@FXML ImageView specialCardImage;
 	//Other
-	@FXML Group grpPopupMessage;
+	@FXML Group grpPopupMessage, grpSpecialCard;
 	@FXML Text PopUpTitle, PopUpMessage;
 	@FXML ImageView imgYourRoll;
+		
+	@FXML Pane pneTrade;
+	@FXML Text txtUsernameTradeLeft, txtPropertiesTradeLeft, txtUsernameTradeRight, txtPropertiesTradeRight, txtStopTrade;
+	@FXML TextField txtTradeCashLeft, txtTradeCashRight;
+	@FXML Button btnLockTradeLeft, btnLockTradeRight;
+	@FXML ImageView imgLeftTrader, imgRightTrader;
+	@FXML Rectangle grayOut;
 	
-	
-	private Square selectedSquare;
-	public String[] playerColors = {"#49bcff","#60ff92","#ff55f9","#ff6666"};
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -102,17 +112,16 @@ public class MainController implements Initializable{public MainController() {
 		//Button Event Handlers
 		//btnBoardEndTurn.setOnMouseClicked(this::endTurn);
 		ManageBuy.setOnMouseClicked(this::buyProperty);
-		//btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
 		
 		//New Button Events
 		ManageBuy.setOnMouseClicked(this::buyProperty);
-		ManageTrade.setOnMouseClicked(this::stub);
+		ManageTrade.setOnMouseClicked(this::startTrade);
 		ManageManage.setOnMouseClicked(this::ManageProperty);
 		ManageClose.setOnMouseClicked(this::hideManagePopover);
 		
 		//Handlers for OnScreenButtons (When no popup's are present)
-		btnBoardManage.setOnMouseClicked(this::stub);
-		btnBoardTrade.setOnMouseClicked(this::stub);
+		btnBoardManage.setOnMouseClicked(this::ManageProperty);
+		btnBoardTrade.setOnMouseClicked(this::startTrade);
 		btnBoardEndTurn.setOnMouseClicked(this::endTurn);
 		
 		//Handlers for Manage Property
@@ -121,10 +130,23 @@ public class MainController implements Initializable{public MainController() {
 		btnSellHouseManageProperty.setOnMouseClicked(this::btnsellHouse);
 		btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
 		
+		//Trade Locks
+		btnLockTradeLeft.setOnMouseClicked(this::lockTrade);
+		btnLockTradeRight.setOnMouseClicked(this::lockTrade);
 		//Handler to remove InfoCards
 		pneSpecialCard.setOnMouseClicked(this::hideSpecialCard);
+		grpSpecialCard.setOnMouseClicked(this::hideSpecialCard);
 		grpPopupMessage.setOnMouseClicked(this::hideAlert);
+		grayOut.setOnMouseClicked(this::hideAlert);
 		
+		//Event handlers for the top bar
+		for(int i = 0; i < game.players.size(); i++){
+			grptopBarID.getChildren().get(i).setOnMouseClicked(this::playerClick);
+		}
+		
+		
+		//Other
+		txtStopTrade.setOnMouseClicked(this::stopTrade);
 		//DiceRoll Click
 		grpDice.setOnMouseClicked(this::diceRoll);
 		
@@ -163,9 +185,7 @@ public class MainController implements Initializable{public MainController() {
 			imgDice2.setImage(new Image("\\gui\\img\\dice\\"+diceRoll[1]+".png"));
 			
 			btnBoardEndTurn.setVisible(true);
-			
-			showAlert("Dice Roll", "You've Rolled "+game.board.dice.getValue());
-			
+						
 			//Check what's been rolled and do UI changes
 			selectedSquare = getCurrentLandedSquare();
 			if(selectedSquare instanceof Establishment){
@@ -203,8 +223,6 @@ public class MainController implements Initializable{public MainController() {
 			imgYourRoll.setVisible(false);
 			//Set the next turn in the game logic
 			game.nextTurn();
-			//Output message
-			showAlert("Welcome",game.getCurrentPlayer().getName()+", it's your go!");
 			//Update the Scene
 			drawBoard();
 		}
@@ -240,18 +258,26 @@ public class MainController implements Initializable{public MainController() {
 		Square square = selectedSquare;
 		if(square instanceof Establishment){
 			Establishment est = (Establishment)square;
-			if(est.isMortgaged()){
-				//If the user was able to unMortgage the establishment
-				if(est.unMortgage()){
-					System.out.println(est.getOwner().getName() + " unMortgaged their property!");
+			//If it has an owner, and the owner is the current player
+			if(est.hasOwner() && est.getOwner().equals(game.getCurrentPlayer())){
+				if(est.isMortgaged()){
+					//If the user was able to unMortgage the establishment
+					if(est.unMortgage()){
+						btnMortgageManageProperty.setText("Mortgage");
+						System.out.println(est.getOwner().getName() + " unMortgaged their property!");
+					}else{
+						btnMortgageManageProperty.setText("UnMortgage");
+						System.out.println(est.getOwner().getName() + " Doesn't have enough to unmortgage their property!");
+					}
+					System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
 				}else{
-					System.out.println(est.getOwner().getName() + " Doesn't have enough to unmortgage their property!");
+					est.Mortgage();
+					System.out.println(est.getOwner().getName() + " Mortgaged their property!");
+					System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
 				}
-				System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
+				btnMortgageManageProperty.setVisible(true);
 			}else{
-				est.Mortgage();
-				System.out.println(est.getOwner().getName() + " Mortgaged their property!");
-				System.out.println(est.getOwner().getName() + " has £"+est.getOwner().getBalance());
+				btnMortgageManageProperty.setVisible(false);
 			}
 		}
 		drawBoard();
@@ -263,9 +289,19 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void SubjectSquareClicked(MouseEvent event){
 
-		selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
-		showManagePropertyPopover(true);
-		
+		if(!tradeActive){
+			selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
+			showManagePropertyPopover(true);
+		}else{
+			Establishment est = (Establishment)game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
+			//If this property is either of the traders properties
+			if(tradeowner.trader==est.getOwner()){
+				tradeowner.est.add(est);
+			}else if(othertrader.trader==est.getOwner()){
+				othertrader.est.add(est);
+			}
+			setTradeInformation();
+		}
 	}
 	/**
 	 * What happens when the user clicks on a square
@@ -273,8 +309,21 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void OtherSquareClicked(MouseEvent event){
 
-		selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
-		showManagePropertyPopover(true);
+
+		
+		if(!tradeActive){
+			selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
+			showManagePropertyPopover(true);
+		}else{
+			Establishment est = (Establishment)game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
+			//If this property is either of the traders properties
+			if(tradeowner.trader==est.getOwner()){
+				tradeowner.est.add(est);
+			}else if(othertrader.trader==est.getOwner()){
+				othertrader.est.add(est);
+			}
+			setTradeInformation();
+		}
 		
 	}
 	/**
@@ -382,110 +431,122 @@ public class MainController implements Initializable{public MainController() {
 	 * and draw these onto the screen
 	 */
 	public void drawBoard(){
+		if(!tradeActive){
+				//Setup TopBar (Get the player index, and positions the topBarSelector depending on what this is ie 2 would be 1/2 way, 3 would be 3/4)
+				imgTopBarSelector.setX((imgTopBar.getFitWidth()/4)*(game.getPlayerIndex(game.getCurrentPlayer())));
 		
-		//Setup TopBar (Get the player index, and positions the topBarSelector depending on what this is ie 2 would be 1/2 way, 3 would be 3/4)
-		imgTopBarSelector.setX((imgTopBar.getFitWidth()/4)*(game.getPlayerIndex(game.getCurrentPlayer())));
-
-		//Update the values for each Player for the top bar
-		for(int i=0;i<game.players.size();i++){
-			Group group = (Group)(grptopBarID.getChildren().get(i));
-			group.setOpacity(1);
-			((Text)(group.getChildren().get(0))).setText(game.players.get(i).getName());
-			((Text)(group.getChildren().get(1))).setText("£"+game.players.get(i).getBalance());
-			((ImageView)(group.getChildren().get(3))).setImage(
-					new Image("\\gui\\"+game.players.get(i).getToken().getIconFileLocation()));
-		}
-		
-		//Update the dice Sign
-		imgYourRoll.setVisible(game.canRoll());
-		
-		//Update if the Buy Property Button should be Active
-		if(selectedSquare instanceof Establishment){
-			Establishment landedEstablishment = (Establishment)(selectedSquare);
-				//Set the button property depending on if the landedSquare has an owner
-				if(landedEstablishment.hasOwner()){
-					ManageBuy.setVisible(false);
-					btnMortgageManageProperty.setVisible(true);
-					if(landedEstablishment.isMortgaged()){
-						btnMortgageManageProperty.setText("unmortgage");
-					}else{
-						btnMortgageManageProperty.setText("mortgage");
-					}
-					
-					if(landedEstablishment.isMortgaged()){
-						btnMortgageManageProperty.setText("UnMortgage");
-					}else{
-						btnMortgageManageProperty.setText("Mortgage");
-					}
+				//Update the values for each Player for the top bar
+				for(int i=0;i<game.players.size();i++){
+					Group group = (Group)(grptopBarID.getChildren().get(i));
+					group.setOpacity(1);
+					((Text)(group.getChildren().get(0))).setText(game.players.get(i).getName());
+					((Text)(group.getChildren().get(1))).setText("£"+game.players.get(i).getBalance());
+					((ImageView)(group.getChildren().get(3))).setImage(
+							new Image("\\gui\\"+game.players.get(i).getToken().getIconFileLocation()));
+				}
+				
+				//Update the dice Sign
+				imgYourRoll.setVisible(game.canRoll());
+				
+				//Update if the Buy Property Button should be Active
+				if(selectedSquare instanceof Establishment){
+					Establishment landedEstablishment = (Establishment)(selectedSquare);
+						//Set the button property depending on if the landedSquare has an owner
+						if(landedEstablishment.hasOwner()){
+							ManageBuy.setVisible(false);
+							btnMortgageManageProperty.setVisible(true);
+							if(landedEstablishment.isMortgaged()){
+								btnMortgageManageProperty.setText("UnMortgage");
+							}else{
+								btnMortgageManageProperty.setText("Mortgage");
+							}
+							
+							if(landedEstablishment.isMortgaged()){
+								btnMortgageManageProperty.setText("UnMortgage");
+							}else{
+								btnMortgageManageProperty.setText("Mortgage");
+							}
+						}else{
+							ManageBuy.setVisible(true);
+							btnMortgageManageProperty.setVisible(false);
+						}
 				}else{
-					ManageBuy.setVisible(true);
+					//If not an establishment then disable these buttons
+					ManageBuy.setVisible(false);
 					btnMortgageManageProperty.setVisible(false);
 				}
-		}else{
-			//If not an establishment then disable these buttons
-			ManageBuy.setVisible(false);
-			btnMortgageManageProperty.setVisible(false);
-		}
-		
-		//Update Property Information
-		if(GrpManagePopover.isVisible() || GrpManagePropertyPopover.isVisible()){
-			updateTitleDeed();
-		}
-		
-		//Update the Board Canvas
-		for(int i=0; i<game.board.Squares.length;i++){
-			//SET UP VARIABLES
-			Square square = game.board.Squares[i];
-			Pane squarePane = GetSquarePane(i);
-			Player owner = null;
-			Canvas canvas = null;
-			GraphicsContext gc = null;
-			
-			//Finding if there is an owner
-			if(square instanceof Establishment){ 
-				if(((Establishment)(square)).getOwner()!=null){
-					owner = ((Establishment)(square)).getOwner();
+				
+				//Update Property Information
+				if(GrpManagePopover.isVisible() || GrpManagePropertyPopover.isVisible()){
+					updateTitleDeed();
 				}
-			}
-			
-			//Set Canvas and GraphicsContext
-			for(Node node : squarePane.getChildren()){
-				if(node.getClass().getSimpleName().equals("Canvas")){		
-					canvas = (Canvas)node;
-					gc = canvas.getGraphicsContext2D();
-				}
-			}
-			//if there is a canvas then
-			if(canvas!=null){
-				//1. Clearing Canvas
-				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				//2. Draw Player Owned Land and Properties
-				if(owner!=null){
-					//Draw any Land
-					gc.setFill(Color.web(playerColors[game.getPlayerIndex(owner)]));
-					gc.fillRoundRect(0,150,100,20, 20, 20);
-					//TODO Draw Houses
-					if(square.getSquareType().equals("Subject")){
-						Subject sub = ((Subject)square);
-						for(int h = 0; i<sub.getHouses(); i++){
-							gc.setFill(Color.RED);
-							gc.fillRect((50/4)*h,3,10,10);
+				
+				//Update the Board Canvas
+				for(int i=0; i<game.board.Squares.length;i++){
+					//SET UP VARIABLES
+					Square square = game.board.Squares[i];
+					Pane squarePane = GetSquarePane(i);
+					Player owner = null;
+					Canvas canvas = null;
+					GraphicsContext gc = null;
+					
+					//Finding if there is an owner
+					if(square instanceof Establishment){ 
+						if(((Establishment)(square)).getOwner()!=null){
+							owner = ((Establishment)(square)).getOwner();
+						}
+					}
+					
+					//Set Canvas and GraphicsContext
+					for(Node node : squarePane.getChildren()){
+						if(node.getClass().getSimpleName().equals("Canvas")){		
+							canvas = (Canvas)node;
+							gc = canvas.getGraphicsContext2D();
+						}
+					}
+					//if there is a canvas then
+					if(canvas!=null){
+						//1. Clearing Canvas
+						gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+						//2. Draw Player Owned Land and Properties
+						if(owner!=null){
+							//Draw any Land
+							gc.setFill(Color.web(playerColors[game.getPlayerIndex(owner)]));
+							gc.fillRoundRect(0,150,100,20, 20, 20);
+							if(square.getSquareType().equals("Subject")){
+								Subject sub = ((Subject)square);
+								System.out.println("sub.getHouses(): "+sub.getHouses());
+								for(int h = 0; h<sub.getHouses(); h++){
+									
+									if(sub.isFacility()){
+										System.out.println("FACILITY!!");
+										gc.setFill(Color.DARKCYAN);
+										gc.fillRect(30, 10, 40, 20);
+									}else{
+										gc.setFill(Color.DARKRED);
+										gc.fillRect((100/4)*h, 10, 20, 20);	
+									}
+								}
+							}
+						}
+						//3. Draw Player Location
+						for(Player p : game.players){
+							if(p.getPosition()==i){
+								//Draws the players images to the locations they are
+								Image img = new Image("gui/"+p.getToken().getIconFileLocation());
+								//Need to work on moving them around so more than one can fit on screen
+								gc.setFill(Color.web(playerColors[game.getPlayerIndex(p)]));
+								gc.fillOval(30, 75, 40, 40);
+								gc.drawImage(img, 30, 75, 40, 40);
+								
+							}
 						}
 					}
 				}
-				//3. Draw Player Location
-				for(Player p : game.players){
-					if(p.getPosition()==i){
-						//Draws the players images to the locations they are
-						Image img = new Image("gui/"+p.getToken().getIconFileLocation());
-						//Need to work on moving them around so more than one can fit on screen
-						gc.setFill(Color.web(playerColors[game.getPlayerIndex(p)]));
-						gc.fillOval(30, 75, 40, 40);
-						gc.drawImage(img, 30, 75, 40, 40);
-						
-					}
-				}
-			}
+		}else{
+			//If there is a trade on, this is the updater
+			startTrade();
+			setTradeInformation();
 		}
 			
 	}
@@ -639,8 +700,14 @@ public class MainController implements Initializable{public MainController() {
 		//Update Text
 		if(est.getOwner()==null){
 			ManagePropertyText.setText("Not Owned");
+			if(getCurrentLandedSquare().equals(selectedSquare)){
+				ManageBuy.setVisible(true);
+			}else{
+				ManageBuy.setVisible(false);
+			}
 		}else{
 			ManagePropertyText.setText("Owned by "+est.getOwner().getName());
+			ManageBuy.setVisible(false);
 		}
 
 		
@@ -736,17 +803,19 @@ public class MainController implements Initializable{public MainController() {
 		}else{
 			showAlert("Upgrade","Something went wrong!");
 		}
+		drawBoard();
 	}
 	/**
 	 * Button to sell a house
 	 * @param e
 	 */
 	public void btnsellHouse(MouseEvent event){
-		if(game.upgrade((Subject) selectedSquare)){
-			showAlert("Upgrade","You've a new building in your school!");
+		if(((Subject) selectedSquare).sellHouse()){
+			showAlert("Upgrade","Things looking bad? We sold that building for you!");
 		}else{
 			showAlert("Upgrade","Something went wrong!");
 		}
+		drawBoard();
 	}
 	
 	
@@ -768,6 +837,181 @@ public class MainController implements Initializable{public MainController() {
 	 * @param event
 	 */
 	public void stub(MouseEvent event){System.out.println("ONLY A STUB METHOD, METHOD STILL TO BE COMPLETED!");}
+	
+	public void testButton(MouseEvent event){
+		 ((Subject)(game.board.Squares[6])).changeOwner(game.getCurrentPlayer());
+		 ((Subject)(game.board.Squares[8])).changeOwner(game.getCurrentPlayer());
+		 ((Subject)(game.board.Squares[9])).changeOwner(game.getCurrentPlayer());
+		 
+		 ((Subject)(game.board.Squares[6])).buyHouse();
+		 showAlert("Yo!", "Enjoy the wealth!");
+		 drawBoard();
+	}
+	
+	public void startTrade(){
+		tradeActive = true;
+		clearTradeInformation();
 
+		//Update the Board Canvas
+		for(int i=0; i<game.board.Squares.length;i++){
+			//SET UP VARIABLES
+			Square square = game.board.Squares[i];
+			Pane squarePane = GetSquarePane(i);
+			Player owner = null;
+			Canvas canvas = null;
+			GraphicsContext gc = null;
+			
+			//Finding if there is an owner
+			if(square instanceof Establishment){ 
+				if(((Establishment)(square)).getOwner()!=null){
+					owner = ((Establishment)(square)).getOwner();
+
+				}
+			}
+			
+			//Set Canvas and GraphicsContext
+			for(Node node : squarePane.getChildren()){
+				if(node.getClass().getSimpleName().equals("Canvas")){		
+					canvas = (Canvas)node;
+					gc = canvas.getGraphicsContext2D();
+				}
+			}
+			
+			//if there is a canvas then
+			if(canvas!=null){
+				//1. Clearing Canvas
+				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				//2. Draw Player Owned Land and Properties
+				if(owner==tradeowner.trader||owner==othertrader.trader){
+					//Draw any Land
+					gc.setFill(Color.web(playerColors[game.getPlayerIndex(owner)]));
+					gc.fillRoundRect(0,150,100,20, 20, 20);
+				}else{
+					//Gray Out
+					gc.setFill(Color.web("#000", .5));
+					if(i%10==0){
+						gc.fillRoundRect(0,0,150,150, 0, 0);
+					}else{
+						gc.fillRoundRect(0,0,100,150, 0, 0);
+					}
+					
+				}
+			}
+		}
+	}
+	
+	public void clearTradeInformation(){
+		
+		//Left Trader
+		txtUsernameTradeLeft.setText("Select User Above");
+		txtPropertiesTradeLeft.setText("");
+		txtTradeCashLeft.setText("");
+		btnLockTradeLeft.setText("Lock Trade");
+		
+		//Right Trader
+		txtUsernameTradeRight.setText("Select User Above");
+		txtPropertiesTradeRight.setText("");
+		txtTradeCashRight.setText("");
+		btnLockTradeRight.setText("Lock Trade");
+	}
+	public void lockTrade(MouseEvent e){
+		
+		if(((Button)(e.getSource())).getId().equals("rightLock")){
+			btnLockTradeRight.setText("Locked");
+			tradeowner.locked = true;
+		}else{
+			btnLockTradeLeft.setText("Locked");
+			othertrader.locked = true;
+		}
+					
+		if(tradeowner.locked && othertrader.locked){
+			tradeInformationConfirmed();
+		}
+	}
+	/**
+	 * Final Confirmation of Trade (Sends off trade)
+	 */
+	public void tradeInformationConfirmed(){
+		
+		System.out.println("tradeInformationConfirmed(): ");
+		
+		if(txtTradeCashLeft.getText().isEmpty()){txtTradeCashLeft.setText("0");}
+		if(txtTradeCashRight.getText().isEmpty()){txtTradeCashRight.setText("0");}
+		
+		System.out.println("AMount:  $$ "+txtTradeCashLeft.getText()+" + "+txtTradeCashRight.getText());
+		
+		game.trade(tradeowner.trader, tradeowner.est, Integer.parseInt(txtTradeCashLeft.getText()), 
+			othertrader.trader, othertrader.est, Integer.parseInt(txtTradeCashRight.getText()));
+		stopTrade();
+		showAlert("Trade", "Trade Complete");
+			
+	}
+	public void setTradeInformation(){
+		//Left Trader
+		txtUsernameTradeLeft.setText(tradeowner.trader.getName());
+		imgLeftTrader.setImage(new Image("\\gui\\"+tradeowner.trader.getToken().getIconFileLocation()));
+		String o = "";
+		for(Establishment est : tradeowner.est){o+= est.getName()+"\n";}
+		txtPropertiesTradeLeft.setText(o);
+		
+		//Right Trader
+		txtUsernameTradeRight.setText(othertrader.trader.getName());
+		imgRightTrader.setImage(new Image("\\gui\\"+othertrader.trader.getToken().getIconFileLocation()));
+		o = "";
+		for(Establishment est : othertrader.est){o+= est.getName()+"\n";}
+			txtPropertiesTradeRight.setText(o);
+	}
+	/**
+	 * Starts the trade cycle
+	 * @param e
+	 */
+	public void startTrade(MouseEvent e){
+		pneTrade.setVisible(true);
+		tradeowner = new Trade(game.getCurrentPlayer());
+		othertrader = new Trade(null);
+		tradeActive = true;
+	}
+	public void stopTrade(MouseEvent e){
+		stopTrade();
+	}
+	public void stopTrade(){
+		pneTrade.setVisible(false);
+		tradeowner = null; othertrader = null;
+		tradeActive = false;
+		clearTradeInformation();
+		drawBoard();
+	}
+	//Sets the player of trader (if trade is active)
+	public void playerClick(MouseEvent e){
+		if(tradeActive){
+			String name = ((Text)((Group)(e.getSource())).getChildren().get(0)).getText();
+			for(int i = 0; i<game.players.size(); i++){
+				if(game.players.get(i).getName().equals(name) && !game.getCurrentPlayer().getName().equals(name)){
+					othertrader.trader = game.players.get(i);
+					System.out.println("playerClick(): othertrader"+othertrader.trader.getName()+" added!");
+					drawBoard();
+					return;
+				}else{
+					System.out.println("playerClick():"+game.players.get(i).getName()+" "+name);
+				}
+			}
+		}else{
+			System.out.println("Trade not Active!");
+		}
+	}
+	
+
+	//Trade Object Shh!
+	class Trade{
+		public int Amount;
+		public ArrayList<Establishment> est;
+		public Player trader;
+		public boolean locked;
+		public Trade(Player p){
+			Amount=0;
+			est=new ArrayList<Establishment>();
+			trader=p;
+		}
+	}
 
 }

@@ -53,7 +53,7 @@ public class Subject extends Establishment {
 	 */
 	public boolean isFacility() {
 		
-		if(houses==rent.length){
+		if(houses==rent.length-1){
 			return true;
 		}else{
 			return false;
@@ -137,18 +137,21 @@ public class Subject extends Establishment {
 	 * Allows a player to sell a house on a subject and
 	 * refund the owner the money paid for it.
 	 */
-	public void sellHouse(){
+	public boolean sellHouse(){
 		if(houses > (rent.length - 1)){
 			//remove facility and only refund price of one house
 			//also remove all houses.
 			owner.addBalance(housePrice);
 			houses = 0;
+			return true;
 		} else if (houses > 0) {
 			//remove a house and add price to owner's balance.
 			owner.addBalance(housePrice);
 			houses--;
+			return true;
 		} else {
 			//do not own any houses
+			return false;
 		}
 	}
 	
