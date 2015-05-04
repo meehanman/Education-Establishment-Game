@@ -121,7 +121,6 @@ public class Game {
 	public int[] rollDice(){
 		//Role the Dice
 		int[] diceRoll = board.dice.rollDice();
-		System.out.println("board.dice.getValue(01): "+board.dice.getValue());
 
 		//Rolling Doubles
 		if(board.dice.isDoubles()){
@@ -134,21 +133,6 @@ public class Game {
 			}
 		}
 		
-		//Move the player
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
-
-		System.out.println("board.dice.getValue(1): "+board.dice.getValue());
 		movePlayer(board.dice.getValue());
 		
 		//Stop this player rolling the dice again
