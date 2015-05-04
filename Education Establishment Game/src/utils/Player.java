@@ -194,6 +194,7 @@ public class Player {
 	 *  Sends the user to jail
 	 */
 	public void SendToJail(){
+		System.out.println("Player sent to Jail!");
 		this.isInJail = true;
 		this.position = 10;
 	}

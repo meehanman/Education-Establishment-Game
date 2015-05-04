@@ -84,7 +84,7 @@ public class Game {
 			if(specialSquare.getType()==Type.ChanceCard){
 				//Pick up Card
 				board.ChanceCardsDeck.takeCard();
-			}else if(specialSquare.getType()==Type.ComunityChest){
+			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
 				board.ComunityCheckCardsChest.takeCard();
 			}
@@ -121,9 +121,11 @@ public class Game {
 	public int[] rollDice(){
 		//Role the Dice
 		int[] diceRoll = board.dice.rollDice();
-		
+		System.out.println("board.dice.getValue(01): "+board.dice.getValue());
+
 		//Rolling Doubles
 		if(board.dice.isDoubles()){
+			System.out.println("Got doubles!");
 			extraTurn=true;
 			//Starts counter for 3 rolls = GotoJail
 			doubledRolled++;
@@ -133,6 +135,20 @@ public class Game {
 		}
 		
 		//Move the player
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(0): "+board.dice.getValue());
+
+		System.out.println("board.dice.getValue(1): "+board.dice.getValue());
 		movePlayer(board.dice.getValue());
 		
 		//Stop this player rolling the dice again
@@ -151,7 +167,10 @@ public class Game {
 	public void movePlayer(int i){
 		Player currentPlayer = getCurrentPlayer();
 		
+		System.out.println("Player pos was "+getCurrentPlayer().getPosition());
+		System.out.println("Moving player by :"+i);
 		currentPlayer.movePosition(i);
+		System.out.println("Player pos is "+getCurrentPlayer().getPosition());
 
 		landOn(board.Squares[currentPlayer.getPosition()]);
 	}
