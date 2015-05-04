@@ -162,8 +162,11 @@ public class Subject extends Establishment {
 			owner.subBalance(housePrice);
 			addHouse();
 		}
-		
-		
+	}
+
+	public void clearHouses() {
+		// remove all house on the subject
+		this.houses = 0;
 	}
 	
 	

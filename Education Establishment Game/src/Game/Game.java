@@ -239,6 +239,24 @@ public class Game {
 		return true;
 	}
 	
+	public void bankrupt(){
+		for (Square square: board.Squares){
+			//If its an establishment then it can be baught
+			if(square instanceof Establishment){
+				Establishment est = ((Establishment)(square));
+				String typeOfSquare = est.getSquareType();
+				if(est.getOwner() == getCurrentPlayer()){
+					//clear owner
+					est.changeOwner(null);
+				}
+				
+				if(typeOfSquare.equals("Subject")){
+					Subject sub = (Subject)(est);
+					sub.clearHouses();
+				}
+			}
+		}
+	}
 	
 	
 	public void endGame(){
