@@ -158,6 +158,47 @@ public class Game {
 		return diceRoll;
 	}
 	
+	/**
+	 * Allows players to trade or sell establishments to other players in
+	 * exchange for other properties or funds.
+	 * @param player1 - a player who is engaging in trading.
+	 * @param est1 - the establishments player1 wants to trade.
+	 * @param bal1 - the amount of money player1 wants to trade.
+	 * @param player2 - the second player engaging in trading.
+	 * @param est2 - the establishments player2 wants to trade.
+	 * @param bal2 - the amount of money player2 wants to trade.
+	 */
+	public void trade(Player player1, ArrayList<Establishment> est1, int bal1, Player player2,
+			ArrayList<Establishment> est2, int bal2){
+		//swap player1's establishments with player2.
+		swapOwner(est1,player2);
+		//swap player2's establishments with player1.
+		swapOwner(est2,player1);
+		//take balance from player1 and add to player2.
+		player1.giveMoney(player2, bal1);
+		//take balance from player2 and add to player1.
+		player2.giveMoney(player1, bal2);
+		
+	}
+	
+	/**
+	 * Allows an array of establishments to change owner from one
+	 * player to another.
+	 * @param estArray - array of establishments that are to change owner.
+	 * @param newOwner - player object of the new owner of the establishments.
+	 */
+	public void swapOwner(ArrayList<Establishment> estArray, Player newOwner){
+		//for each establishment sent in swap to newOwner
+		for(Establishment est: estArray){
+			for(int i = 0; i < board.Squares.length; i++){
+				if(board.Squares[i].getName().contentEquals(est.getName())){
+					//switch owners
+					est.changeOwner(newOwner);
+				}
+			}
+		}
+	}
+	
 	
 	
 	/**
