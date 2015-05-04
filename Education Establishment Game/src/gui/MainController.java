@@ -1,6 +1,5 @@
 package gui;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utils.Player;
 import Game.Game;
+import board.Card;
 import board.SpecialSquare;
 import board.SpecialSquare.Type;
 import board.Square;
@@ -37,18 +37,43 @@ import board.establishment.Subject;
  *
  * @see https://www.youtube.com/watch?v=wOUmUcVbO2s (Totorial on JavaFX)
  */
-public class MainController implements Initializable{
-	
+public class MainController implements Initializable{public MainController() {
+}
 	public static Game game;
 	//Create variables with names the same as ID's in the fxml 
 	//as these can be used then again in our functions	
-	@FXML private Text txtMessageOutput,txtPropertyCard;
-	@FXML private ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
-	@FXML private AnchorPane HeadNode;
-	@FXML public Group BoardNode;
-	@FXML public Group grptopBarID,gpID1,gpID2,gpID3,gpID4; //The Top Bar Identification modules (ie Player Token, Color, Name, Money)
-	@FXML public Canvas exampleCanvas;
-	@FXML public Button btnNextTurn,btnBuyProperty,btnMortgageProperty;
+	@FXML Text txtMessageOutput,txtPropertyCard;
+	@FXML ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
+	@FXML Group grpDice;
+	@FXML AnchorPane HeadNode;
+	@FXML Group BoardNode;
+	@FXML Group grptopBarID,gpID1,gpID2,gpID3,gpID4; //The Top Bar Identification modules (ie Player Token, Color, Name, Money)
+	@FXML Canvas exampleCanvas;
+	@FXML Button btnNextTurn,btnBuyProperty,btnMortgageProperty;
+	//Manage Screen and Manage Property
+	@FXML Group GrpManagePopover, GrpManagePropertyPopover;
+	@FXML Text ManageText, ManagePropertyText; 
+	@FXML Button ManageBuy, ManageTrade, ManageManage, ManagePass;
+	@FXML Button btnBackManageProperty, btnBuyHomeManageProperty, btnSellHomeManageProperty, btnMortgageManageProperty;
+	@FXML Group grpAllDeeds;
+	//BarDeed
+	@FXML Pane PneBarDeed;
+	@FXML Text titleDeedBarName, titleDeedBarRent,titleDeedBar2,titleDeedBar3,titleDeedBar4,titleDeedBarMortgage; 
+	//Restaurant
+	@FXML Pane PneRestaurantDeed;
+	@FXML ImageView RestaurantDeedImage;
+	@FXML Text RestaurantDeedName, RestaurantDeedMortgage;
+	//TitleDeed
+	@FXML Pane PneTitleDeed,TITLEDEEDCOLOR;
+	@FXML Text titleDeedRent, titleDeedHouse1, titleDeedHouse2, titleDeedHouse3, titleDeedHouse4, titleDeedHouse5;
+	@FXML Text titleDeedPropertyName, titleDeedMortgage, titleDeedHouseCost, titleDeedHotelCost;
+	//Board Buttons (that are on the board)
+	@FXML Button btnBoardManage, btnBoardTrade, btnBoardEndTurn;
+	//SpecialCardPopup
+	@FXML Pane pneSpecialCard;
+	@FXML Text SpecialCardTitle, SpecialCardText;
+	
+	
 	
 	public String[] playerColors = {"#49bcff","#60ff92","#ff55f9","#ff6666"};
 	
@@ -57,7 +82,6 @@ public class MainController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		
 		//Add event listeners to all the squares
 		for(int i = 0; i<game.board.Squares.length;i++){
 			GetSquarePane(i).setOnMouseClicked(this::squareClicked);
@@ -65,12 +89,26 @@ public class MainController implements Initializable{
 		}
 		//Button Event Handlers
 		btnNextTurn.setOnMouseClicked(this::takeNextTurn);
-		btnBuyProperty.setOnMouseClicked(this::buyProperty);
+		ManageBuy.setOnMouseClicked(this::buyProperty);
 		btnMortgageProperty.setOnMouseClicked(this::mortgageProperty);
 		
-		//Mouse Click
-		imgDice1.setOnMouseClicked(this::diceRoll);
-		imgDice2.setOnMouseClicked(this::diceRoll);
+		//New Button Events
+		ManageBuy.setOnMouseClicked(this::buyProperty);
+		ManageTrade.setOnMouseClicked(this::stub);
+		ManageManage.setOnMouseClicked(this::ManageProperty);
+		ManagePass.setOnMouseClicked(this::takeNextTurn);
+		
+		//Handlers for OnScreenButtons (When no popup's are present)
+		btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
+		btnBoardManage.setOnMouseClicked(this::stub);
+		btnBoardTrade.setOnMouseClicked(this::stub);
+		btnBoardEndTurn.setOnMouseClicked(this::takeNextTurn);
+		
+		//Handler to remove InfoCards
+		pneSpecialCard.setOnMouseClicked(this::hideSpecialCard);
+		
+		//DiceRoll Click
+		grpDice.setOnMouseClicked(this::diceRoll);
 		
 		//Add all the squares to the board
 		for(int i = 0; i<game.board.Squares.length;i++){
@@ -91,13 +129,12 @@ public class MainController implements Initializable{
 			}else if(square.getSquareType().equals("SpecialSquare")){
 				SpecialSquare specialSquare = (SpecialSquare)square;
 				ChangeSpecialSquare(GetSquarePane(i),specialSquare);
-
+				
 			}
 		}
 		
 		//Draw everything else
-		drawBoard();
-		
+		drawBoard();		
 	}
 	
 	//Example of something for a mouse event, and not an action event
@@ -109,7 +146,25 @@ public class MainController implements Initializable{
 			imgDice2.setImage(new Image("\\gui\\img\\dice\\"+diceRoll[1]+".png"));
 			
 			txtMessageOutput.setText("Rolled: "+(game.board.dice.getValue()));
-			btnNextTurn.setDisable(false);
+			btnNextTurn.setVisible(true);
+			
+			//Check what's been rolled and do UI changes
+			Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+			if(landedSquare instanceof Establishment){
+				showManagePopover((Establishment)game.board.Squares[game.getCurrentPlayer().getPosition()]);
+			}else{
+				SpecialSquare specialSquare = (SpecialSquare)landedSquare;
+				if(specialSquare.getType()==Type.ChanceCard){
+					//Display Card UI
+					Card pickedUpCard = game.board.ChanceCardsDeck.showLastCard();
+					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
+				}else if(specialSquare.getType()==Type.ComunityChest){
+					//Display Card UI
+					Card pickedUpCard = game.board.ComunityCheckCardsChest.showLastCard();
+					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
+				}
+			}
+			
 		}else{
 			System.out.println(game.getCurrentPlayer().getName()+", you cannot roll again.");
 		}
@@ -121,7 +176,8 @@ public class MainController implements Initializable{
 	 *  @after Prompt user to roll dice
 	 */
 	public void takeNextTurn(MouseEvent event){
-		btnNextTurn.setDisable(true);
+		btnNextTurn.setVisible(false);
+		hideManagePopover();
 		if(game.canRoll()){
 			txtMessageOutput.setText("You must roll the dice before giving up your go "+game.getCurrentPlayer().getName());
 		}else{
@@ -134,7 +190,7 @@ public class MainController implements Initializable{
 		}
 	}
 	/**
-	 * TEST BUTTON TO BUY PROPERTY
+	 * BUY PROPERTY
 	 * @param e
 	 */
 	public void buyProperty(MouseEvent e){
@@ -324,21 +380,21 @@ public class MainController implements Initializable{
 			Establishment landedEstablishment = (Establishment)(landedSquare);
 				//Set the button property depending on if the landedSquare has an owner
 				if(landedEstablishment.hasOwner()){
-					btnBuyProperty.setDisable(true);
-					btnMortgageProperty.setDisable(false);
+					ManageBuy.setVisible(false);
+					btnMortgageProperty.setVisible(true);
 					if(landedEstablishment.isMortgaged()){
 						btnMortgageProperty.setText("UnMortgage");
 					}else{
 						btnMortgageProperty.setText("Mortgage");
 					}
 				}else{
-					btnBuyProperty.setDisable(false);
-					btnMortgageProperty.setDisable(true);
+					ManageBuy.setVisible(true);
+					btnMortgageProperty.setVisible(false);
 				}
 		}else{
 			//If not an establishment then disable these buttons
-			btnBuyProperty.setDisable(true);
-			btnMortgageProperty.setDisable(true);
+			ManageBuy.setVisible(false);
+			btnMortgageProperty.setVisible(false);
 		}
 		
 		//Update Property Information
@@ -383,7 +439,7 @@ public class MainController implements Initializable{
 					if(p.getPosition()==i){
 						//Draws the players images to the locations they are
 						Image img = new Image("gui/"+p.getToken().getIconFileLocation());
-						//TODO need to work on moving them around so more than one can fit on screen
+						//Need to work on moving them around so more than one can fit on screen
 						gc.setFill(Color.web(playerColors[game.getPlayerIndex(p)]));
 						gc.fillOval(30, 75, 40, 40);
 						gc.drawImage(img, 30, 75, 40, 40);
@@ -396,27 +452,24 @@ public class MainController implements Initializable{
 	}
 	
 	/**
+	 * cssColors are used for the titleDeed UI and are fixed with the colors set in the CSS
+	 */
+	String[] cssColors = {"brown","lightblue","pink","orange","red","yellow","green","darkblue"}; //USED TO Remove CSS styles for TitleDeed
+	/**
 	 * Updated the titleDeed UI
 	 * @param square
 	 */
-	@FXML Pane PneTitleDeed,TITLEDEEDCOLOR;
-	@FXML Text titleDeedRent, titleDeedHouse1, titleDeedHouse2, titleDeedHouse3, titleDeedHouse4, titleDeedHouse5;
-	@FXML Text titleDeedPropertyName, titleDeedMortgage, titleDeedHouseCost, titleDeedHotelCost; 
-	String[] cssColors = {"brown","lightblue","pink","orange","red","yellow","green","darkblue"}; //USED TO Remove CSS styles for TitleDeed
 	public void updateTitleDeed(Square square){
 		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
-
 		
 		if(playerSquare.getSquareType().equals("Subject")){
 			Subject sub = (Subject)playerSquare;
-			PneTitleDeed.setVisible(true);
 			
 			titleDeedPropertyName.setText(sub.getName());
 			for(String color : cssColors){
 				TITLEDEEDCOLOR.getStyleClass().remove(color);
 			}
-			TITLEDEEDCOLOR.getStyleClass().add(sub.getColor());		
-			
+			TITLEDEEDCOLOR.getStyleClass().add(sub.getColor());
 			
 			titleDeedRent.setText("RENT £"+sub.getRentInformation()[0]);
 			titleDeedHouse1.setText("£"+sub.getRentInformation()[1]);
@@ -428,20 +481,137 @@ public class MainController implements Initializable{
 			titleDeedMortgage.setText("Mortgage Value £"+sub.getMortgageValue());
 			titleDeedHouseCost.setText("Houses cost £"+sub.getHousePrice()+" each");
 			titleDeedHotelCost.setText("Hotels, £"+sub.getHousePrice()+" each \nplus 4 houses");
-		}else if(playerSquare.getSquareType().equals("Bar") || playerSquare.getSquareType().equals("Restaurant")){
-			Establishment est = (Establishment)playerSquare;
 			
-			System.out.println(game.getCurrentPlayer().getName()+ " landed on a bar " + est.getName()+"\n");
+			//Update what Deed to show
+			PneTitleDeed.setVisible(true);
+			PneBarDeed.setVisible(false);
+			PneRestaurantDeed.setVisible(false);
+		}else if(playerSquare.getSquareType().equals("Bar")){
+			Bar bar = (Bar)playerSquare;
 			
+			titleDeedBarName.setText(bar.getName());
+			titleDeedBarRent.setText("Rent £"+bar.getBaseRent());
+			titleDeedBar2.setText("£"+bar.getBaseRent()*2);
+			titleDeedBar3.setText("£"+bar.getBaseRent()*3);
+			titleDeedBar4.setText("£"+bar.getBaseRent()*4);
+			
+			//Update what Deed to show
 			PneTitleDeed.setVisible(false);
+			PneBarDeed.setVisible(true);
+			PneRestaurantDeed.setVisible(false);
+		}else if(playerSquare.getSquareType().equals("Restaurant")){
+			Restaurant restaurant = (Restaurant)playerSquare;
+			
+			//Find out if bar was at first half or second half to find the image by number
+			int restNum = getSquareIndex(restaurant.getName())<20?0:1;
+			
+			//Update titleDeed
+			RestaurantDeedImage.setImage(new Image("\\gui\\img\\rest"+restNum+".png"));
+			RestaurantDeedName.setText(restaurant.getName());;
+			RestaurantDeedMortgage.setText("Mortgage Value £"+restaurant.getMortgageValue());
+			
+			
+			//Update what Deed to show
+			PneTitleDeed.setVisible(false);
+			PneBarDeed.setVisible(false);
+			PneRestaurantDeed.setVisible(true);
 		}else if(square.getSquareType().equals("SpecialSquare")){
+			
+			
+			
+			//Update what Deed to show
 			PneTitleDeed.setVisible(false);
+			PneBarDeed.setVisible(false);
+			PneRestaurantDeed.setVisible(false);
 		}
 
 	}
+	
+	/**
+	 * Shows the Manage Popover
+	 * @param b
+	 */
+	public void showManagePopover(Establishment establishment){
+				
+		//Update ManagePopover
+		ManageText.setText("Purchase '"+establishment.getName()+"' for £"+establishment.getPrice());
+		
+		//Disable the buy button if the current user is the owner
+		if(establishment.hasOwner() && game.getCurrentPlayer().equals(establishment.getOwner())){
+			ManageBuy.setVisible(false);
+		}else{
+			ManageBuy.setVisible(true);
+		}
+		
+		//Reset Position for Deeds
+		grpAllDeeds.setLayoutX(550);grpAllDeeds.setLayoutY(20);
+		
+		//Set Visibility for Deeds
+		grpAllDeeds.setVisible(true);
+		
+		//Show the popover
+		GrpManagePopover.setVisible(true);
+	}
+	/**
+	 * Hides the Manage Popover
+	 */
+	public void hideManagePopover(){
+		//Set Visibility for Deeds
+		grpAllDeeds.setVisible(false);
+		
+		//Show the popover
+		GrpManagePopover.setVisible(false);
+	}
+	/**
+	 * Show the Manage Property Popover
+	 * @param b
+	 */
+	public void showManagePropertyPopover(Boolean b){
+		System.out.println("showManagePropertyPopover(): "+ b);
+		Establishment est = (Establishment)game.board.Squares[game.getCurrentPlayer().getPosition()];
+		//Update Text
+		if(est.getOwner()!=null){
+			ManagePropertyText.setText("Not Owned");
+		}else{
+			ManagePropertyText.setText("Owned by "+est.getOwner().getName());
+		}
+		
+		//Reset Position for Deeds
+		grpAllDeeds.setLayoutX(550);grpAllDeeds.setLayoutY(20);
+		
+		//Show the popover
+		GrpManagePropertyPopover.setVisible(b);
+		hideManagePopover();
 
+	}
+	/**
+	 * Mouse Event to shows the ManageProperty Popover
+	 * @param e
+	 */
+	public void ManageProperty(MouseEvent e){
+		Square square = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		if(square instanceof Establishment){
+			showManagePropertyPopover(true);
+		}
+	}
 	
+	public void showSpecialCard(String title, String text){
+		pneSpecialCard.setVisible(true);
+		SpecialCardTitle.setText(title); 
+		SpecialCardText.setText(text);
+	}
+	public void hideSpecialCard(){
+		pneSpecialCard.setVisible(false);
+	}
+	public void hideSpecialCard(MouseEvent e){
+		hideSpecialCard();
+	}
 	
+	/**
+	 * TODO DELETE
+	 * @param event
+	 */
+	public void stub(MouseEvent event){}
 
 
 }

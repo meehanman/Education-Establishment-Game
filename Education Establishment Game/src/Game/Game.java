@@ -1,11 +1,10 @@
 package Game;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import javafx.scene.paint.Color;
 import utils.Player;
 import board.Board;
 import board.SpecialSquare;
+import board.SpecialSquare.Type;
 import board.Square;
 import board.establishment.Bar;
 import board.establishment.Establishment;
@@ -79,8 +78,16 @@ public class Game {
 				System.out.println("landOn(): Establishment doesn't have an owner, or the owner is this owner.."+square.getName());
 			}
 			
-		}else{ //If it's a SpecialSquare
-			System.out.println("landOn(): square is not an instanceof Establishment.."+square.getName());
+		}else{ 
+			//If it's a SpecialSquare
+			SpecialSquare specialSquare = (SpecialSquare)square;
+			if(specialSquare.getType()==Type.ChanceCard){
+				//Pick up Card
+				board.ChanceCardsDeck.takeCard();
+			}else if(specialSquare.getType()==Type.ComunityChest){
+				//Pick up Card
+				board.ComunityCheckCardsChest.takeCard();
+			}
 		}
 		
 	}

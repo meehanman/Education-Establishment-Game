@@ -39,7 +39,7 @@ public class Bar extends Establishment {
 	 * @return
 	 */
 	public int getRent(Square[] squares){
-		int rental = (price/4);
+		int rental = getBaseRent();
 		//If this has an owner
 		if(hasOwner()){
 			for(Square square : squares){
@@ -54,6 +54,9 @@ public class Bar extends Establishment {
 
 		//If 1 is owned, then it will output the first value etc..
 		return rental;
+	}
+	public int getBaseRent(){
+		return this.price/4;
 	}
 	
 

@@ -8,8 +8,9 @@ import java.util.Random;
 public class CardDeck {
 	
 	
-	ArrayList<Card> deck;
-	ArrayList<Card> spentDeck;
+	private ArrayList<Card> deck;
+	private Card lastCard;
+	private ArrayList<Card> spentDeck;
 	
 	public CardDeck(Card[] Deck){
 		deck = new ArrayList<Card>(Arrays.asList(Deck));
@@ -32,14 +33,14 @@ public class CardDeck {
 		
 		//If the deck is not empty
 		if(!deck.isEmpty()){
-			Card pickedUpCard = deck.remove(0);
+			lastCard = deck.remove(0);
 			
 			//If it is a get out of free card
-			if(pickedUpCard.getEffect().getOutOfJailFree()){
+			if(lastCard.getEffect().getOutOfJailFree()){
 				
 			}
-			spentDeck.add(pickedUpCard);
-			return pickedUpCard;
+			spentDeck.add(lastCard);
+			return lastCard;
 		}else{ //If it is then reshuffle the cards
 			
 			//Move the cards around
@@ -62,5 +63,11 @@ public class CardDeck {
 	 */
 	public void addCard(Card card){
 		spentDeck.add(card);
+	}
+	/**
+	 * Get the current card that was pulled from the deck
+	 */
+	public Card showLastCard(){
+		return lastCard;
 	}
 }
