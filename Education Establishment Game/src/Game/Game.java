@@ -85,6 +85,7 @@ public class Game {
 			if(specialSquare.getType()==Type.ChanceCard){
 				//Pick up Card and be affected by it
 				affect(getCurrentPlayer(),board.ChanceCardsDeck.takeCard());
+				landOn(board.Squares[getCurrentPlayer().getPosition()]);
 			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
 				board.ComunityCheckCardsChest.takeCard();

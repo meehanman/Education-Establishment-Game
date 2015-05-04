@@ -34,26 +34,26 @@ public class Board {
 	
 	private void initialiseComunityChestCards(){
 		Card[] ComunityCards = {
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false)),
-				new Card("CC Card","This is some Comunity Description",new Effect(200,0,false,0,false,false))
+				new Card("Academia","Dinner at Maggie May's!",new Effect(0,28,false,0,false,false)),
+				new Card("Academia","After lecture drink at the speakeasy!",new Effect(0,5,false,0,false,false)),
+				new Card("Academia","Need fuel for all those research topics - get a boojum",new Effect(0,12,false,0,false,false)),
+				new Card("Academia","All these classes are making you Cuckoo!",new Effect(0,35,false,0,false,false)),
+				new Card("Academia","Quiet pint in Ryan's at the end of a long day",new Effect(0,25,false,0,false,false)),
+				new Card("Academia","Get yourself down to the Bot for a pub quiz!",new Effect(0,15,false,0,false,false)),
+				new Card("Academia","Go on probation",new Effect(0,30,false,0,false,false)),
+				new Card("Academia","Help those on probation get back into the swing of things. +£50",new Effect(50,10,false,0,true,false)),
+				new Card("Academia","Union Action - Go on Strike!",new Effect(0,20,false,0,true,false)),
+				new Card("Academia","Win debate. +£100",new Effect(100,0,false,0,false,false)),
+				new Card("Academia","Successfully defend your thesis. +£70",new Effect(70,0,false,0,false,false)),
+				new Card("Academia","Achieve tenure! Bonus +£200",new Effect(200,0,false,0,false,false)),
+				new Card("Academia","Reasearch breakthrough! Additional funding! +£50",new Effect(50,0,false,0,false,false)),
+				new Card("Academia","Tech Demo Mishap. -£40 per house",new Effect(-40,0,false,0,false,true)),
+				new Card("Academia","Living for the research grant",new Effect(0,0,false,0,true,false)),
+				new Card("Academia","Help a cop at their recruitment drive on campus - they will remember that!",new Effect(0,0,true,0,false,false)),
+				new Card("Academia","Your reasearch paper contains plagurised content! -£100",new Effect(-100,0,false,0,false,false)),
+				new Card("Academia","Labs are damaged in an accident -£30 per house",new Effect(-30,0,false,0,false,true)),
+				new Card("Academia","Funding boost accross your premises +£20 per house",new Effect(20,0,false,0,false,true)),
+				new Card("Academia","Your campuse voted top! +£100",new Effect(100,0,false,0,false,false))
 		};
 		
 		ComunityCheckCardsChest = new CardDeck(ComunityCards);
@@ -61,24 +61,24 @@ public class Board {
 	
 	private void initialiseChanceCards(){
 		Card[] ChanceCards = {
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false)),
-			new Card("C Card","This is some Chance Description",new Effect(-250,0,false,0,false,false))
+			new Card("Student Experience","Student union attracts tourism. +£50",new Effect(50,0,false,0,false,false)),
+			new Card("Student Experience","Campus has become a landmark! +£100",new Effect(100,0,false,0,false,false)),
+			new Card("Student Experience","Student Pary Gets out of hand! -£80",new Effect(80,0,false,0,false,false)),
+			new Card("Student Experience","Student Elections, provide materials -£50",new Effect(50,0,false,0,false,false)),
+			new Card("Student Experience","Student strike after fee rise! -£50",new Effect(-50,0,false,0,false,false)),
+			new Card("Student Experience","Low campus ratings! -£30 per house",new Effect(-30,0,false,0,false,true)),
+			new Card("Student Experience","High ratings! +£20 per house",new Effect(20,0,false,0,false,true)),
+			new Card("Student Experience","Word of your top class facilities spread! +20 per house",new Effect(20,0,false,0,false,true)),
+			new Card("Student Experience","Societies attract more students! +£150",new Effect(150,0,false,0,false,false)),
+			new Card("Student Experience","Party at the Bot! -£50",new Effect(-250,0,false,0,false,false)),
+			new Card("Student Experience","Pub crawl! Get to the speakeasy! -£50",new Effect(-50,0,false,0,false,false)),
+			new Card("Student Experience","Fresher's events attract crowds! +£100",new Effect(100,0,false,0,false,false)),
+			new Card("Student Experience","RAG week raises record figures! +£150",new Effect(150,0,false,0,false,false)),
+			new Card("Student Experience","Students protect funding cuts -£20 per house",new Effect(-20,0,false,0,false,true)),
+			new Card("Student Experience","Host inter-varsities! -£100",new Effect(-100,0,false,0,false,false)),
+			new Card("Student Experience","Hold Campus Cup Competition! -£100",new Effect(-100,0,false,0,false,false)),
+			new Card("Student Experience","Society lose students on mystery tour! -£150",new Effect(-150,0,false,0,false,false)),
+			new Card("Student Experience","Society win competition and Achieve recognition! +£200",new Effect(-200,0,false,0,false,false))
 		};
 		
 		ChanceCardsDeck = new CardDeck(ChanceCards);
