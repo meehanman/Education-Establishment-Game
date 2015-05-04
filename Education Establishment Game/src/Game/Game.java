@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import utils.Player;
 import board.Board;
+import board.Card;
 import board.SpecialSquare;
 import board.SpecialSquare.Type;
 import board.Square;
@@ -82,8 +83,8 @@ public class Game {
 			//If it's a SpecialSquare
 			SpecialSquare specialSquare = (SpecialSquare)square;
 			if(specialSquare.getType()==Type.ChanceCard){
-				//Pick up Card
-				board.ChanceCardsDeck.takeCard();
+				//Pick up Card and be affected by it
+				affect(getCurrentPlayer(),board.ChanceCardsDeck.takeCard());
 			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
 				board.ComunityCheckCardsChest.takeCard();
@@ -92,6 +93,66 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Will add or subtract money from player depending on values of card, also
+	 * it will change the position of the player. 
+	 * @param player - player to be affected by movement/cost. 
+	 * @param takeCard - the card draw from the deck.
+	 */
+	private void affect(Player player, Card takeCard) {
+		//check if money depends on houses owned
+		if (takeCard.getEffect().isHouseCharge()){
+			if (takeCard.getEffect().getMoney() > 0){
+				//if money is positive add to balance.
+				//multiplied by houses owned to amplify effect and carry out card logic
+				player.addBalance(takeCard.getEffect().getMoney() * housesOwned(player));
+			} else{
+				//if money is negative subtract from balance.
+				//multiplied by houses owned to amplify effect and carry out card logic
+				player.subBalance(takeCard.getEffect().getMoney() * housesOwned(player));
+			}
+		}else{
+			//if money no dependent on houses owned
+			//add or take away money 
+			if (takeCard.getEffect().getMoney() > 0){
+				//if money is positive add to balance.
+				player.addBalance(takeCard.getEffect().getMoney());
+			} else{
+				//if money is negative subtract from balance.
+				player.subBalance(takeCard.getEffect().getMoney());
+			}
+		}
+		//check if moment caused
+		if(takeCard.getEffect().isMovement()){
+		//move position
+			player.moveto(takeCard.getEffect().getPosition());
+		}
+		
+	}
+	
+	/**
+	 * Counts the number of houses owned by the player passed in.
+	 * @param player - the person's houses to be counted.
+	 * @return int - number of houses owned by person.
+	 */
+	public int housesOwned(Player player){
+		int houseCount = 0;
+		for (Square square: board.Squares){
+			//If its an establishment then it can be baught
+			if(square instanceof Subject){
+				Subject sub = ((Subject)(square));
+				String typeOfSquare = sub.getSquareType();
+				
+				if(typeOfSquare.equals("Subject")){
+					if(sub.getOwner().equals(player)){
+						houseCount += sub.getHouses();
+					}
+				}
+			}
+		}
+		return houseCount;
+	}
+
 	/**
 	 * Updates the currentTurn
 	 * 

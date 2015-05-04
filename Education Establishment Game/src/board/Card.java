@@ -24,6 +24,7 @@ public class Card {
 	//The Player who owns or Picked up the card
 	private Player owner;
 	
+	
 	public Card(String title, String description,Effect effect) {
 		this.effect = effect;
 		this.title = title;
