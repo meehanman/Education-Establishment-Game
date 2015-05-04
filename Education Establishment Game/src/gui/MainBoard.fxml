@@ -751,6 +751,73 @@
             </Group>
          </children>
       </Group>
+      <Group fx:id="GrpManagePropertyPopover" layoutX="-606.0" layoutY="-32.0" visible="false">
+         <children>
+            <Pane layoutX="1144.0" layoutY="236.0" prefHeight="521.0" prefWidth="396.0" styleClass="settings-overlay">
+               <children>
+                  <Text fx:id="ManagePropertyText" layoutX="36.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase &quot;Subject Text&quot; for £180" textAlignment="CENTER" wrappingWidth="346.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtManagePropertyOwnedBy" layoutX="25.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Owned by Dean" textAlignment="CENTER" wrappingWidth="346.0" />
+                  <Pane fx:id="pngManageProperty" prefHeight="59.0" prefWidth="396.0" styleClass="settings-overlay-top">
+                     <children>
+                        <Text fill="WHITE" layoutX="3.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Property" textAlignment="CENTER" wrappingWidth="389.13671875">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="1164.0" layoutY="752.0" prefHeight="50.0" prefWidth="357.0" styleClass="settings-overlay">
+               <children>
+                  <Button fx:id="btnMortgageManageProperty" layoutX="276.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Mortgage" textFill="WHITE">
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="greenGrad" />
+                     </styleClass>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnBackManageProperty" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="81.0" text="Back" textFill="WHITE">
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="redGrad" />
+                     </styleClass>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnSellHouseManageProperty" layoutX="185.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Sell House" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="greenGrad" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="btnBuyHouseManageProperty" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="82.0" text="Buy House" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="greenGrad" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Group>
       <Group fx:id="GrpManagePopover" layoutX="511.0" layoutY="-97.0" visible="false">
          <children>
             <Pane layoutX="27.0" layoutY="305.0" prefHeight="466.0" prefWidth="396.0" styleClass="settings-overlay">
@@ -817,73 +884,59 @@
             </Pane>
          </children>
       </Group>
-      <Group fx:id="GrpManagePropertyPopover" layoutX="-606.0" layoutY="-32.0" visible="false">
+      <Group>
          <children>
-            <Pane layoutX="1144.0" layoutY="236.0" prefHeight="521.0" prefWidth="396.0" styleClass="settings-overlay">
+            <Button fx:id="btnNextTurn" disable="true" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="End Turn" />
+            <Button fx:id="btnMortgageProperty" disable="true" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Mortgage" />
+            <Text fx:id="txtMessageOutput" fill="WHITE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Started" wrappingWidth="194.13671875" />
+            <Text fx:id="txtPropertyCard" fill="WHITE" layoutX="14.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="194.13671875" />
+            <Button fx:id="btnBuyProperty" disable="true" layoutX="14.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Buy Property" />
+         </children>
+      </Group>
+      <Button fx:id="btnBoardManage" layoutX="30.0" layoutY="810.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="Manage" textFill="WHITE">
+         <styleClass>
+            <String fx:value="settings-button" />
+            <String fx:value="buttonCrusor" />
+            <String fx:value="greenGrad" />
+         </styleClass>
+      </Button>
+      <Group fx:id="grpPopupMessage" layoutX="583.0" layoutY="-198.0" onMouseClicked="#hideAlert" visible="false">
+         <children>
+            <Rectangle fx:id="grayOut" arcHeight="5.0" arcWidth="5.0" fill="#00000071" height="937.0" layoutX="-670.0" layoutY="190.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" />
+            <Pane layoutX="22.0" layoutY="548.0" prefHeight="200.0" prefWidth="243.0" styleClass="settings-overlay">
                <children>
-                  <Text fx:id="ManagePropertyText" layoutX="36.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase &quot;Subject Text&quot; for £180" textAlignment="CENTER" wrappingWidth="346.0">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="25.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Owned by Dean" textAlignment="CENTER" wrappingWidth="346.0" />
-                  <Pane fx:id="pngManageProperty" prefHeight="59.0" prefWidth="396.0" styleClass="settings-overlay-top">
+                  <Pane prefHeight="50.0" prefWidth="243.0" styleClass="settings-overlay-top">
                      <children>
-                        <Text fill="WHITE" layoutX="3.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Property" textAlignment="CENTER" wrappingWidth="389.13671875">
+                        <Text fx:id="PopUpTitle" fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EXAMPLE ALERT" textAlignment="CENTER" wrappingWidth="243.0">
                            <font>
-                              <Font name="System Bold" size="21.0" />
+                              <Font name="System Bold" size="17.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-               </children>
-            </Pane>
-            <Pane layoutX="1164.0" layoutY="752.0" prefHeight="50.0" prefWidth="357.0" styleClass="settings-overlay">
-               <children>
-                  <Button fx:id="btnMortgageManageProperty" layoutX="276.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Mortgage" textFill="WHITE">
-                     <styleClass>
-                        <String fx:value="settings-button" />
-                        <String fx:value="buttonCrusor" />
-                        <String fx:value="greenGrad" />
-                     </styleClass>
+                  <Text fx:id="PopUpMessage" layoutX="8.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Select a Property" textAlignment="CENTER" wrappingWidth="226.13671875">
                      <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnBackManageProperty" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="81.0" text="Back" textFill="WHITE">
-                     <styleClass>
-                        <String fx:value="settings-button" />
-                        <String fx:value="buttonCrusor" />
-                        <String fx:value="redGrad" />
-                     </styleClass>
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnSellHouseManageProperty" disable="true" layoutX="185.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Sell House" textFill="WHITE">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="settings-button" />
-                        <String fx:value="buttonCrusor" />
-                        <String fx:value="greenGrad" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="btnBuyHouseManageProperty" disable="true" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="82.0" text="Buy House" textFill="WHITE">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="settings-button" />
-                        <String fx:value="buttonCrusor" />
-                        <String fx:value="greenGrad" />
-                     </styleClass>
-                  </Button>
+                        <Font size="16.0" />
+                     </font></Text>
+                  <Text layoutX="8.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="CENTER" wrappingWidth="226.13671875" />
                </children>
             </Pane>
          </children>
       </Group>
+      <Button fx:id="btnBoardEndTurn" layoutX="126.0" layoutY="810.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="End Turn" textFill="WHITE">
+         <styleClass>
+            <String fx:value="settings-button" />
+            <String fx:value="buttonCrusor" />
+            <String fx:value="redGrad" />
+         </styleClass>
+      </Button>
+      <Button fx:id="btnBoardTrade" layoutX="30.0" layoutY="759.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="Trade" textFill="WHITE">
+         <styleClass>
+            <String fx:value="settings-button" />
+            <String fx:value="buttonCrusor" />
+            <String fx:value="greenGrad" />
+         </styleClass>
+      </Button>
       <Group fx:id="grpAllDeeds" layoutX="550.0" layoutY="20.0" visible="false">
          <children>
             <Pane fx:id="PneTitleDeed" layoutX="90.0" layoutY="301.0" prefHeight="310.0" prefWidth="216.0" styleClass="propertyCard">
@@ -1005,7 +1058,7 @@
                         <Image url="@img/rest2.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="titleDeedBarMortgage1" layoutX="14.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mortgage Value £200" textAlignment="CENTER" wrappingWidth="186.0">
+                  <Text fx:id="RestaurantDeedMortgage" layoutX="14.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mortgage Value £200" textAlignment="CENTER" wrappingWidth="186.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -1090,59 +1143,6 @@
             </Pane>
          </children>
       </Group>
-      <Group>
-         <children>
-            <Button fx:id="btnNextTurn" disable="true" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="End Turn" />
-            <Button fx:id="btnMortgageProperty" disable="true" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Mortgage" />
-            <Text fx:id="txtMessageOutput" fill="WHITE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Started" wrappingWidth="194.13671875" />
-            <Text fx:id="txtPropertyCard" fill="WHITE" layoutX="14.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="194.13671875" />
-            <Button fx:id="btnBuyProperty" disable="true" layoutX="14.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Buy Property" />
-         </children>
-      </Group>
-      <Button fx:id="btnBoardManage" layoutX="30.0" layoutY="810.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="Manage" textFill="WHITE">
-         <styleClass>
-            <String fx:value="settings-button" />
-            <String fx:value="buttonCrusor" />
-            <String fx:value="greenGrad" />
-         </styleClass>
-      </Button>
-      <Group fx:id="grpPopupMessage" layoutX="583.0" layoutY="-198.0" onMouseClicked="#hideAlert" visible="false">
-         <children>
-            <Rectangle fx:id="grayOut" arcHeight="5.0" arcWidth="5.0" fill="#00000071" height="937.0" layoutX="-670.0" layoutY="190.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" />
-            <Pane layoutX="22.0" layoutY="548.0" prefHeight="200.0" prefWidth="243.0" styleClass="settings-overlay">
-               <children>
-                  <Pane prefHeight="50.0" prefWidth="243.0" styleClass="settings-overlay-top">
-                     <children>
-                        <Text fx:id="PopUpTitle" fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EXAMPLE ALERT" textAlignment="CENTER" wrappingWidth="243.0">
-                           <font>
-                              <Font name="System Bold" size="17.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                  <Text fx:id="PopUpMessage" layoutX="8.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Select a Property" textAlignment="CENTER" wrappingWidth="226.13671875">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Text>
-                  <Text layoutX="8.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="CENTER" wrappingWidth="226.13671875" />
-               </children>
-            </Pane>
-         </children>
-      </Group>
-      <Button fx:id="btnBoardEndTurn" layoutX="126.0" layoutY="810.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="End Turn" textFill="WHITE">
-         <styleClass>
-            <String fx:value="settings-button" />
-            <String fx:value="buttonCrusor" />
-            <String fx:value="redGrad" />
-         </styleClass>
-      </Button>
-      <Button fx:id="btnBoardTrade" layoutX="30.0" layoutY="759.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="82.0" text="Trade" textFill="WHITE">
-         <styleClass>
-            <String fx:value="settings-button" />
-            <String fx:value="buttonCrusor" />
-            <String fx:value="greenGrad" />
-         </styleClass>
-      </Button>
       <Group>
          <children>
             <Pane fx:id="pneSpecialCard" layoutX="572.0" layoutY="353.0" prefHeight="213.0" prefWidth="363.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">

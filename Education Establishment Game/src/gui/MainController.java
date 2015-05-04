@@ -51,7 +51,7 @@ public class MainController implements Initializable{public MainController() {
 	@FXML Canvas exampleCanvas;
 	//Manage Screen and Manage Property
 	@FXML Group GrpManagePopover, GrpManagePropertyPopover;
-	@FXML Text ManageText, ManagePropertyText; 
+	@FXML Text ManageText, ManagePropertyText, txtManagePropertyOwnedBy; 
 	@FXML Button ManageBuy, ManageTrade, ManageManage, ManageClose;
 	@FXML Button btnBackManageProperty, btnBuyHouseManageProperty, btnSellHouseManageProperty, btnMortgageManageProperty;
 	@FXML Group grpAllDeeds;
@@ -78,10 +78,8 @@ public class MainController implements Initializable{public MainController() {
 	@FXML ImageView imgYourRoll;
 	
 	
-	
+	private Square selectedSquare;
 	public String[] playerColors = {"#49bcff","#60ff92","#ff55f9","#ff6666"};
-	
-	public Stage stageOwner;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -91,7 +89,14 @@ public class MainController implements Initializable{public MainController() {
 		
 		//Add event listeners to all the squares
 		for(int i = 0; i<game.board.Squares.length;i++){
-			GetSquarePane(i).setOnMouseClicked(this::squareClicked);
+			if(game.board.Squares[i] instanceof Establishment){
+				if(game.board.Squares[i].getSquareType().equals("Subject")){
+					GetSquarePane(i).setOnMouseClicked(this::SubjectSquareClicked);
+				}else{
+					GetSquarePane(i).setOnMouseClicked(this::OtherSquareClicked);
+				}
+			}
+			
 			
 		}
 		//Button Event Handlers
@@ -112,9 +117,9 @@ public class MainController implements Initializable{public MainController() {
 		
 		//Handlers for Manage Property
 		btnBackManageProperty.setOnMouseClicked(this::closeManagePropertyUI);
-		btnBuyHouseManageProperty.setOnMouseClicked(this::stub);
-		btnSellHouseManageProperty.setOnMouseClicked(this::stub);
-		btnMortgageManageProperty.setOnMouseClicked(this::stub);
+		btnBuyHouseManageProperty.setOnMouseClicked(this::btnbuyHouse);
+		btnSellHouseManageProperty.setOnMouseClicked(this::btnsellHouse);
+		btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
 		
 		//Handler to remove InfoCards
 		pneSpecialCard.setOnMouseClicked(this::hideSpecialCard);
@@ -162,11 +167,11 @@ public class MainController implements Initializable{public MainController() {
 			showAlert("Dice Roll", "You've Rolled "+game.board.dice.getValue());
 			
 			//Check what's been rolled and do UI changes
-			Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
-			if(landedSquare instanceof Establishment){
-				showManagePopover((Establishment)game.board.Squares[game.getCurrentPlayer().getPosition()]);
+			selectedSquare = getCurrentLandedSquare();
+			if(selectedSquare instanceof Establishment){
+				showManagePopover();
 			}else{
-				SpecialSquare specialSquare = (SpecialSquare)landedSquare;
+				SpecialSquare specialSquare = (SpecialSquare)selectedSquare;
 				if(specialSquare.getType()==Type.ChanceCard){
 					//Display Card UI
 					Card pickedUpCard = game.board.ChanceCardsDeck.showLastCard();
@@ -209,9 +214,9 @@ public class MainController implements Initializable{public MainController() {
 	 * @param e
 	 */
 	public void buyProperty(MouseEvent e){
-		Square square = game.board.Squares[game.getCurrentPlayer().getPosition()];
-		if(square instanceof Establishment){
-			Establishment est = (Establishment)square;
+		if(getCurrentLandedSquare().equals(selectedSquare))
+		if(selectedSquare instanceof Establishment){
+			Establishment est = (Establishment)selectedSquare;
 			if(game.getCurrentPlayer().buy(est)){
 				hideManagePopover();
 				showAlert("Property Bought", "Congratulations on your new property "+est.getName());
@@ -232,7 +237,7 @@ public class MainController implements Initializable{public MainController() {
 	 * @param e
 	 */
 	public void mortgageProperty(MouseEvent e){
-		Square square = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		Square square = selectedSquare;
 		if(square instanceof Establishment){
 			Establishment est = (Establishment)square;
 			if(est.isMortgaged()){
@@ -256,20 +261,20 @@ public class MainController implements Initializable{public MainController() {
 	 * What happens when the user clicks on a square
 	 * @param event
 	 */
-	public void squareClicked(MouseEvent event){
-			
-		String text = ((Text)((Pane) event.getSource()).getChildren().get(1)).getText();	
+	public void SubjectSquareClicked(MouseEvent event){
+
+		selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
+		showManagePropertyPopover(true);
 		
-		Square square = game.board.Squares[getSquareIndex(text)];
-		if(square instanceof Establishment){ 
-			Establishment est = (Establishment)(square);
-			
-			String owner = est.getOwner()!=null?est.getOwner().getName():"No Owner"; 
-			System.out.println("@SquareClicked():\n"+est.getName()+
-								"\n"+est.getPrice()+
-								"\n"+owner);
-		}
-		
+	}
+	/**
+	 * What happens when the user clicks on a square
+	 * @param event
+	 */
+	public void OtherSquareClicked(MouseEvent event){
+
+		selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
+		showManagePropertyPopover(true);
 		
 	}
 	/**
@@ -280,7 +285,7 @@ public class MainController implements Initializable{public MainController() {
 	private int getSquareIndex(String text){
 		int i=0;
 		for(Square square : game.board.Squares){
-			if(square.getName()==text){
+			if(square.getName().equals(text)){
 				return i;
 			}else{
 				i++;
@@ -395,13 +400,18 @@ public class MainController implements Initializable{public MainController() {
 		imgYourRoll.setVisible(game.canRoll());
 		
 		//Update if the Buy Property Button should be Active
-		Square landedSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
-		if(landedSquare instanceof Establishment){
-			Establishment landedEstablishment = (Establishment)(landedSquare);
+		if(selectedSquare instanceof Establishment){
+			Establishment landedEstablishment = (Establishment)(selectedSquare);
 				//Set the button property depending on if the landedSquare has an owner
 				if(landedEstablishment.hasOwner()){
 					ManageBuy.setVisible(false);
 					btnMortgageManageProperty.setVisible(true);
+					if(landedEstablishment.isMortgaged()){
+						btnMortgageManageProperty.setText("unmortgage");
+					}else{
+						btnMortgageManageProperty.setText("mortgage");
+					}
+					
 					if(landedEstablishment.isMortgaged()){
 						btnMortgageManageProperty.setText("UnMortgage");
 					}else{
@@ -418,7 +428,9 @@ public class MainController implements Initializable{public MainController() {
 		}
 		
 		//Update Property Information
-		updateTitleDeed(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+		if(GrpManagePopover.isVisible() || GrpManagePropertyPopover.isVisible()){
+			updateTitleDeed();
+		}
 		
 		//Update the Board Canvas
 		for(int i=0; i<game.board.Squares.length;i++){
@@ -453,6 +465,13 @@ public class MainController implements Initializable{public MainController() {
 					gc.setFill(Color.web(playerColors[game.getPlayerIndex(owner)]));
 					gc.fillRoundRect(0,150,100,20, 20, 20);
 					//TODO Draw Houses
+					if(square.getSquareType().equals("Subject")){
+						Subject sub = ((Subject)square);
+						for(int h = 0; i<sub.getHouses(); i++){
+							gc.setFill(Color.RED);
+							gc.fillRect((50/4)*h,3,10,10);
+						}
+					}
 				}
 				//3. Draw Player Location
 				for(Player p : game.players){
@@ -479,22 +498,19 @@ public class MainController implements Initializable{public MainController() {
 	 * Updated the titleDeed UI
 	 * @param square
 	 */
-	public void updateTitleDeed(Square square){
-		System.out.println("updateTitleDeed(): Called for "+square.getName());
+	public void updateTitleDeed(){
 		
-		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		System.out.println("updateTitleDeed(): Called for "+selectedSquare.getName());
 				
-		if(playerSquare.getSquareType().equals("Subject")){
-			Subject sub = (Subject)playerSquare;
+		showDeeds(true);
+		System.out.println(selectedSquare.getSquareType());
+		
+		
+		if(selectedSquare.getSquareType().equals("Subject")){
+			Subject sub = (Subject)selectedSquare;
 			
 			System.out.println("Title Deed for Subject Updated!!"+sub.getName());
-
-			
-			//Update what Deed to show
-			PneTitleDeed.setVisible(false);
-			PneBarDeed.setVisible(true);PneBarDeed.toFront();
-			PneRestaurantDeed.setVisible(false);
-			
+						
 			titleDeedPropertyName.setText(sub.getName());
 			for(String color : cssColors){
 				TITLEDEEDCOLOR.getStyleClass().remove(color);
@@ -516,8 +532,8 @@ public class MainController implements Initializable{public MainController() {
 			PneTitleDeed.setVisible(true);
 			PneBarDeed.setVisible(false);
 			PneRestaurantDeed.setVisible(false);
-		}else if(playerSquare.getSquareType().equals("Bar")){
-			Bar bar = (Bar)playerSquare;
+		}else if(selectedSquare.getSquareType().equals("Bar")){
+			Bar bar = (Bar)selectedSquare;
 			
 			System.out.println("Title Deed for Bar Updated!!"+bar.getName());
 			
@@ -527,12 +543,14 @@ public class MainController implements Initializable{public MainController() {
 			titleDeedBar3.setText("£"+bar.getBaseRent()*3);
 			titleDeedBar4.setText("£"+bar.getBaseRent()*4);
 			
+			titleDeedBarMortgage.setText("Mortgage Value £"+bar.getMortgageValue());
+			
 			//Update what Deed to show
-			PneTitleDeed.setVisible(false);
-			PneBarDeed.setVisible(true);
+			PneTitleDeed.setVisible(true);
+			PneBarDeed.setVisible(false);
 			PneRestaurantDeed.setVisible(false);
-		}else if(playerSquare.getSquareType().equals("Restaurant")){
-			Restaurant restaurant = (Restaurant)playerSquare;
+		}else if(selectedSquare.getSquareType().equals("Restaurant")){
+			Restaurant restaurant = (Restaurant)selectedSquare;
 			
 			System.out.println("Title Deed for Restaurant Updated!!"+restaurant.getName());
 			
@@ -549,59 +567,64 @@ public class MainController implements Initializable{public MainController() {
 			RestaurantDeedMortgage.setText("Mortgage Value £"+restaurant.getMortgageValue());
 			
 			//Update what Deed to show
-			PneTitleDeed.setVisible(false);
-			PneBarDeed.setVisible(false);
-			PneRestaurantDeed.setVisible(true);
-		}else if(square.getSquareType().equals("SpecialSquare")){
-			
-			
-			
-			//Update what Deed to show
-			grpAllDeeds.setVisible(false);
-			PneTitleDeed.setVisible(false);
+			PneTitleDeed.setVisible(true);
 			PneBarDeed.setVisible(false);
 			PneRestaurantDeed.setVisible(false);
+		}else{
+			showDeeds(false);
+			return;
 		}
+		showDeeds(true);
+		
 
+	}
+	public void showDeeds(boolean b){
+		grpAllDeeds.setVisible(b);
 	}
 	
 	/**
 	 * Shows the Manage Popover
 	 * @param b
 	 */
-	public void showManagePopover(Square square){
+	public void showManagePopover(){
 				
-		if(!(square instanceof Establishment)){
+		if(!(selectedSquare instanceof Establishment)){
 			return;
 		}
 		
-		Establishment establishment = (Establishment)square;
+		Establishment establishment = (Establishment)selectedSquare;
 		
 		//Update ManagePopover
 		ManageText.setText("Purchase '"+establishment.getName()+"' for £"+establishment.getPrice());
 		
+		if(establishment.hasOwner()){
+			txtManagePropertyOwnedBy.setText("Owned by"+establishment.getOwner().getName());
+		}else{
+			txtManagePropertyOwnedBy.setText("Not Owned");
+		}
+		
+		
 		//Disable the buy button if the current user is the owner
-		if(establishment.hasOwner() && game.getCurrentPlayer().equals(establishment.getOwner())){
+		if((establishment.hasOwner() && game.getCurrentPlayer().equals(establishment.getOwner())) || (getCurrentLandedSquare()!=establishment)){
 			ManageBuy.setVisible(false);
 		}else{
 			ManageBuy.setVisible(true);
 		}
 		
-		//Reset Position for Deeds
-		grpAllDeeds.setLayoutX(550);grpAllDeeds.setLayoutY(20);
 		
-		//Set Visibility for Deeds
-		grpAllDeeds.setVisible(true);
-		
+		updateTitleDeed();
+
 		//Show the popover
 		GrpManagePopover.setVisible(true);
+		showDeeds(true);
+		
 	}
 	/**
 	 * Hides the Manage Popover
 	 */
 	public void hideManagePopover(){
 		//Set Visibility for Deeds
-		grpAllDeeds.setVisible(false);
+		showDeeds(false);
 		
 		//Show the popover
 		GrpManagePopover.setVisible(false);
@@ -612,28 +635,31 @@ public class MainController implements Initializable{public MainController() {
 	 */
 	public void showManagePropertyPopover(Boolean b){
 		System.out.println("showManagePropertyPopover(): "+ b);
-		Establishment est = (Establishment)game.board.Squares[game.getCurrentPlayer().getPosition()];
+		Establishment est = (Establishment)selectedSquare;
 		//Update Text
-		if(est.getOwner()!=null){
+		if(est.getOwner()==null){
 			ManagePropertyText.setText("Not Owned");
 		}else{
 			ManagePropertyText.setText("Owned by "+est.getOwner().getName());
 		}
-		
-		//Reset Position for Deeds
-		grpAllDeeds.setLayoutX(550);grpAllDeeds.setLayoutY(20);
+
 		
 		//Show the popover
 		GrpManagePropertyPopover.setVisible(b);
 		hideManagePopover();
 
+		
+		//Reset Position for Deeds
+		grpAllDeeds.setLayoutX(550);grpAllDeeds.setLayoutY(20);
+		updateTitleDeed();
+		showDeeds(true);
 	}
 	/**
 	 * Mouse Event to shows the ManageProperty Popover
 	 * @param e
 	 */
 	public void ManageProperty(MouseEvent e){
-		Square square = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		Square square = getCurrentLandedSquare();
 		if(square instanceof Establishment){
 			showManagePropertyPopover(true);
 		}
@@ -654,7 +680,7 @@ public class MainController implements Initializable{public MainController() {
 		//Close Manage Property
 		showManagePropertyPopover(false);
 		//Open Manage
-		showManagePopover(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+		showManagePopover();
 	}
 	/**
 	 * Open UI for Chance Card etc.
@@ -682,7 +708,7 @@ public class MainController implements Initializable{public MainController() {
 		pneSpecialCard.setVisible(false);
 	}
 	/**
-	 * 
+	 * Message overlay
 	 * @param title
 	 * @param message
 	 */
@@ -691,6 +717,7 @@ public class MainController implements Initializable{public MainController() {
 		grpPopupMessage.setVisible(true);
 		PopUpTitle.setText(title);
 		PopUpMessage.setText(message);
+		grpPopupMessage.toFront();
 	}
 	public void hideAlert(){
 		grpPopupMessage.setVisible(false);
@@ -698,6 +725,44 @@ public class MainController implements Initializable{public MainController() {
 	public void hideAlert(MouseEvent e){
 		hideAlert();
 	}
+	
+	/**
+	 * Button to buy a house
+	 * @param e
+	 */
+	public void btnbuyHouse(MouseEvent event){
+		if(game.upgrade((Subject) selectedSquare)){
+			showAlert("Upgrade","You've a new building in your school!");
+		}else{
+			showAlert("Upgrade","Something went wrong!");
+		}
+	}
+	/**
+	 * Button to sell a house
+	 * @param e
+	 */
+	public void btnsellHouse(MouseEvent event){
+		if(game.upgrade((Subject) selectedSquare)){
+			showAlert("Upgrade","You've a new building in your school!");
+		}else{
+			showAlert("Upgrade","Something went wrong!");
+		}
+	}
+	
+	
+	
+	////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+////////////////////HELPER METHODS////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+	public Square getCurrentLandedSquare(){
+		return game.board.Squares[game.getCurrentPlayer().getPosition()];
+	}
+	public boolean canBuySquare(){
+		return getCurrentLandedSquare().equals(selectedSquare);
+	}	
 	/**
 	 * TODO DELETE
 	 * @param event
