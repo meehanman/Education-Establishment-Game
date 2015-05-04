@@ -133,6 +133,10 @@ public class Subject extends Establishment {
 		this.housePrice = housePrice;
 	}
 	
+	/**
+	 * Allows a player to sell a house on a subject and
+	 * refund the owner the money paid for it.
+	 */
 	public void sellHouse(){
 		if(houses > (rent.length - 1)){
 			//remove facility and only refund price of one house
@@ -148,6 +152,10 @@ public class Subject extends Establishment {
 		}
 	}
 	
+	/**
+	 * Sell all the houses at once to allow for looping
+	 * the sale of all houses on the property.
+	 */
 	public void sellAllHouses(){
 		//sell all the houses on the property giving the money to 
 		//the owner
@@ -156,6 +164,10 @@ public class Subject extends Establishment {
 			}
 	}
 	
+	/**
+	 * Allows the player to purchase a house providing
+	 * they have enough money to afford it.
+	 */
 	public void buyHouse(){
 		//if owner can afford buy house
 		if (owner.getBalance() > housePrice){
@@ -163,7 +175,11 @@ public class Subject extends Establishment {
 			addHouse();
 		}
 	}
-
+	
+	/**
+	 * Allows the bankrupt event to clear all the houses
+	 * on a subject without having to loop through selling.
+	 */
 	public void clearHouses() {
 		// remove all house on the subject
 		this.houses = 0;

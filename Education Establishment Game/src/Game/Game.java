@@ -202,13 +202,31 @@ public class Game {
 		return playersWithMoney>1?false:true;
 	}
 	
-	public void upgrade(Subject subject){
+	/**
+	 * Will test if player should be able to add houses to a
+	 * subject and will take appropriate action - either to
+	 * buy the house or not allow the purchase;
+	 * @param subject - the subject you wish to buy a house for.
+	 * @return boolean - true if purchased, false otherwise.
+	 */
+	public boolean upgrade(Subject subject){
 		//if own all of a color and they are developed equally
 		if(ownsAllColor(subject) && equalDevelopment(subject)){
 			subject.buyHouse();
+			return true;
 		}
+			return false;
 	}
 	
+	/**
+	 * Will test subjects to ensure that all subjects of a color
+	 * group are progressing evenly to allow for a steady ramp
+	 * up in gameplay. This will stop a single subject being
+	 * upgraded to maximum house count while the rest are left 
+	 * at lower house counts.
+	 * @param subject - the subject you want to compare with.
+	 * @return boolean value - true if evenly developed, false otherwise.
+	 */
 	public boolean equalDevelopment(Subject subject){
 		ArrayList<Subject> tempSubArray = getAllColor(subject.getColor());
 		for(int i = 0; i <tempSubArray.size();i++){
@@ -219,6 +237,12 @@ public class Game {
 		return true;
 	}
 	
+	/**
+	 * Will return an Arraylist of all the subjects that share
+	 * a particular color.
+	 * @param color - color group to search for
+	 * @return ArrayList<Subject> of all subjects of a color group.
+	 */
 	public ArrayList<Subject> getAllColor(String color){
 		ArrayList<Subject> tempSubArray = new ArrayList<Subject>(); 
 		for (Square square: board.Squares){
@@ -236,6 +260,12 @@ public class Game {
 		return tempSubArray;
 	}
 	
+	/**
+	 * Will return a boolean value for whether a player owns
+	 * all the subjects of a particular color type.
+	 * @param subject
+	 * @return true if all of a color group owned, false otherwise.
+	 */
 	public boolean ownsAllColor(Subject subject){
 		ArrayList<Subject> tempSubArray = getAllColor(subject.getColor());
 		for(int i = 0; i <tempSubArray.size();i++){
@@ -246,6 +276,13 @@ public class Game {
 		return true;
 	}
 	
+	/**
+	 * Allows a user to exit the game and declare themselves as
+	 * bankrupt. This will be called when a user can no longer 
+	 * afford to continue the game. It resets all establishments
+	 * owned by the player to the way they were at the beginning
+	 * of the game.
+	 */
 	public void bankrupt(){
 		for (Square square: board.Squares){
 			//If its an establishment then it can be baught
@@ -263,10 +300,16 @@ public class Game {
 				}
 			}
 		}
+		getCurrentPlayer().flagBankrupt();
 	}
 	
-	
-	public void endGame(){
+	/**
+	 * called at the end of the game to systematically tally up the
+	 * worth of all remaining players in the game. Will then return
+	 * an arraylist of players in order of 1st to 4th. 
+	 * @return ArrayList<Player>
+	 */
+	public ArrayList<Player> endGame(){
 		//for each property on the board
 		for (Square square: board.Squares){
 			//If its an establishment then it can be baught
@@ -303,7 +346,7 @@ public class Game {
 			}
 		}
 		
-		players = mplayers;
+		return mplayers;
 	}
 	
 		

@@ -11,6 +11,7 @@ public class Player {
 	int position;
 	ArrayList<Establishment> propertiesOwned = new ArrayList<Establishment>();	
 	boolean isInJail = false;
+	boolean bankrupt = false;
 	/**
 	 * PUBLICALLY ASSCESSIBLE METHODS
 	 */
@@ -204,6 +205,14 @@ public class Player {
 	}
 	public boolean isInJaul(){
 		return this.isInJail;
+	}
+	/**
+	 * set player bankrupt flag to true
+	 * which will stop them from having any
+	 * more turns.
+	 */
+	public void flagBankrupt() {
+		this.bankrupt = true;
 	}
 	
 
