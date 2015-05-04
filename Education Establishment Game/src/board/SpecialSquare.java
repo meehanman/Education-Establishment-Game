@@ -10,7 +10,7 @@ package board;
  */
 public class SpecialSquare extends Square{
 	
-	public static enum Type { Go, ComunityChest, ChanceCard, Jail, GotoJail, FreeParking, IncomeTax, SuperTax };
+	public static enum Type { Go, CommunityChest, ChanceCard, Jail, GotoJail, FreeParking, IncomeTax, SuperTax };
 	private Type specialType;
 	private Effect effect;
 	

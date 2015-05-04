@@ -37,6 +37,7 @@ public class Dice {
 	 */
 	public int[] rollDice(){
 		values = new int[] {roll(),roll()};
+		System.out.println("Rolled "+values[0]+" and "+values[1]);
 		return values;
 	}
 	/**

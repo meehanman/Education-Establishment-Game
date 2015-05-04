@@ -43,7 +43,7 @@ public class MainController implements Initializable{public MainController() {
 	//Create variables with names the same as ID's in the fxml 
 	//as these can be used then again in our functions	
 	@FXML Text txtMessageOutput,txtPropertyCard;
-	@FXML ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar; 	//Dice http://www.wpclipart.com/recreation/games/dice/dice.png.html
+	@FXML ImageView imgDice1,imgDice2,   imgTopBarSelector,imgTopBar;
 	@FXML Group grpDice;
 	@FXML AnchorPane HeadNode;
 	@FXML Group BoardNode;
@@ -53,8 +53,8 @@ public class MainController implements Initializable{public MainController() {
 	//Manage Screen and Manage Property
 	@FXML Group GrpManagePopover, GrpManagePropertyPopover;
 	@FXML Text ManageText, ManagePropertyText; 
-	@FXML Button ManageBuy, ManageTrade, ManageManage, ManagePass;
-	@FXML Button btnBackManageProperty, btnBuyHomeManageProperty, btnSellHomeManageProperty, btnMortgageManageProperty;
+	@FXML Button ManageBuy, ManageTrade, ManageManage, ManageClose;
+	@FXML Button btnBackManageProperty, btnBuyHouseManageProperty, btnSellHouseManageProperty, btnMortgageManageProperty;
 	@FXML Group grpAllDeeds;
 	//BarDeed
 	@FXML Pane PneBarDeed;
@@ -82,13 +82,16 @@ public class MainController implements Initializable{public MainController() {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		PneBarDeed.setVisible(true);
+		
+		
 		//Add event listeners to all the squares
 		for(int i = 0; i<game.board.Squares.length;i++){
 			GetSquarePane(i).setOnMouseClicked(this::squareClicked);
 			
 		}
 		//Button Event Handlers
-		btnNextTurn.setOnMouseClicked(this::takeNextTurn);
+		btnNextTurn.setOnMouseClicked(this::endTurn);
 		ManageBuy.setOnMouseClicked(this::buyProperty);
 		btnMortgageProperty.setOnMouseClicked(this::mortgageProperty);
 		
@@ -96,13 +99,18 @@ public class MainController implements Initializable{public MainController() {
 		ManageBuy.setOnMouseClicked(this::buyProperty);
 		ManageTrade.setOnMouseClicked(this::stub);
 		ManageManage.setOnMouseClicked(this::ManageProperty);
-		ManagePass.setOnMouseClicked(this::takeNextTurn);
+		ManageClose.setOnMouseClicked(this::hideManagePopover);
 		
 		//Handlers for OnScreenButtons (When no popup's are present)
-		btnMortgageManageProperty.setOnMouseClicked(this::mortgageProperty);
 		btnBoardManage.setOnMouseClicked(this::stub);
 		btnBoardTrade.setOnMouseClicked(this::stub);
-		btnBoardEndTurn.setOnMouseClicked(this::takeNextTurn);
+		btnBoardEndTurn.setOnMouseClicked(this::endTurn);
+		
+		//Handlers for Manage Property
+		btnBackManageProperty.setOnMouseClicked(this::closeManagePropertyUI);
+		btnBuyHouseManageProperty.setOnMouseClicked(this::stub);
+		btnSellHouseManageProperty.setOnMouseClicked(this::stub);
+		btnMortgageManageProperty.setOnMouseClicked(this::stub);
 		
 		//Handler to remove InfoCards
 		pneSpecialCard.setOnMouseClicked(this::hideSpecialCard);
@@ -129,7 +137,6 @@ public class MainController implements Initializable{public MainController() {
 			}else if(square.getSquareType().equals("SpecialSquare")){
 				SpecialSquare specialSquare = (SpecialSquare)square;
 				ChangeSpecialSquare(GetSquarePane(i),specialSquare);
-				
 			}
 		}
 		
@@ -158,7 +165,7 @@ public class MainController implements Initializable{public MainController() {
 					//Display Card UI
 					Card pickedUpCard = game.board.ChanceCardsDeck.showLastCard();
 					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
-				}else if(specialSquare.getType()==Type.ComunityChest){
+				}else if(specialSquare.getType()==Type.CommunityChest){
 					//Display Card UI
 					Card pickedUpCard = game.board.ComunityCheckCardsChest.showLastCard();
 					showSpecialCard(pickedUpCard.getTitle(),pickedUpCard.getDescription());
@@ -175,7 +182,7 @@ public class MainController implements Initializable{public MainController() {
 	 *  Next Turn Button
 	 *  @after Prompt user to roll dice
 	 */
-	public void takeNextTurn(MouseEvent event){
+	public void endTurn(MouseEvent event){
 		btnNextTurn.setVisible(false);
 		hideManagePopover();
 		if(game.canRoll()){
@@ -460,10 +467,20 @@ public class MainController implements Initializable{public MainController() {
 	 * @param square
 	 */
 	public void updateTitleDeed(Square square){
-		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+		System.out.println("updateTitleDeed(): Called for "+square.getName());
 		
+		Square playerSquare = game.board.Squares[game.getCurrentPlayer().getPosition()];
+				
 		if(playerSquare.getSquareType().equals("Subject")){
 			Subject sub = (Subject)playerSquare;
+			
+			System.out.println("Title Deed for Subject Updated!!"+sub.getName());
+
+			
+			//Update what Deed to show
+			PneTitleDeed.setVisible(false);
+			PneBarDeed.setVisible(true);PneBarDeed.toFront();
+			PneRestaurantDeed.setVisible(false);
 			
 			titleDeedPropertyName.setText(sub.getName());
 			for(String color : cssColors){
@@ -489,6 +506,8 @@ public class MainController implements Initializable{public MainController() {
 		}else if(playerSquare.getSquareType().equals("Bar")){
 			Bar bar = (Bar)playerSquare;
 			
+			System.out.println("Title Deed for Bar Updated!!"+bar.getName());
+			
 			titleDeedBarName.setText(bar.getName());
 			titleDeedBarRent.setText("Rent £"+bar.getBaseRent());
 			titleDeedBar2.setText("£"+bar.getBaseRent()*2);
@@ -497,19 +516,25 @@ public class MainController implements Initializable{public MainController() {
 			
 			//Update what Deed to show
 			PneTitleDeed.setVisible(false);
-			PneBarDeed.setVisible(true);
-			PneRestaurantDeed.setVisible(false);
+			PneBarDeed.setVisible(false);
+			PneRestaurantDeed.setVisible(true);
+			
 		}else if(playerSquare.getSquareType().equals("Restaurant")){
 			Restaurant restaurant = (Restaurant)playerSquare;
+			
+			System.out.println("Title Deed for Restaurant Updated!!"+restaurant.getName());
 			
 			//Find out if bar was at first half or second half to find the image by number
 			int restNum = getSquareIndex(restaurant.getName())<20?0:1;
 			
 			//Update titleDeed
+			try{
 			RestaurantDeedImage.setImage(new Image("\\gui\\img\\rest"+restNum+".png"));
+			}catch(IllegalArgumentException e){
+				System.out.println("Cannot find your Image");
+			}
 			RestaurantDeedName.setText(restaurant.getName());;
 			RestaurantDeedMortgage.setText("Mortgage Value £"+restaurant.getMortgageValue());
-			
 			
 			//Update what Deed to show
 			PneTitleDeed.setVisible(false);
@@ -520,6 +545,7 @@ public class MainController implements Initializable{public MainController() {
 			
 			
 			//Update what Deed to show
+			grpAllDeeds.setVisible(false);
 			PneTitleDeed.setVisible(false);
 			PneBarDeed.setVisible(false);
 			PneRestaurantDeed.setVisible(false);
@@ -531,8 +557,14 @@ public class MainController implements Initializable{public MainController() {
 	 * Shows the Manage Popover
 	 * @param b
 	 */
-	public void showManagePopover(Establishment establishment){
+	public void showManagePopover(Square square){
 				
+		if(!(square instanceof Establishment)){
+			return;
+		}
+		
+		Establishment establishment = (Establishment)square;
+		
 		//Update ManagePopover
 		ManageText.setText("Purchase '"+establishment.getName()+"' for £"+establishment.getPrice());
 		
@@ -595,23 +627,44 @@ public class MainController implements Initializable{public MainController() {
 		}
 	}
 	
+	public void hideSpecialCard(MouseEvent e){
+		hideSpecialCard();
+	}
+	public void hideManagePopover(MouseEvent e){
+		hideManagePopover();
+	}
+	/**
+	 * Closes Manage Property and Opens Manage
+	 * Essentially a back button
+	 * @param e
+	 */
+	public void closeManagePropertyUI(MouseEvent e){
+		//Close Manage Property
+		showManagePropertyPopover(false);
+		//Open Manage
+		showManagePopover(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+	}
+	/**
+	 * Open UI for Chance Card etc.
+	 * @param title
+	 * @param text
+	 */
 	public void showSpecialCard(String title, String text){
 		pneSpecialCard.setVisible(true);
 		SpecialCardTitle.setText(title); 
 		SpecialCardText.setText(text);
 	}
+	/**
+	 * Closes UI for Chance Card etc.
+	 */
 	public void hideSpecialCard(){
 		pneSpecialCard.setVisible(false);
 	}
-	public void hideSpecialCard(MouseEvent e){
-		hideSpecialCard();
-	}
-	
 	/**
 	 * TODO DELETE
 	 * @param event
 	 */
-	public void stub(MouseEvent event){}
+	public void stub(MouseEvent event){System.out.println("ONLY A STUB METHOD, METHOD STILL TO BE COMPLETED!");}
 
 
 }
