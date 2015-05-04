@@ -46,7 +46,7 @@ public class Restaurant extends Establishment {
 		if(hasOwner()){
 			for(Square square : squares){
 				//If the square is a Restaurant and the owner is this owner
-				if(square instanceof Restaurant && ((Establishment)(square)).getOwner().equals(getOwner())){
+				if(square.getSquareType().equals("Restaurant") && ((Establishment)(square)).getOwner().equals(getOwner())){
 					amountOwned++;
 				}
 			}
