@@ -85,10 +85,10 @@ public class Game {
 			if(specialSquare.getType()==Type.ChanceCard){
 				//Pick up Card and be affected by it
 				affect(getCurrentPlayer(),board.ChanceCardsDeck.takeCard());
-				landOn(board.Squares[getCurrentPlayer().getPosition()]);
+				//landOn(board.Squares[getCurrentPlayer().getPosition()]);
 			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
-				board.ComunityCheckCardsChest.takeCard();
+				affect(getCurrentPlayer(),board.ComunityCheckCardsChest.takeCard());
 			}
 		}
 		
@@ -101,6 +101,7 @@ public class Game {
 	 * @param takeCard - the card draw from the deck.
 	 */
 	private void affect(Player player, Card takeCard) {
+		System.out.println("reached!!");
 		//check if money depends on houses owned
 		if (takeCard.getEffect().isHouseCharge()){
 			if (takeCard.getEffect().getMoney() > 0){
@@ -123,10 +124,23 @@ public class Game {
 				player.subBalance(takeCard.getEffect().getMoney());
 			}
 		}
+		System.out.println("reach!!");
 		//check if moment caused
 		if(takeCard.getEffect().isMovement()){
-		//move position
+			//check if pass go.
+			if(takeCard.getEffect().getPosition() < getCurrentPlayer().getPosition()){
+				//add bonus for passing go.
+				System.out.println("a");
+				player.addBalance(200);
+			}
+			//move position
+			System.out.println(takeCard.getEffect().getPosition());
+			System.out.println(player.getPosition());
 			player.moveto(takeCard.getEffect().getPosition());
+			System.out.println(player.getPosition());
+			//call land on to pay rent etc for new landed on square
+			System.out.println(board.Squares[player.getPosition()]);
+			landOn(board.Squares[player.getPosition()]);
 		}
 		
 	}
