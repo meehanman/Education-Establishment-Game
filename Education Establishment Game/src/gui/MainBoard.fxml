@@ -1266,7 +1266,7 @@
             </Group>
          </children>
       </Pane>
-      <Button fx:id="btnForefit" layoutX="41.0" layoutY="849.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfit from Game" textFill="WHITE">
+      <Button fx:id="btnForfeit" layoutX="41.0" layoutY="849.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="redGrad" />

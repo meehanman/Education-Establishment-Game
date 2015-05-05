@@ -100,7 +100,7 @@ public class MainController implements Initializable {
 	@FXML Button btnLockTradeLeft, btnLockTradeRight;
 	@FXML ImageView imgLeftTrader, imgRightTrader;
 	@FXML Rectangle grayOut;
-	@FXML Button btnForefit;
+	@FXML Button btnForfeit;
 
 
 	@Override
@@ -148,7 +148,7 @@ public class MainController implements Initializable {
 		txtStopTrade.setOnMouseClicked				(this::stopTrade);
 		grpDice.setOnMouseClicked					(this::diceRoll);
 		
-		btnForefit.setOnMouseClicked				(this::Forefit);
+		btnForfeit.setOnMouseClicked				(this::Forefit);
 
 		//Event handlers for the top bar
 		for (int i = 0; i < game.players.size(); i++) {
@@ -193,7 +193,22 @@ public class MainController implements Initializable {
  * Allows the current user to forfeit
  */
 	public void Forefit(MouseEvent e){
+		
 		game.bankrupt();
+		
+		//If there is only one player left, then endGame
+		int stillInTheGame = 0;
+		for(Player p : game.players){
+			//checks if there are at least 
+			if(!p.isBankrupt()){
+				stillInTheGame++;
+			}	
+		}
+		
+		//If there is only 1 player playing now, then end game
+		if(stillInTheGame<=1){
+			endGame();
+		}
 	}
 /**
 * Starts the trade cycle
