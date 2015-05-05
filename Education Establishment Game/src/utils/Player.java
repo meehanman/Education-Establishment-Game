@@ -211,6 +211,12 @@ public class Player {
 	public void flagBankrupt() {
 		this.bankrupt = true;
 	}
+	/**
+	 * Returns if the player is Bankrupt
+	 */
+	public boolean isBankrupt(){
+		return this.bankrupt;
+	}
 	
 
 }

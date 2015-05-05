@@ -442,7 +442,7 @@ public class Game {
 			if(square instanceof Establishment){
 				Establishment est = ((Establishment)(square));
 				String typeOfSquare = est.getSquareType();
-				if(est.getOwner() == getCurrentPlayer()){
+				if(est.hasOwner() && est.getOwner().equals(getCurrentPlayer())){
 					//clear owner
 					est.changeOwner(null);
 				}
