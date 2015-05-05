@@ -142,12 +142,8 @@ public class Player {
 	 * Sets the players position to a particular position on the board
 	 * @param i
 	 */
-	public void moveto(int i){
-		if (this.position < (40 - i)){
-			this.position += i;
-		}else{
-			this.position = (this.position - 40) + i;
-		}
+	public void setPosition(int i){
+		this.position = i;
 	}
 	/**
 	 * Changes the players movement around the board
@@ -157,7 +153,7 @@ public class Player {
 	 * 
 	 * @param i
 	 */
-	public void movePosition(int position) {
+	public void incrementPosition(int position) {
 		this.position += position;
 		
 		if(this.position>=40){

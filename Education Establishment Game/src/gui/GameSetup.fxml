@@ -36,7 +36,7 @@
                         <Image url="@img/pieces/tophat.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="textFieldP1" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name" text="Dean">
+                  <TextField fx:id="textFieldP1" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -51,7 +51,7 @@
                         <Image url="@img/pieces/cat.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="textFieldP2" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name" text="Conor">
+                  <TextField fx:id="textFieldP2" layoutY="105.0" prefHeight="23.0" prefWidth="127.0" promptText="Enter Name">
                      <font>
                         <Font size="13.0" />
                      </font>

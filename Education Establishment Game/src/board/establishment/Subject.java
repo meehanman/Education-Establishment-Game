@@ -104,6 +104,7 @@ public class Subject extends Establishment {
 	 * 4 - 4 houses
 	 * 5 - Facilities (HOTEL)
 	 */
+	@Override
 	public int getRent(){
 		return rent[houses];
 	}

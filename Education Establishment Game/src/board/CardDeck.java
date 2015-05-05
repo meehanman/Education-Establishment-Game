@@ -15,6 +15,8 @@ public class CardDeck {
 	public CardDeck(Card[] Deck){
 		deck = new ArrayList<Card>(Arrays.asList(Deck));
 		spentDeck = new ArrayList<Card>();
+		//Shuffle the cards
+		shuffleCards();
 	}
 	
 	//Shuffles the cards
@@ -31,18 +33,13 @@ public class CardDeck {
 	 * @return
 	 */
 	public Card takeCard(){
-		//TEST
-		System.out.println("CardDeck(): takeCard(): Size: "+deck.size());
-		//END
+				
 		//If the deck is not empty
 		if(!deck.isEmpty()){
 			this.lastCard = deck.remove(0);
 			
-			//If it is a get out of free card
-			if(lastCard.getEffect().getOutOfJailFree()){
-				
-			}
-			
+			System.out.println("===========\ntakeCard(): Card Information: \n"+lastCard.getTitle()+"\n==============");
+
 			spentDeck.add(lastCard);
 			
 			return lastCard;

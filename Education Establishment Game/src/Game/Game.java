@@ -39,8 +39,10 @@ public class Game {
 	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private boolean extraTurn; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
-	private boolean rentFlag;
 	private int doubledRolled = 0;
+	private boolean isCommunityCard = false;
+	
+	
 	public Game(ArrayList<Player> players){
 		
 		this.players = players;
@@ -84,15 +86,25 @@ public class Game {
 			SpecialSquare specialSquare = (SpecialSquare)square;
 			if(specialSquare.getType()==Type.ChanceCard){
 				//Pick up Card and be affected by it
-				affect(getCurrentPlayer(),board.ChanceCardsDeck.takeCard());
-				//landOn(board.Squares[getCurrentPlayer().getPosition()]);
+				board.ChanceCardsDeck.takeCard();
+				//Set Flag to Not Community Card
+				isCommunityCard = false;
 			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
-				affect(getCurrentPlayer(),board.ComunityCheckCardsChest.takeCard());
+				board.ComunityCheckCardsChest.takeCard();
+				//Set Flag to Community Card
+				isCommunityCard = true;
+			}else if(specialSquare.getType()==Type.GotoJail){
+				getCurrentPlayer().SendToJail();
+			}else if(specialSquare.getType()==Type.SuperTax){
+				getCurrentPlayer().subBalance(200);
+			}else if(specialSquare.getType()==Type.IncomeTax){
+				getCurrentPlayer().subBalance(200);
 			}
 		}
 		
 	}
+	
 	
 	/**
 	 * Will add or subtract money from player depending on values of card, also
@@ -100,8 +112,8 @@ public class Game {
 	 * @param player - player to be affected by movement/cost. 
 	 * @param takeCard - the card draw from the deck.
 	 */
-	private void affect(Player player, Card takeCard) {
-		System.out.println("reached!!");
+	public void actionCard(Player player, Card takeCard) {
+		
 		//check if money depends on houses owned
 		if (takeCard.getEffect().isHouseCharge()){
 			if (takeCard.getEffect().getMoney() > 0){
@@ -124,23 +136,33 @@ public class Game {
 				player.subBalance(takeCard.getEffect().getMoney());
 			}
 		}
-		System.out.println("reach!!");
 		//check if moment caused
 		if(takeCard.getEffect().isMovement()){
 			//check if pass go.
 			if(takeCard.getEffect().getPosition() < getCurrentPlayer().getPosition()){
 				//add bonus for passing go.
-				System.out.println("a");
+				System.out.println("ActionCard: Card Effect is Movement");
 				player.addBalance(200);
 			}
 			//move position
-			System.out.println(takeCard.getEffect().getPosition());
-			System.out.println(player.getPosition());
-			player.moveto(takeCard.getEffect().getPosition());
-			System.out.println(player.getPosition());
+			System.out.println("Card Position: "+takeCard.getEffect().getPosition());
+			System.out.println("Player Position: "+player.getPosition());
+			player.setPosition(takeCard.getEffect().getPosition());
+			System.out.println("Player New Position: "+player.getPosition());
 			//call land on to pay rent etc for new landed on square
-			System.out.println(board.Squares[player.getPosition()]);
+			System.out.println("New Bored Location Name: "+board.Squares[player.getPosition()].getName());
 			landOn(board.Squares[player.getPosition()]);
+		}
+		
+	}
+	/**
+	 * UI handler for actioning the current Card
+	 */
+	public void actionCurrentCard(){
+		if(isCommunityCard){
+			actionCard(getCurrentPlayer(),board.ComunityCheckCardsChest.showLastCard());
+		}else{
+			actionCard(getCurrentPlayer(),board.ChanceCardsDeck.showLastCard());
 		}
 		
 	}
@@ -200,19 +222,22 @@ public class Game {
 
 		//Rolling Doubles
 		if(board.dice.isDoubles()){
-			System.out.println("Got doubles!");
+			System.out.println("rollDice(): Got doubles!");
 			extraTurn=true;
+			diceRolled=false;
 			//Starts counter for 3 rolls = GotoJail
 			doubledRolled++;
 			if(doubledRolled>=2){
 				getCurrentPlayer().SendToJail();
 			}
+		}else{
+			//Stop this player rolling the dice again
+			diceRolled=true;
+			extraTurn=false;
+			doubledRolled=0;
 		}
 		
 		movePlayer(board.dice.getValue());
-		
-		//Stop this player rolling the dice again
-		diceRolled=true;
 		
 		//Return the values for UI
 		return diceRoll;
@@ -228,17 +253,21 @@ public class Game {
 	 * @param est2 - the establishments player2 wants to trade.
 	 * @param bal2 - the amount of money player2 wants to trade.
 	 */
-	public void trade(Player player1, ArrayList<Establishment> est1, int bal1, Player player2,
+	public boolean trade(Player player1, ArrayList<Establishment> est1, int bal1, Player player2,
 		ArrayList<Establishment> est2, int bal2){
 		//swap player1's establishments with player2.
 		swapOwner(est1,player2);
 		//swap player2's establishments with player1.
 		swapOwner(est2,player1);
-		//take balance from player1 and add to player2.
-		player1.giveMoney(player2, bal1);
-		//take balance from player2 and add to player1.
-		player2.giveMoney(player1, bal2);
-		
+		if(player1!=null || player2!=null){
+			//take balance from player1 and add to player2.
+			player1.giveMoney(player2, bal1);
+			//take balance from player2 and add to player1.
+			player2.giveMoney(player1, bal2);
+		}else{
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -262,15 +291,15 @@ public class Game {
 	
 	
 	/**
-	 * Moves the player by a position
-	 * @param i
+	 * incrementPosition
+	 * @param i Increments a player by the position i
 	 */
 	public void movePlayer(int i){
 		Player currentPlayer = getCurrentPlayer();
 		
 		System.out.println("Player pos was "+getCurrentPlayer().getPosition());
 		System.out.println("Moving player by :"+i);
-		currentPlayer.movePosition(i);
+		currentPlayer.incrementPosition(i);
 		System.out.println("Player pos is "+getCurrentPlayer().getPosition());
 
 		landOn(board.Squares[currentPlayer.getPosition()]);
@@ -467,6 +496,12 @@ public class Game {
 		}
 		
 		return mplayers;
+	}
+	 /**
+	  * return if doubles rolled 3 times, then user has to goto jail
+	  */
+	public boolean ifDoubleTrouble(){
+		return doubledRolled==3;
 	}
 	
 		

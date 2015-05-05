@@ -25,6 +25,7 @@ public class Establishment extends Square{
 	protected int mortgageValue;
 	//If the property was mortgaged
 	protected boolean mortgaged;
+	protected int rentValue;
 	
 	/**
 	 * Constructor for Subjects that have a color
@@ -39,6 +40,7 @@ public class Establishment extends Square{
 		this.mortgaged = false;
 		this.mortgageValue = price/2;
 		this.color = color;
+		this.rentValue = 0;
 	}
 	
 	public Establishment(String name, int price) {
@@ -47,6 +49,8 @@ public class Establishment extends Square{
 		this.price = price;
 		this.mortgaged = false;
 		this.color = null;
+		this.mortgageValue = price/2;
+		
 	}
 
 	////////////////////////////////////////////////////
@@ -153,6 +157,16 @@ public class Establishment extends Square{
 	 */
 	public boolean hasOwner(){
 		return this.owner!=null;
+	}
+	
+	/**
+	 * Returns the rent for the current establishment
+	 * last time rent was called by an establishment
+	 * 
+	 * @return
+	 */
+	public int getRent(){
+		return this.rentValue;
 	}
 
 

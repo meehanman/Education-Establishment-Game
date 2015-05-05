@@ -29,7 +29,6 @@ public class SplashController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		//http://stackoverflow.com/questions/18781704/is-there-a-way-to-hide-a-stage-after-a-speficied-time
 		PauseTransition pause = new PauseTransition(Duration.seconds(.4));
 		pause.setOnFinished(e -> {change();});
 		pause.play();
