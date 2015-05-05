@@ -255,6 +255,10 @@ public class Game {
 	 */
 	public boolean trade(Player player1, ArrayList<Establishment> est1, int bal1, Player player2,
 		ArrayList<Establishment> est2, int bal2){
+		
+		System.out.println(player1.getName() +" "+ bal1 + " " + player2.getName() + " " + bal2);
+		System.out.println(est1.size()+est2.size());
+		
 		//swap player1's establishments with player2.
 		swapOwner(est1,player2);
 		//swap player2's establishments with player1.
