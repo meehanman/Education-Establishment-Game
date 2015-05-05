@@ -207,7 +207,9 @@ public class Game {
 				player.addBalance(200);
 			}
 			//move position
-			player.incrementPosition(takeCard.getEffect().getPosition());
+//**************************************************************************
+// THIS LINE MAY CAUSE PLAYER TO LAND ON GO COLLECTING 400 INSTEAD OF PASSING?
+//			player.incrementPosition(takeCard.getEffect().getPosition());
 			
 			
 			//call land on to pay rent etc for new landed on square.
