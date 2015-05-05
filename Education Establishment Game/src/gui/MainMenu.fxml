@@ -15,7 +15,7 @@
             <Image url="@img/EEGMenuBackground.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnPlayGame" defaultButton="true" layoutX="384.0" layoutY="270.0" mnemonicParsing="false" onAction="#playGame" prefHeight="74.0" prefWidth="398.0" styleClass="menu-button" text="Play Game" textFill="WHITE">
+      <Button fx:id="btnPlayGame" defaultButton="true" layoutX="385.0" layoutY="335.0" mnemonicParsing="false" onAction="#playGame" prefHeight="74.0" prefWidth="398.0" styleClass="menu-button" text="Play Game" textFill="WHITE">
          <font>
             <Font size="54.0" />
          </font>
@@ -23,20 +23,12 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnExit" layoutX="443.0" layoutY="492.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="59.0" prefWidth="281.0" styleClass="menu-button" text="Exit" textFill="WHITE">
+      <Button fx:id="btnExit" layoutX="444.0" layoutY="460.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="59.0" prefWidth="281.0" styleClass="menu-button" text="Exit" textFill="WHITE">
          <font>
             <Font size="54.0" />
          </font>
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnRules" disable="true" layoutX="384.0" layoutY="378.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="398.0" styleClass="menu-button" text="Rules" textFill="WHITE">
-         <font>
-            <Font size="54.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="DISAPPEAR" />
          </cursor>
       </Button>
    </children>

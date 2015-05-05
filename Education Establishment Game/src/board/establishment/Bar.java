@@ -43,8 +43,8 @@ public class Bar extends Establishment {
 		//If this has an owner
 		if(hasOwner()){
 			for(Square square : squares){
-				//If the square is a Restaurant and the owner is this owner
-				if(square.getSquareType().equals("Restaurant") && ((Establishment)(square)).getOwner().equals(getOwner())){
+				//If the square is a Bar and the owner is this owner
+				if(square.getSquareType().equals("Bar") && (((Establishment)(square)).hasOwner() && ((Establishment)(square)).getOwner().equals(getOwner()))){
 					rental+=rental;
 				}
 			}
@@ -53,7 +53,8 @@ public class Bar extends Establishment {
 		}
 
 		//If 1 is owned, then it will output the first value etc..
-		return rental;
+		this.rentValue = rental;
+		return getRent();
 	}
 	public int getBaseRent(){
 		return this.price/4;

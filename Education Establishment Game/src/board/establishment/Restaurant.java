@@ -52,7 +52,8 @@ public class Restaurant extends Establishment {
 			}
 		}
 		//If 1 is owned, then it will output the first value etc..
-		return diceRoll * multiplier[amountOwned];
+		this.rentValue = diceRoll * multiplier[amountOwned];
+		return getRent();
 	}
 	
 }

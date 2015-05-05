@@ -14,6 +14,11 @@
 
 <AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
+      <ImageView fitHeight="953.0" fitWidth="1897.0" layoutY="-8.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/tableBackground.jpg" />
+         </image>
+      </ImageView>
       <Group fx:id="BoardNode" layoutX="170.0" layoutY="204.0" scaleX="0.7" scaleY="0.7">
          <children>
             <Pane layoutX="137.0" layoutY="705.0" prefHeight="150.0" prefWidth="1004.0">
@@ -794,7 +799,7 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnSellHouseManageProperty" layoutX="185.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Sell House" textFill="WHITE">
+                  <Button fx:id="btnSellHouseManageProperty" layoutX="185.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="81.0" text="Sell School" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -804,7 +809,7 @@
                         <String fx:value="greenGrad" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnBuyHouseManageProperty" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="82.0" text="Buy House" textFill="WHITE">
+                  <Button fx:id="btnBuyHouseManageProperty" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="82.0" text="Buy School" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -884,7 +889,7 @@
             </Pane>
          </children>
       </Group>
-      <Button fx:id="btnBoardManage" layoutX="59.0" layoutY="157.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Manage" textFill="WHITE">
+      <Button fx:id="btnBoardManage" layoutX="34.0" layoutY="157.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Manage" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
@@ -897,7 +902,7 @@
       <Group fx:id="grpPopupMessage" layoutX="583.0" layoutY="-198.0" visible="false">
          <children>
             <Rectangle fx:id="grayOut" arcHeight="5.0" arcWidth="5.0" fill="#00000071" height="937.0" layoutX="-670.0" layoutY="190.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" />
-            <Pane layoutX="22.0" layoutY="548.0" prefHeight="200.0" prefWidth="243.0" styleClass="settings-overlay">
+            <Pane fx:id="pnePopupMessage" layoutX="22.0" layoutY="548.0" prefHeight="200.0" prefWidth="243.0" styleClass="settings-overlay">
                <children>
                   <Pane prefHeight="50.0" prefWidth="243.0" styleClass="settings-overlay-top">
                      <children>
@@ -917,7 +922,7 @@
             </Pane>
          </children>
       </Group>
-      <Button fx:id="btnBoardEndTurn" layoutX="59.0" layoutY="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="End Turn" textFill="WHITE">
+      <Button fx:id="btnBoardEndTurn" layoutX="34.0" layoutY="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="End Turn" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
@@ -927,7 +932,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="btnBoardTrade" layoutX="59.0" layoutY="88.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Trade" textFill="WHITE">
+      <Button fx:id="btnBoardTrade" layoutX="34.0" layoutY="88.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Trade" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
@@ -969,7 +974,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="14.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 4 Houses" wrappingWidth="113.0">
+                              <Text layoutX="14.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 4 Schools" wrappingWidth="113.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -978,7 +983,7 @@
                         </Group>
                         <Group>
                            <children>
-                              <Text layoutX="14.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 1 House" wrappingWidth="113.0">
+                              <Text layoutX="14.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 1 School" wrappingWidth="113.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -997,7 +1002,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="14.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 3 Houses" wrappingWidth="113.0">
+                              <Text layoutX="14.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 3 Schools" wrappingWidth="113.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -1006,7 +1011,7 @@
                         </Group>
                         <Group>
                            <children>
-                              <Text layoutX="14.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With HOTEL" wrappingWidth="113.0">
+                              <Text layoutX="14.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With Facility" wrappingWidth="113.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -1025,7 +1030,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="14.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 2 Houses" wrappingWidth="113.0">
+                              <Text layoutX="14.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With 2 Schools" wrappingWidth="113.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -1039,12 +1044,12 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="titleDeedHouseCost" layoutX="16.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Houses cost £200 each" textAlignment="CENTER" wrappingWidth="186.0">
+                  <Text fx:id="titleDeedHouseCost" layoutX="16.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schools cost £200 each" textAlignment="CENTER" wrappingWidth="186.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="titleDeedHotelCost" layoutX="27.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hotels, £200 each plus 4 houses" textAlignment="CENTER" wrappingWidth="160.0">
+                  <Text fx:id="titleDeedHotelCost" layoutX="27.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Facility, £200 each plus 4 Schools" textAlignment="CENTER" wrappingWidth="160.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -1143,22 +1148,22 @@
             </Pane>
          </children>
       </Group>
-      <Group fx:id="grpSpecialCard">
+      <Group fx:id="grpSpecialCard" visible="false">
          <children>
-            <Pane fx:id="pneSpecialCard" layoutX="572.0" layoutY="353.0" prefHeight="213.0" prefWidth="363.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">
+            <Pane fx:id="pneSpecialCard" layoutX="572.0" layoutY="353.0" prefHeight="213.0" prefWidth="363.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;">
                <children>
-                  <Text fx:id="SpecialCardTitle" layoutX="120.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance Card">
+                  <Text fx:id="SpecialCardTitle" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chance Card" textAlignment="CENTER" wrappingWidth="363.0">
                      <font>
                         <Font name="System Bold" size="21.0" />
                      </font>
                   </Text>
                   <Text fx:id="SpecialCardText" layoutX="22.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A really long type of text that discribes the text that is shown on the chance card or the community chest is displayed here." wrappingWidth="171.13671875" />
-                  <ImageView fx:id="specialCardImage" fitHeight="134.0" fitWidth="123.0" layoutX="220.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="specialCardImage" fitHeight="105.0" fitWidth="106.0" layoutX="235.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/chest.png" />
                      </image>
                   </ImageView>
-                  <Text layoutX="22.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="RIGHT" wrappingWidth="318.30859375" />
+                  <Text layoutX="22.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="RIGHT" wrappingWidth="318.30859375" />
                </children>
             </Pane>
          </children>
