@@ -34,7 +34,7 @@ public class GUI extends Application{
 		//Scene scene = new Scene(root,1200,800);
 		Scene scene = new Scene(root,800,400);
 		
-		primaryStage.setResizable(true);
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.initStyle(StageStyle.UNDECORATED);	
 		primaryStage.show();
