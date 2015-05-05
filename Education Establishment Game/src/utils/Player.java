@@ -2,7 +2,6 @@ package utils;
 
 import java.util.ArrayList;
 
-import board.Card;
 import board.establishment.Establishment;
 
 public class Player {
