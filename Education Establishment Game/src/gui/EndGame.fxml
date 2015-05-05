@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" style="-fx-background-image: /img\EEGMenuBackground.jpg;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EndGameController">
+   <children>
+      <ImageView fitHeight="848.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/EEGMenuBackground.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="256.0" layoutY="215.0" prefHeight="531.0" prefWidth="699.0" styleClass="settings-overlay">
+         <children>
+            <Button fx:id="btnExit" layoutX="312.0" layoutY="495.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="356.0" text="Continue to Main Menu" textFill="WHITE">
+               <font>
+                  <Font size="6.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+               <styleClass>
+                  <String fx:value="menu-button" />
+                  <String fx:value="greenGrad" />
+               </styleClass>
+            </Button>
+            <Text fx:id="txtNameOutput" fill="#0000008b" layoutX="47.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="279.13671875">
+               <font>
+                  <Font size="40.0" />
+               </font></Text>
+            <Text fx:id="txtWinnerName" layoutX="220.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dean">
+               <font>
+                  <Font size="46.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="imgWinnerPiece" fitHeight="150.0" fitWidth="200.0" layoutX="53.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/pieces/tophat.png" />
+               </image>
+            </ImageView>
+            <Text fill="#686050" layoutX="220.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today's Winner!">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Text>
+            <Text layoutX="47.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scoreboard">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Line endX="500.0" layoutX="134.0" layoutY="197.0" startX="-100.0" stroke="#ff0202" />
+            <Text fx:id="txtAssetsOutput" fill="#0000008b" layoutX="350.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="279.13671875">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+            <Text layoutX="47.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Text>
+            <Text layoutX="350.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assets">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
