@@ -1,5 +1,6 @@
 package Game;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import utils.Player;
 import board.Board;
@@ -268,9 +269,8 @@ public class Game {
 			player1.giveMoney(player2, bal1);
 			//take balance from player2 and add to player1.
 			player2.giveMoney(player1, bal2);
-		}else{
-			return false;
 		}
+		
 		return true;
 	}
 	
@@ -481,28 +481,22 @@ public class Game {
 			}
 
 		}
-		//if owned - sell all houses and the property
-		// adding the value to the player who owned it
-		//winner has the highest value and so on
 		
+		//Sort Players by Balance
+		players.stream()
+		.sorted((p1, p2) -> Integer.compare(p2.getBalance(),p1.getBalance()));
 		
-		//sorting algorithm to put players in the right order
-		ArrayList<Player> mplayers = new ArrayList<Player>();
-		Player highestValue = null;
-		while(players.size() > 0){
-			for(int i=players.size(); i > 0; i--){
-				if (players.get(i).getBalance() > highestValue.getBalance() || highestValue == null){
-					highestValue = players.get(i);
-				}
-				mplayers.add(highestValue);
-				players.remove(highestValue);
-			}
-		}
+		return players;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public void isGameEnded(){
 		
-		return mplayers;
 	}
 	 /**
-	  * return if doubles rolled 3 times, then user has to goto jail
+	  * @return if doubles rolled 3 times, then user has to goto jail
 	  */
 	public boolean ifDoubleTrouble(){
 		return doubledRolled==3;

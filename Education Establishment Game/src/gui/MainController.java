@@ -1,14 +1,17 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -21,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import utils.Player;
 import Game.Game;
@@ -96,6 +100,7 @@ public class MainController implements Initializable {
 	@FXML Button btnLockTradeLeft, btnLockTradeRight;
 	@FXML ImageView imgLeftTrader, imgRightTrader;
 	@FXML Rectangle grayOut;
+	@FXML Button btnForefit;
 
 
 	@Override
@@ -142,6 +147,8 @@ public class MainController implements Initializable {
 		
 		txtStopTrade.setOnMouseClicked				(this::stopTrade);
 		grpDice.setOnMouseClicked					(this::diceRoll);
+		
+		btnForefit.setOnMouseClicked				(this::Forefit);
 
 		//Event handlers for the top bar
 		for (int i = 0; i < game.players.size(); i++) {
@@ -182,7 +189,12 @@ public class MainController implements Initializable {
 	//////////
 	//////////         MOUSE EVENT HANDLERS
 	/////////////////////////////////////////////////////////////////////////////
-
+/**
+ * Allows the current user to forfeit
+ */
+	public void Forefit(MouseEvent e){
+		game.bankrupt();
+	}
 /**
 * Starts the trade cycle
 * @param e
@@ -314,7 +326,7 @@ if (game.canRoll()) {
 		
 		//If the landed establishment has an owner that isn't the player (they'll have to pay
 		if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
-			showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated "+est.getRent()+" to "+est.getName());
+			showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName());
 		}
 			
 	} else {
@@ -1129,6 +1141,30 @@ if (tradeowner.locked && othertrader.locked) {
 		btnLockTradeRight.setVisible(false);
 		clearTradeInformation();
 		drawBoard();
+	}
+	/**
+	 * 
+	 */
+	public void endGame(){
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Education Establishment Game");	
+		    Pane myPane = null;
+		       
+		    myPane = FXMLLoader.load(getClass().getResource("EndGame.fxml"));
+			
+		    Scene scene = new Scene(myPane);
+		    stage.setScene(scene);
+
+		    stage.show();
+		    
+		    ((Stage) HeadNode.getScene().getWindow()).close();
+		    
+		    
+		      
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
