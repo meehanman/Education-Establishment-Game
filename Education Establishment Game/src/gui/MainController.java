@@ -151,9 +151,11 @@ public class MainController implements Initializable {
 		btnForfeit.setOnMouseClicked				(this::Forefit);
 
 		//Event handlers for the top bar
+
 		for (int i = 0; i < game.players.size(); i++) {
 			grptopBarID.getChildren().get(i).setOnMouseClicked(this::playerClick);
 		}
+
 
 
 
@@ -322,6 +324,7 @@ if(!diceRollTimePassed){
 
 if (game.canRoll()) {
 	int[] diceRoll = game.rollDice();
+	game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
 
 	imgDice1.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[0] + ".png"));
 	imgDice2.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[1] + ".png"));
@@ -343,6 +346,7 @@ if (game.canRoll()) {
 		if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
 			showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName());
 		}
+			game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
 			
 	} else {
 		SpecialSquare specialSquare = (SpecialSquare) selectedSquare;
@@ -413,7 +417,7 @@ if (getCurrentLandedSquare().equals(selectedSquare)) if (selectedSquare instance
 
 	} else {
 		showAlert("Your poor!", "Could not buy " + est.getName());
-	}
+	}	
 }
 
 //Update the Scene

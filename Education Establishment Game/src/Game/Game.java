@@ -40,9 +40,9 @@ public class Game {
 	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private boolean extraTurn; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
+	private int bills;
 	private int doubledRolled = 0;
 	private boolean isCommunityCard = false;
-	
 	
 	public Game(ArrayList<Player> players){
 		
@@ -58,30 +58,7 @@ public class Game {
 	public void landOn(Square square){
 		//If its an establishment then it can be baught
 		if(square instanceof Establishment){
-			Establishment est = ((Establishment)(square));
-			String typeOfSquare = est.getSquareType();
-
-			//If the establishment has an owner and it isn't the player they need to pay
-			if(est.hasOwner() && !(est.getOwner().equals(getCurrentPlayer()))){
-				if(typeOfSquare.equals("Subject")){
-					Subject sub = (Subject)(est);
-					getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent());
-
-				}else if(typeOfSquare.equals("Restaurant")){
-					Restaurant rest = (Restaurant)(est);
-					getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares));
-					
-				}else if(typeOfSquare.equals("Bar")){
-					Bar bar = (Bar)(est);
-					getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares));
-				}else{
-					System.out.println("landOn(): square type not found.."+square.getSquareType());
-				}
-			
-			}else{
-				System.out.println("landOn(): Establishment doesn't have an owner, or the owner is this owner.."+square.getName());
-			}
-			
+			rent(square);
 		}else{ 
 			//If it's a SpecialSquare
 			SpecialSquare specialSquare = (SpecialSquare)square;
@@ -106,6 +83,82 @@ public class Game {
 		
 	}
 	
+	public void rent(Square square){
+		Establishment est = ((Establishment)(square));
+		String typeOfSquare = est.getSquareType();
+
+		//If the establishment has an owner and it isn't the player they need to pay
+		if(est.hasOwner() && !(est.getOwner().equals(getCurrentPlayer()))){
+			if(typeOfSquare.equals("Subject")){
+				Subject sub = (Subject)(est);
+				pay(sub);
+
+			}else if(typeOfSquare.equals("Restaurant")){
+				Restaurant rest = (Restaurant)(est);
+				pay(rest);
+				
+			}else if(typeOfSquare.equals("Bar")){
+				Bar bar = (Bar)(est);
+				pay(bar);
+			}else{
+				System.out.println("landOn(): square type not found.."+square.getSquareType());
+			}
+		
+		}else{
+			System.out.println("landOn(): Establishment doesn't have an owner, or the owner is this owner.."+square.getName());
+		}
+	}
+	
+	public boolean pay(Subject sub){
+		if(getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent())){
+			getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent());
+			//clear rent marking it as paid.
+			bills = 0;
+			return true;
+		} else {
+			//store outstanding rent to be paid.
+			bills = sub.getRent();
+			sub.getOwner().addBalance(bills);
+			return false;
+		}
+	}
+	
+	
+	public boolean pay(Restaurant rest){
+		if(getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares))){
+			getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares));
+			//clear rent marking it as paid.
+			bills = 0;
+			return true;
+		} else {
+			bills = rest.getRent(board.dice.getValue(),board.Squares);
+			rest.getOwner().addBalance(bills);
+			return false;
+		}
+	}
+	
+	public boolean pay(Bar bar){
+		if(getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares))){
+			getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares));
+			//clear rent marking it as paid.
+			bills = 0;
+			return true;
+		} else {
+			bills = bar.getRent(board.Squares);
+			bar.getOwner().addBalance(bills);
+			return false;
+		}
+	}
+	
+	public void payOutstandingRent(){
+		if(getCurrentPlayer().getBalance() >= bills){
+			//pay rent and clear outstanding rent.
+			getCurrentPlayer().subBalance(bills);
+			bills = 0;
+		} else {
+			//not enough to pay rent do nothing.
+		}
+	}
 	
 	/**
 	 * Will add or subtract money from player depending on values of card, also
@@ -113,18 +166,21 @@ public class Game {
 	 * @param player - player to be affected by movement/cost. 
 	 * @param takeCard - the card draw from the deck.
 	 */
-	public void actionCard(Player player, Card takeCard) {
-		
-		//check if money depends on houses owned
+	public void actionCard(Player player, Card takeCard) {		//check if money depends on houses owned
 		if (takeCard.getEffect().isHouseCharge()){
 			if (takeCard.getEffect().getMoney() > 0){
 				//if money is positive add to balance.
 				//multiplied by houses owned to amplify effect and carry out card logic
 				player.addBalance(takeCard.getEffect().getMoney() * housesOwned(player));
 			} else{
+				//if cost is more than player has set it as a bill
+				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) <= 0 ){
+					bills = Math.abs(takeCard.getEffect().getMoney());
+				} else {
 				//if money is negative subtract from balance.
 				//multiplied by houses owned to amplify effect and carry out card logic
 				player.subBalance(takeCard.getEffect().getMoney() * housesOwned(player));
+				}
 			}
 		}else{
 			//if money no dependent on houses owned
@@ -133,11 +189,16 @@ public class Game {
 				//if money is positive add to balance.
 				player.addBalance(takeCard.getEffect().getMoney());
 			} else{
+				//if cost is more than player has set it as a bill
+				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) <= 0 ){
+					bills = Math.abs(takeCard.getEffect().getMoney());
+				} else {
 				//if money is negative subtract from balance.
 				player.subBalance(takeCard.getEffect().getMoney());
+				}
 			}
 		}
-		//check if moment caused
+		//check if movement caused
 		if(takeCard.getEffect().isMovement()){
 			//check if pass go.
 			if(takeCard.getEffect().getPosition() < getCurrentPlayer().getPosition()){
@@ -146,15 +207,13 @@ public class Game {
 				player.addBalance(200);
 			}
 			//move position
-			System.out.println("Card Position: "+takeCard.getEffect().getPosition());
-			System.out.println("Player Position: "+player.getPosition());
-			player.setPosition(takeCard.getEffect().getPosition());
-			System.out.println("Player New Position: "+player.getPosition());
-			//call land on to pay rent etc for new landed on square
-			System.out.println("New Bored Location Name: "+board.Squares[player.getPosition()].getName());
-			landOn(board.Squares[player.getPosition()]);
+			player.incrementPosition(takeCard.getEffect().getPosition());
+			
+			
+			//call land on to pay rent etc for new landed on square.
+			//landOn(board.Squares[player.getPosition()]);
+			//******************************************************
 		}
-		
 	}
 	/**
 	 * UI handler for actioning the current Card
@@ -228,7 +287,7 @@ public class Game {
 			diceRolled=false;
 			//Starts counter for 3 rolls = GotoJail
 			doubledRolled++;
-			if(doubledRolled>=2){
+			if(doubledRolled>=3){
 				getCurrentPlayer().SendToJail();
 			}
 		}else{
@@ -237,9 +296,8 @@ public class Game {
 			extraTurn=false;
 			doubledRolled=0;
 		}
-		
+		//move the player
 		movePlayer(board.dice.getValue());
-		
 		//Return the values for UI
 		return diceRoll;
 	}
@@ -300,13 +358,8 @@ public class Game {
 	 */
 	public void movePlayer(int i){
 		Player currentPlayer = getCurrentPlayer();
-		
-		System.out.println("Player pos was "+getCurrentPlayer().getPosition());
 		System.out.println("Moving player by :"+i);
 		currentPlayer.incrementPosition(i);
-		System.out.println("Player pos is "+getCurrentPlayer().getPosition());
-
-		landOn(board.Squares[currentPlayer.getPosition()]);
 	}
 	
 	/**
@@ -500,6 +553,14 @@ public class Game {
 	  */
 	public boolean ifDoubleTrouble(){
 		return doubledRolled==3;
+	}
+	
+	public boolean isBillsPaid(){
+		if(bills == 0){
+			return true;
+		} else{
+			return false;
+		}
 	}
 	
 		
