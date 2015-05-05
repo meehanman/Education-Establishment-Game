@@ -29,7 +29,7 @@ public class SplashController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		PauseTransition pause = new PauseTransition(Duration.seconds(.4));
+		PauseTransition pause = new PauseTransition(Duration.seconds(5));
 		pause.setOnFinished(e -> {change();});
 		pause.play();
 		
