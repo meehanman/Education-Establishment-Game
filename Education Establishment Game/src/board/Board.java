@@ -41,19 +41,19 @@ public class Board {
 				new Card("Academia","Quiet pint in Ryan's at the end of a long day\nMove to Ryans",new Effect(0,25,false,0,false)),
 				new Card("Academia","Get yourself down to the Bot for a pub quiz!\nMove to Bot",new Effect(0,15,false,0,false)),
 				new Card("Academia","We can't say whats happened. But you've been sent to Detention!\nMove to Detention",new Effect(0,30,false,0,false)),
-				new Card("Academia","Help those on probation get back into the swing of things. \n Recieve £50",new Effect(50,10,false,0,false)),
-				new Card("Academia","Union Action - Go on Strike!\n Move to Strike Day",new Effect(0,20,false,0,false)),
-				new Card("Academia","Win debate. \n Receieve\n Recieve £100",new Effect(100,0,false,0,false)),
-				new Card("Academia","Successfully defend your thesis. \n Receieve \n Recieve £70",new Effect(70,0,false,0,false)),
-				new Card("Academia","Achieve tenure! Bonus \n Receieve \n Recieve £200",new Effect(200,0,false,0,false)),
-				new Card("Academia","Reasearch breakthrough! Additional funding! \n Receieve \n Recieve £50",new Effect(50,0,false,0,false)),
-				new Card("Academia","Tech Demo Mishap. \n Pay £40 per school",new Effect(-40,0,false,0,true)),
-				new Card("Academia","Living for the research grant \n Receieve £500",new Effect(500,0,false,0,false)),
-				new Card("Academia","Help a cop at their recruitment drive on campus - they will remember that!  \n Awarded an Out Of Jail Free Card",new Effect(0,0,true,0,false)),
-				new Card("Academia","Your reasearch paper contains plagurised content! \n Pay\n Pay £100",new Effect(-100,0,false,0,false)),
-				new Card("Academia","Labs are damaged in an accident \n Pay £30 per school",new Effect(-30,0,false,0,true)),
-				new Card("Academia","Funding boost accross your premises\n Recieve £20 per school",new Effect(20,0,false,0,true)),
-				new Card("Academia","Your campuse voted top!\n Recieve £100",new Effect(100,0,false,0,false))
+				new Card("Academia","Help those on probation get back into the swing of things. \nRecieve £50",new Effect(50,10,false,0,false)),
+				new Card("Academia","Union Action - Go on Strike!\nMove to Strike Day",new Effect(0,20,false,0,false)),
+				new Card("Academia","Win debate. \nReceieve\nRecieve £100",new Effect(100,0,false,0,false)),
+				new Card("Academia","Successfully defend your thesis. \nReceieve \nRecieve £70",new Effect(70,0,false,0,false)),
+				new Card("Academia","Achieve tenure! Bonus \nReceieve \nRecieve £200",new Effect(200,0,false,0,false)),
+				new Card("Academia","Reasearch breakthrough! Additional funding! \nReceieve \nRecieve £50",new Effect(50,0,false,0,false)),
+				new Card("Academia","Tech Demo Mishap. \nPay £40 per school",new Effect(-40,0,false,0,true)),
+				new Card("Academia","Living for the research grant \nReceieve £500",new Effect(500,0,false,0,false)),
+				new Card("Academia","Help a cop at their recruitment drive on campus - they will remember that!  \nAwarded an Out Of Jail Free Card",new Effect(0,0,true,0,false)),
+				new Card("Academia","Your reasearch paper contains plagurised content! \nPay\nPay £100",new Effect(-100,0,false,0,false)),
+				new Card("Academia","Labs are damaged in an accident \nPay £30 per school",new Effect(-30,0,false,0,true)),
+				new Card("Academia","Funding boost accross your premises\nRecieve £20 per school",new Effect(20,0,false,0,true)),
+				new Card("Academia","Your campus voted top!\nRecieve £100",new Effect(100,0,false,0,false))
 		};
 		
 		academiaCardDeck = new CardDeck(academiaCards);
@@ -61,24 +61,24 @@ public class Board {
 	
 	private void initialiseChanceCards(){
 		Card[] studentExperenceCards = {
-			new Card("Student Experience","Student union attracts tourism.\n Recieve £50",new Effect(50,0,false,0,false)),
-			new Card("Student Experience","Campus has become a landmark!\n Recieve £100",new Effect(100,0,false,0,false)),
-			new Card("Student Experience","Student Party Gets out of hand!\n Pay £80",new Effect(80,0,false,0,false)),
-			new Card("Student Experience","Student Elections, provide materials\n Pay £50",new Effect(50,0,false,0,false)),
-			new Card("Student Experience","Student strike after fee rise!\n Pay £50",new Effect(-50,0,false,0,false)),
-			new Card("Student Experience","Low campus ratings!\n Pay £30 per school",new Effect(-30,0,false,0,true)),
-			new Card("Student Experience","High ratings!\n Recieve £20 per school",new Effect(20,0,false,0,true)),
-			new Card("Student Experience","Word of your top class facilities spread!\n Recieve £20 per school",new Effect(20,0,false,0,true)),
-			new Card("Student Experience","Societies attract more students!\n Recieve £150",new Effect(150,0,false,0,false)),
-			new Card("Student Experience","Party at the Bot!\n Pay £50",new Effect(-50,15,false,0,false)),
-			new Card("Student Experience","Pub crawl! Get to the speakeasy!\n Pay £50",new Effect(-50,5,false,0,false)),
-			new Card("Student Experience","Fresher's events attract crowds!\n Recieve £100",new Effect(100,0,false,0,false)),
-			new Card("Student Experience","RAG week raises record figures!\n Recieve £150",new Effect(150,0,false,0,false)),
-			new Card("Student Experience","Students protect funding cuts\n Pay £20 per school",new Effect(-20,0,false,0,true)),
-			new Card("Student Experience","Host inter-varsities!\n Pay £100",new Effect(-100,0,false,0,false)),
-			new Card("Student Experience","Hold Campus Cup Competition!\n Pay £100",new Effect(-100,0,false,0,false)),
-			new Card("Student Experience","Society lose students on mystery tour!\n Pay £150",new Effect(-150,0,false,0,false)),
-			new Card("Student Experience","Society win competition and Achieve recognition!\n Pay £200",new Effect(-200,0,false,0,false))
+			new Card("Student Experience","Student union attracts tourism.\nRecieve £50",new Effect(50,0,false,0,false)),
+			new Card("Student Experience","Campus has become a landmark!\nRecieve £100",new Effect(100,0,false,0,false)),
+			new Card("Student Experience","Student Party Gets out of hand!\nPay £80",new Effect(80,0,false,0,false)),
+			new Card("Student Experience","Student Elections, provide materials\nPay £50",new Effect(50,0,false,0,false)),
+			new Card("Student Experience","Student strike after fee rise!\nPay £50",new Effect(-50,0,false,0,false)),
+			new Card("Student Experience","Low campus ratings!\nPay £30 per school",new Effect(-30,0,false,0,true)),
+			new Card("Student Experience","High ratings!\nRecieve £20 per school",new Effect(20,0,false,0,true)),
+			new Card("Student Experience","Word of your top class facilities spread!\nRecieve £20 per school",new Effect(20,0,false,0,true)),
+			new Card("Student Experience","Societies attract more students!\nRecieve £150",new Effect(150,0,false,0,false)),
+			new Card("Student Experience","Party at the Bot!\nPay £50",new Effect(-50,15,false,0,false)),
+			new Card("Student Experience","Pub crawl! Get to the speakeasy!\nPay £50",new Effect(-50,5,false,0,false)),
+			new Card("Student Experience","Fresher's events attract crowds!\nRecieve £100",new Effect(100,0,false,0,false)),
+			new Card("Student Experience","RAG week raises record figures!\nRecieve £150",new Effect(150,0,false,0,false)),
+			new Card("Student Experience","Students protect funding cuts\nPay £20 per school",new Effect(-20,0,false,0,true)),
+			new Card("Student Experience","Host inter-varsities!\nPay £100",new Effect(-100,0,false,0,false)),
+			new Card("Student Experience","Hold Campus Cup Competition!\nPay £100",new Effect(-100,0,false,0,false)),
+			new Card("Student Experience","Society lose students on mystery tour!\nPay £150",new Effect(-150,0,false,0,false)),
+			new Card("Student Experience","Society win competition and Achieve recognition!\nPay £200",new Effect(-200,0,false,0,false))
 		};
 		
 		experenceCardDeck = new CardDeck(studentExperenceCards);

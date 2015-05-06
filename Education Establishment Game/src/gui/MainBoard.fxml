@@ -12,14 +12,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane id="mainPane" fx:id="HeadNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1500.0" style="-fx-background-color: #956341;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
       <ImageView fitHeight="953.0" fitWidth="1897.0" layoutY="-8.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/tableBackground.jpg" />
          </image>
       </ImageView>
-      <Group fx:id="BoardNode" layoutX="170.0" layoutY="204.0" scaleX="0.7" scaleY="0.7">
+      <Group fx:id="BoardNode" layoutX="170.0" layoutY="188.0" scaleX="0.7" scaleY="0.7">
          <children>
             <Pane layoutX="137.0" layoutY="705.0" prefHeight="150.0" prefWidth="1004.0">
                <children>
@@ -1290,7 +1290,7 @@
             </Group>
          </children>
       </Pane>
-      <Button fx:id="btnForfeit" layoutX="41.0" layoutY="849.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
+      <Button fx:id="btnForfeit" layoutX="1241.0" layoutY="64.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="red" />
@@ -1300,7 +1300,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnTest" layoutX="41.0" layoutY="799.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Test Button" textFill="WHITE">
+      <Button fx:id="btnTest" layoutX="1241.0" layoutY="157.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Test Button" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -1310,7 +1310,7 @@
             <String fx:value="buttonCrusor" />
          </styleClass>
       </Button>
-      <Button fx:id="btnPayBills" layoutX="41.0" layoutY="419.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Play Bills" textFill="WHITE">
+      <Button fx:id="btnPayBills" layoutX="41.0" layoutY="419.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Play Bills" textFill="WHITE" visible="false">
          <font>
             <Font size="20.0" />
          </font>

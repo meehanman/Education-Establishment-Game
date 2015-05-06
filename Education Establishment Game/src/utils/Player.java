@@ -75,10 +75,11 @@ public class Player {
 	}
 	
 	public boolean buy(Establishment establishment){
+		System.out.println(name+" baught "+establishment.getName());
 		//find cost of Establishment and test against user balance
 		if(!establishment.hasOwner() && this.balance >= establishment.getPrice()){
 			//Return true as purchase is accepted.
-			this.balance -= establishment.getPrice();
+			subBalance(establishment.getPrice());
 			establishment.changeOwner(this);
 			System.out.println("Congratulations on your purchase of "+establishment.getName()+"!  You have £"+balance+" remaining!");
 			return true;
@@ -153,6 +154,7 @@ public class Player {
 	 * @param i
 	 */
 	public void incrementPosition(int position) {
+		System.out.println("incrementPosition(): "+this.name+" moved from "+this.position+" -> "+(this.position+position));
 		this.position += position;
 		
 		if(this.position>=40){
@@ -179,6 +181,7 @@ public class Player {
 	 */
 	public boolean subBalance(int expenditure){
 		if(getBalance()>=expenditure){
+			System.out.println(expenditure+" removed from "+name+" account!");
 			this.balance -= expenditure;
 			return true;
 		}else{
@@ -189,8 +192,8 @@ public class Player {
 	/**
 	 *  Sends the user to jail
 	 */
-	public void SendToJail(){
-		System.out.println("Player sent to Jail!");
+	public void SendToJail(String why){
+		System.out.println("Player sent to Jail!. Reason:"+why);
 		this.isInJail = true;
 		this.position = 10;
 	}
@@ -198,6 +201,7 @@ public class Player {
 	 *  Removes inJail Flag
 	 */
 	public void freeFromJail(){
+		System.out.println("Player free'd from Jail!");
 		this.isInJail = false;
 	}
 	public boolean isInJail(){
