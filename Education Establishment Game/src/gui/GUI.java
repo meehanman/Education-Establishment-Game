@@ -18,6 +18,8 @@ import javafx.stage.StageStyle;
 
 public class GUI extends Application{
 
+	public static String string = "Hi there!";
+	
 	public static void main(String[] args){
 		launch();
 		

@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Locale;
+
 /**
  * 
  * SETTINGS FOR EEG Game
@@ -8,19 +10,17 @@ package utils;
  *
  */
 public class Settings {
-	public int StartingMoney;
-	public int PlayUntilNPlayers;
-	public int TimeMinutes;
-	public int GetOutOfJailAmount;
-	public Language language;
+	public static int StartingMoney;
+	public static int PlayUntilNPlayers;
+	public static int TimeMinutes;
+	public static int GetOutOfJailAmount;
+	public static Locale language;
 	
-	public enum Language { English, Spanish, French, German };
-
-	public Settings(){
-		StartingMoney = 1500;
-		PlayUntilNPlayers = 1;
-		TimeMinutes = -1;
-		GetOutOfJailAmount = 50;
-		language = Language.English;
+	public void defaultSettings(){
+		Settings.StartingMoney = 1500;
+		Settings.PlayUntilNPlayers = 1;
+		Settings.TimeMinutes = -1;
+		Settings.GetOutOfJailAmount = 50;
+		Settings.language = Locale.ENGLISH;
 	}
 }
