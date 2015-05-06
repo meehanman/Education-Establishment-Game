@@ -195,7 +195,7 @@ public class MainController implements Initializable {
 			}
 		}
 		
-		
+		timer();
 		//Draw everything else
 		drawBoard();
 	}
@@ -1263,6 +1263,63 @@ public void SubjectSquareClicked(MouseEvent event) {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	@FXML Text txtTimerText;
+	int timeRemainig = Settings.TimeMinutes*60;
+	public void timer(){
+		//No Timer Required
+				if(Settings.TimeMinutes < 0){
+					txtTimerText.setText("");
+				}else{
+					startTimer();
+				}
+	}
+	
+	public void startTimer(){
+		
+		//No Timer Required
+		if(Settings.TimeMinutes == 0){
+			txtTimerText.setText("No Time");
+			return;
+		}
+		
+		System.out.println(timeRemainig);
+		if(timeRemainig<=0){
+			//Exit Game
+			game.endGame();
+			endGame();
+			return;
+		}
+		
+		int minutes = timeRemainig/60;
+		int seconds = timeRemainig - (minutes*60);
+
+		String 	strMin = minutes+"",
+				strSec = seconds+"";
+		
+		//Code to deal with values less than 10
+		if(seconds < 10){
+			strSec = "0"+seconds; 
+		}
+		
+		if(minutes < 10){
+			strMin = "0" + minutes;
+		}
+		
+		if(minutes==0){
+			strMin = "00";
+		}
+		if(seconds == 0){
+			strSec = "00";
+		}
+		
+		
+		txtTimerText.setText(strMin+":"+strSec);
+		
+		//Set pause before dice can be rolled again
+		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+		pause.setOnFinished(e -> {timeRemainig--;startTimer();});
+		pause.play();				
 	}
 
 

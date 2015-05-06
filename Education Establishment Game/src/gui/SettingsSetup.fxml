@@ -12,7 +12,7 @@
 
 <AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1200" style="-fx-background-image: /img\EEGMenuBackground.jpg;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SettingsSetupController">
 	 <children>
-      <ImageView fitHeight="848.0" fitWidth="1200.0" layoutX="-1.0" onMouseClicked="#ChangePiece" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="848.0" fitWidth="1200.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/EEGMenuBackground.jpg" />
          </image>
@@ -29,11 +29,6 @@
                </children>
             </Pane>
             <Group fx:id="grp1" layoutX="124.0" layoutY="95.0" />
-            <Group fx:id="grp2" layoutX="431.0" layoutY="95.0" />
-            <Group fx:id="grp3" layoutX="115.0" layoutY="255.0" />
-            <Group fx:id="grp4" layoutX="435.0" layoutY="255.0" />
-            <Group fx:id="grpAddPlayer3" layoutX="-7.0" layoutY="-35.0" onMouseClicked="#removeElement" />
-            <Group fx:id="grpAddPlayer4" layoutX="296.0" layoutY="-45.0" onMouseClicked="#removeElement" />
             <Text fx:id="msgError" fill="RED" layoutX="14.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="666.0">
                <font>
                   <Font size="15.0" />
@@ -50,6 +45,16 @@
                   <Font size="30.0" />
                </font>
             </Text>
+            <Text fill="WHITE" layoutX="54.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timed Game:">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="chkTimedGame" layoutX="595.0" layoutY="222.0" mnemonicParsing="false">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </CheckBox>
          </children>
       </Pane>
       <Pane layoutX="285.0" layoutY="682.0" prefHeight="83.0" prefWidth="625.0" styleClass="settings-overlay">
