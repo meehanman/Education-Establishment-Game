@@ -31,5 +31,29 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
+      <Group layoutX="1032.0" layoutY="-283.0">
+         <children>
+            <ImageView fx:id="img_sp" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" styleClass="buttonCrusor">
+               <image>
+                  <Image url="@img/flags/_sp.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="img_fr" fitHeight="35.0" fitWidth="35.0" layoutX="119.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" styleClass="buttonCrusor">
+               <image>
+                  <Image url="@img/flags/_fr.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="img_en" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" styleClass="buttonCrusor">
+               <image>
+                  <Image url="@img/flags/_en.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="img_de" fitHeight="35.0" fitWidth="35.0" layoutX="84.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" styleClass="buttonCrusor">
+               <image>
+                  <Image url="@img/flags/_de.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>

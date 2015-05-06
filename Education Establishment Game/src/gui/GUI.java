@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utils.Settings;
 
 /**
  * 
@@ -17,12 +18,13 @@ import javafx.stage.StageStyle;
  */
 
 public class GUI extends Application{
-
-	public static String string = "Hi there!";
 	
 	public static void main(String[] args){
-		launch();
 		
+		//Set Settings
+		Settings.defaultSettings();
+		
+		launch();
 	}
 	
 	@Override

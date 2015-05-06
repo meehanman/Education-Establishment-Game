@@ -1,5 +1,7 @@
 package gui;
 
+import game.Game;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utils.Piece;
 import utils.Player;
-import Game.Game;
 /**
  * 
  * JAVAFX -> Code for #events from MainMenu.fxml
