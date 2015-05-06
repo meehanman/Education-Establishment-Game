@@ -1,4 +1,4 @@
-package Game;
+package game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -123,27 +123,24 @@ public class Game {
 	
 	public boolean pay(Subject sub){
 		if(getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent())){
-			getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent());
 			//clear rent marking it as paid.
 			bills = 0;
 			return true;
 		} else {
 			//store outstanding rent to be paid.
-			bills = sub.getRent();
+			bills += sub.getRent();
 			sub.getOwner().addBalance(bills);
 			return false;
 		}
 	}
-	
-	
+		
 	public boolean pay(Restaurant rest){
 		if(getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares))){
-			getCurrentPlayer().giveMoney(rest.getOwner(), rest.getRent(board.dice.getValue(), board.Squares));
 			//clear rent marking it as paid.
 			bills = 0;
 			return true;
 		} else {
-			bills = rest.getRent(board.dice.getValue(),board.Squares);
+			bills += rest.getRent(board.dice.getValue(),board.Squares);
 			rest.getOwner().addBalance(bills);
 			return false;
 		}
@@ -151,25 +148,34 @@ public class Game {
 	
 	public boolean pay(Bar bar){
 		if(getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares))){
-			getCurrentPlayer().giveMoney(bar.getOwner(), bar.getRent(board.Squares));
 			//clear rent marking it as paid.
 			bills = 0;
 			return true;
 		} else {
-			bills = bar.getRent(board.Squares);
+			bills += bar.getRent(board.Squares);
 			bar.getOwner().addBalance(bills);
 			return false;
 		}
 	}
 	
-	public void payOutstandingRent(){
+	/**
+	 * Pay bills allows the user to pay what's owed 
+	 */
+	public boolean payBills(){
 		if(getCurrentPlayer().getBalance() >= bills){
 			//pay rent and clear outstanding rent.
 			getCurrentPlayer().subBalance(bills);
 			bills = 0;
+			return true;
 		} else {
-			//not enough to pay rent do nothing.
+			return false;
 		}
+	}
+	/**
+	 * The amount remaining needed to pay
+	 */
+	public int getBillAmount(){
+		return this.bills;
 	}
 	
 	/**
@@ -186,12 +192,12 @@ public class Game {
 				player.addBalance(takeCard.getEffect().getMoney() * housesOwned(player));
 			} else{
 				//if cost is more than player has set it as a bill
-				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) <= 0 ){
+				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) < 0 ){
 					bills = Math.abs(takeCard.getEffect().getMoney());
 				} else {
-				//if money is negative subtract from balance.
-				//multiplied by houses owned to amplify effect and carry out card logic
-				player.subBalance(takeCard.getEffect().getMoney() * housesOwned(player));
+					//if money is negative subtract from balance.
+					//multiplied by houses owned to amplify effect and carry out card logic
+					player.subBalance(takeCard.getEffect().getMoney() * housesOwned(player));
 				}
 			}
 		}else{
@@ -202,7 +208,7 @@ public class Game {
 				player.addBalance(takeCard.getEffect().getMoney());
 			} else{
 				//if cost is more than player has set it as a bill
-				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) <= 0 ){
+				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) < 0 ){
 					bills = Math.abs(takeCard.getEffect().getMoney());
 				} else {
 				//if money is negative subtract from balance.
@@ -559,26 +565,12 @@ public class Game {
 		
 		return players;
 	}
-	/**
-	 * 
-	 * @return
-	 */
-	public void isGameEnded(){
-		
-	}
+
 	 /**
 	  * @return if doubles rolled 3 times, then user has to goto jail
 	  */
 	public boolean ifDoubleTrouble(){
 		return doubledRolled==3;
-	}
-	
-	public boolean isBillsPaid(){
-		if(bills == 0){
-			return true;
-		} else{
-			return false;
-		}
 	}
 	/**
 	 * Returns the current Effect of the last card

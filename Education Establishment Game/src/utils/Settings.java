@@ -16,7 +16,7 @@ public class Settings {
 	public static int GetOutOfJailAmount;
 	public static Locale language;
 	
-	public void defaultSettings(){
+	public static void defaultSettings(){
 		Settings.StartingMoney = 1500;
 		Settings.PlayUntilNPlayers = 1;
 		Settings.TimeMinutes = -1;
