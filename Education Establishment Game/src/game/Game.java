@@ -82,7 +82,7 @@ public class Game {
 				//Set Flag to Community Card
 				isCommunityCard = true;
 			}else if(specialSquare.getType()==Type.GotoJail){
-				getCurrentPlayer().SendToJail();
+				getCurrentPlayer().SendToJail("Send To Jail Square");
 			}else if(specialSquare.getType()==Type.SuperTax){
 				getCurrentPlayer().subBalance(200);
 			}else if(specialSquare.getType()==Type.IncomeTax){
@@ -197,7 +197,8 @@ public class Game {
 				} else {
 					//if money is negative subtract from balance.
 					//multiplied by houses owned to amplify effect and carry out card logic
-					player.subBalance(takeCard.getEffect().getMoney() * housesOwned(player));
+					//IMPORTANT (getMoney here is minuses to fix the effect)
+					player.subBalance(-takeCard.getEffect().getMoney() * housesOwned(player));
 				}
 			}
 		}else{
@@ -211,15 +212,14 @@ public class Game {
 				if(Integer.compareUnsigned(takeCard.getEffect().getMoney(), getCurrentPlayer().getBalance()) < 0 ){
 					bills = Math.abs(takeCard.getEffect().getMoney());
 				} else {
-				//if money is negative subtract from balance.
-				player.subBalance(takeCard.getEffect().getMoney());
+					//if money is negative subtract from balance.
+					player.subBalance(-takeCard.getEffect().getMoney());
 				}
 			}
 		}
 		//check if movement caused
 		if(takeCard.getEffect().isMovement()){		
-
-			player.incrementPosition(takeCard.getEffect().getPosition());
+			player.setPosition(takeCard.getEffect().getPosition());
 		}
 	}
 	/**
@@ -300,8 +300,9 @@ public class Game {
 				
 				//Starts counter for 3 rolls = GotoJail
 				doubledRolled++;
+				System.out.println("Doubles Rolled Incremented: "+doubledRolled);
 				if(doubledRolled>=3){
-					getCurrentPlayer().SendToJail();
+					getCurrentPlayer().SendToJail("Rolled Doubles!");
 					doubledRolled=0;
 				}
 			}

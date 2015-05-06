@@ -125,7 +125,7 @@
       </Pane>
       <Pane layoutX="285.0" layoutY="682.0" prefHeight="83.0" prefWidth="625.0" styleClass="settings-overlay">
          <children>
-            <Button fx:id="btnPlay" layoutX="453.0" layoutY="18.0" mnemonicParsing="false" onAction="#playGame" prefHeight="29.0" prefWidth="158.0" text="Play" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="btnPlay" layoutX="453.0" layoutY="18.0" mnemonicParsing="false" onAction="#playGame" prefHeight="29.0" prefWidth="158.0" text="Continue" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>

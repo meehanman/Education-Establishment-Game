@@ -129,7 +129,7 @@ public class MainController implements Initializable {
 		}
 						
 		//Event Handlers
-		btnBackManageProperty.setOnMouseClicked		(this::closeManagePropertyUI);
+		btnBackManageProperty.setOnMouseClicked		(this::closeManagePropertyUI); 
 		btnBoardEndTurn.setOnMouseClicked			(this::endTurn);
 		btnBoardManage.setOnMouseClicked			(this::showManagePopover);
 		btnBoardTrade.setOnMouseClicked				(this::startTrade);
@@ -194,7 +194,8 @@ public class MainController implements Initializable {
 				ChangeSpecialSquare(GetSquarePane(i), specialSquare);
 			}
 		}
-
+		
+		
 		//Draw everything else
 		drawBoard();
 	}
@@ -209,11 +210,11 @@ public class MainController implements Initializable {
 			btnPayBills.setVisible(false);
 		}else{
 			showAlert("Pay Up", "You need to pay the balance "+game.getBillAmount()+"to continue."
-					+ ". Otherwise you will need to forfeit", false);
+					+ ". Otherwise you will need to forfeit.", false);
 		}
 	}
 	public void testButton(MouseEvent e){
-		game.players.get(1).SendToJail();
+		game.players.get(1).SendToJail("Test Button");
 	}
 	
 	public void payJailTime(MouseEvent e){
@@ -366,7 +367,7 @@ public void closeManagePropertyUI(MouseEvent e) {
 		imgDice2.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[1] + ".png"));
 	
 		
-		//Remove the end Turn button
+		//Show the end Turn button
 		btnBoardEndTurn.setVisible(true);
 		
 		//Set the canRoll UI flag to false
@@ -381,7 +382,15 @@ public void closeManagePropertyUI(MouseEvent e) {
 			
 			//If the landed establishment has an owner that isn't the player (they'll have to pay
 			if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
-				showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName(),false);
+				//If payBills returns true, then the player has paid their bill
+				if(game.payBills()){
+					showAlert("Rent Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName(),false);
+				}else{
+					showAlert("Rent Due", "You have a bill of "+game.getBillAmount()+" that needs to be paid! Please mortgage properties or forfeit to continue!",false);
+					btnPayBills.setVisible(true);
+					btnBoardEndTurn.setVisible(false);
+				}
+				
 			}
 				//If the card picked up involves moving, then run LandOn again
 				if(game.getCurrentCardEffect().isMovement()){
@@ -512,9 +521,9 @@ public void SubjectSquareClicked(MouseEvent event) {
 		Establishment est = (Establishment) game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
 		//If this property is either of the traders properties
 		if (tradeowner.trader == est.getOwner()) {
-			tradeowner.est.add(est);
+			tradeowner.addEst(est);
 		} else if (othertrader.trader == est.getOwner()) {
-			othertrader.est.add(est);
+			othertrader.addEst(est);
 		}
 	setTradeInformation();
 }
@@ -1039,6 +1048,15 @@ public void SubjectSquareClicked(MouseEvent event) {
 		//Actions the current Card when the card is hidden
 		try{
 			game.actionCurrentCard();
+			//If payBills returns true, then the player has paid their bill
+			if(game.payBills()){
+				btnPayBills.setVisible(false);
+			}else{
+				//Otherwise they need to pay
+				showAlert("Rent Due", "You have a bill of "+game.getBillAmount()+" that needs to be paid! Please mortgage properties or forfeit to continue!",false);
+				btnPayBills.setVisible(true);
+				btnBoardEndTurn.setVisible(false);
+			}
 		}catch(NullPointerException n){
 			 System.out.println("No Card setup before specialCard called");
 		}
@@ -1254,12 +1272,17 @@ public void SubjectSquareClicked(MouseEvent event) {
 	 *
 	 */
 	class Trade {
-		public ArrayList < Establishment > est;
+		public ArrayList <Establishment> est;
 		public Player trader;
 		public boolean locked;
 		public Trade(Player p) {
-			est = new ArrayList < Establishment > ();
+			est = new ArrayList <Establishment> ();
 			trader = p;
+		}
+		public void addEst(Establishment est){
+			if(!this.est.contains(est)){
+				this.est.add(est);
+			}
 		}
 	}
 

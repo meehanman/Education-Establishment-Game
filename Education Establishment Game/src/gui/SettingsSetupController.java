@@ -1,12 +1,13 @@
 package gui;
 
-import game.Game;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import utils.Player;
+import utils.Settings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,8 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import utils.Piece;
-import utils.Player;
 /**
  * 
  * JAVAFX -> Code for #events from MainMenu.fxml
@@ -31,7 +31,7 @@ import utils.Player;
  *
  * @see https://www.youtube.com/watch?v=wOUmUcVbO2s (Totorial on JavaFX)
  */
-public class GameSetupController implements Initializable{
+public class SettingsSetupController implements Initializable{
 	
 	public String[] counter;
 	
@@ -42,20 +42,29 @@ public class GameSetupController implements Initializable{
 	@FXML ImageView imgCounterP1,imgCounterP2,imgCounterP3,imgCounterP4;
 	@FXML Text msgError;
 	
+	@FXML Slider sliderMoney;
+	@FXML Text txtMoney;
+	
+	
 	int imageone=0,imagetwo=1,imagethree=2,imagefour=3; //Keeps the locations of what image is being shown
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		counter = Piece.possibleIcons;
 		
-		imgCounterP1.setImage(new Image("\\gui\\img\\pieces\\"+counter[imageone]+".png"));
-		imgCounterP2.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagetwo]+".png"));
-		imgCounterP3.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagethree]+".png"));
-		imgCounterP4.setImage(new Image("\\gui\\img\\pieces\\"+counter[imagefour]+".png"));
+		txtMoney.setText("£"+Settings.StartingMoney);
+		
+		sliderMoney.valueProperty().addListener(new ChangeListener<Number>() {
+		    @Override
+		    public void changed(ObservableValue<? extends Number> observable,
+		            Number oldValue, Number newValue) {
+
+				Settings.StartingMoney = newValue.intValue();
+				txtMoney.setText("£"+Settings.StartingMoney);
+		    }
+		});
 	}
-	
-	
+
 	/**
 	 * Button that starts the game.
 	 * Sets up game Object and navagates to the page
@@ -63,33 +72,18 @@ public class GameSetupController implements Initializable{
 	 */
 	public void playGame(ActionEvent e){
 		
-		ArrayList<Player> players = new ArrayList<Player>();
 		
-		//Add first two players
-		if(!textFieldP1.getText().isEmpty() && !textFieldP2.getText().isEmpty()){
-			players.add(new Player(textFieldP1.getText(),imageone));
-			players.add(new Player(textFieldP2.getText(),imagetwo));
-		}else{
-			msgError.setText("Error: Player 1 and Player 2 must have names!");
-			return;
+		//Set the starting money
+		for(Player p : MainController.game.players){
+			p.setBalance(Settings.StartingMoney);
 		}
-		
-		//Add if there are any more
-		if(!textFieldP3.getText().isEmpty()){
-			players.add(new Player(textFieldP3.getText(),imagethree));
-		}
-		if(!textFieldP4.getText().isEmpty()){
-			players.add(new Player(textFieldP4.getText(),imagefour));
-		}
-			
-		MainController.game = new Game(players);
 		
 		try {
 			Stage stage = new Stage();
 			stage.setTitle("Education Establishment Game");	
 		    Pane myPane = null;
 		       
-		    myPane = FXMLLoader.load(getClass().getResource("SettingsSetup.fxml"));
+		    myPane = FXMLLoader.load(getClass().getResource("MainBoard.fxml"));
 		    
 		    Scene scene = new Scene(myPane);
 		    stage.setScene(scene);
@@ -105,7 +99,7 @@ public class GameSetupController implements Initializable{
 
 		}
 		
-		System.out.println("playGame(): "+"Method Finished");
+		System.out.println("GameSetup(): "+"Method Finished");
 
 	}
 	
@@ -120,7 +114,7 @@ public class GameSetupController implements Initializable{
 			stage.setTitle("Education Establishment Game");	
 		    Pane myPane = null;
 		       
-		    myPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+		    myPane = FXMLLoader.load(getClass().getResource("GameSetup.fxml"));
 			
 		    Scene scene = new Scene(myPane);
 		    stage.setScene(scene);
