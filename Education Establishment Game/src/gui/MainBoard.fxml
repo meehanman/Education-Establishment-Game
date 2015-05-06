@@ -1290,7 +1290,7 @@
             </Group>
          </children>
       </Pane>
-      <Button fx:id="btnForfeit" layoutX="1241.0" layoutY="64.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
+      <Button fx:id="btnForfeit" layoutX="1282.0" layoutY="110.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="red" />
@@ -1300,7 +1300,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnTest" layoutX="1241.0" layoutY="157.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Test Button" textFill="WHITE">
+      <Button fx:id="btnTest" layoutX="1282.0" layoutY="179.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Test Button" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -1320,6 +1320,11 @@
             <String fx:value="orange" />
          </styleClass>
       </Button>
+      <Text fx:id="txtTimerText" fill="WHITE" layoutX="1314.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="59:59" textAlignment="RIGHT" wrappingWidth="171.13671875">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Text>
       
    </children>
 </AnchorPane>
