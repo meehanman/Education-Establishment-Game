@@ -106,7 +106,7 @@ public class MainController implements Initializable {
 	@FXML Group grpAlertButtons;
 	
 	@FXML Button btnTest;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -125,6 +125,8 @@ public class MainController implements Initializable {
 
 
 		}
+		
+		GUI.string = "hello";
 				
 		//Event Handlers
 		btnBackManageProperty.setOnMouseClicked		(this::closeManagePropertyUI);
