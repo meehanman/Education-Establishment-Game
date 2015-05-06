@@ -200,7 +200,7 @@ public class Player {
 	public void freeFromJail(){
 		this.isInJail = false;
 	}
-	public boolean isInJaul(){
+	public boolean isInJail(){
 		return this.isInJail;
 	}
 	/**

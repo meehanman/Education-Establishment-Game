@@ -1,5 +1,4 @@
 package gui;
-import Game.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,8 +18,6 @@ import javafx.stage.StageStyle;
 
 public class GUI extends Application{
 
-	private Game game;
-	
 	public static void main(String[] args){
 		launch();
 		
@@ -38,14 +35,6 @@ public class GUI extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.initStyle(StageStyle.UNDECORATED);	
 		primaryStage.show();
-	}
-	
-	public Game getGame(){
-		return this.game;
-	}
-
-
-	
-	
+	}	
 
 }

@@ -17,20 +17,31 @@ public class Effect {
 	private boolean outOfJailFree;
 	//CardPickup 0 = none, 1 = community chest, 2 = chance
 	private int cardPickup = 0;
-	//If the card will cause movement
-	private boolean movement;
 	//Charge by house?
 	private boolean houseCharge;
 	
-	public Effect(int money, int position, boolean outOfJailFree, int cardPickup, boolean movement,
-			boolean houseCharge) {
+	/**
+	 * 
+	 * @param money
+	 * @param position
+	 * @param outOfJailFree
+	 * @param cardPickup
+	 * @param houseCharge
+	 */
+	public Effect(int money, int position, boolean outOfJailFree, int cardPickup, boolean houseCharge) {
 		super();
 		this.money = money;
 		Position = position;
 		this.outOfJailFree = outOfJailFree;
 		this.setCardPickup(cardPickup);
-		this.movement = movement;
 		this.houseCharge = houseCharge;
+	}
+	public Effect() {
+		super();
+		this.money = 0;
+		Position = 0;
+		this.outOfJailFree = false;
+		this.houseCharge = false;
 	}
 	
 	
@@ -98,7 +109,7 @@ public class Effect {
 	 * @return - true if movement, false otherwise.
 	 */
 	public boolean isMovement() {
-		return movement;
+		return (this.Position!=0);
 	}
 
 	/**

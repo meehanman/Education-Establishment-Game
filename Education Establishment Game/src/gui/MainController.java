@@ -101,7 +101,11 @@ public class MainController implements Initializable {
 	@FXML ImageView imgLeftTrader, imgRightTrader;
 	@FXML Rectangle grayOut;
 	@FXML Button btnForfeit;
-
+	
+	@FXML Button btnAlertOne, btnAlertTwo;
+	@FXML Group grpAlertButtons;
+	
+	@FXML Button btnTest;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -136,7 +140,6 @@ public class MainController implements Initializable {
 		grayOut.setOnMouseClicked					(this::hideAlert);
 		grpPopupMessage.setOnMouseClicked			(this::hideAlert);
 		pnePopupMessage.setOnMouseClicked			(this::hideAlert);
-		grpSpecialCard.setOnMouseClicked			(this::hideSpecialCard);
 		pneSpecialCard.setOnMouseClicked			(this::hideSpecialCard);
 
 		ManageBuy.setOnMouseClicked					(this::buyProperty);
@@ -148,8 +151,15 @@ public class MainController implements Initializable {
 		txtStopTrade.setOnMouseClicked				(this::stopTrade);
 		grpDice.setOnMouseClicked					(this::diceRoll);
 		
-		btnForfeit.setOnMouseClicked				(this::Forefit);
-
+		btnForfeit.setOnMouseClicked				(this::forfeit);
+		
+		btnAlertOne.setOnMouseClicked				(this::tryForDoubles);
+		btnAlertTwo.setOnMouseClicked				(this::payJailTime);
+		
+		btnTest.setOnMouseClicked					(this::testButton);
+		//btnTest.setText("Test Jail");
+		btnTest.setVisible(false);
+		
 		//Event handlers for the top bar
 
 		for (int i = 0; i < game.players.size(); i++) {
@@ -191,26 +201,41 @@ public class MainController implements Initializable {
 	//////////
 	//////////         MOUSE EVENT HANDLERS
 	/////////////////////////////////////////////////////////////////////////////
+	
+	public void testButton(MouseEvent e){
+		game.players.get(1).SendToJail();
+	}
+	
+	public void payJailTime(MouseEvent e){
+		game.getCurrentPlayer().subBalance(game.settings.GetOutOfJailAmount);
+		game.getCurrentPlayer().freeFromJail();
+		
+		//Hide alerts
+		grpPopupMessage.setVisible(false);
+		grpAlertButtons.setVisible(false);
+		
+		//Show information
+		showAlert("Paid","We will use this money for good causes! You can roll!",false);
+	}
+	public void tryForDoubles(MouseEvent e){
+		//Hide alerts
+		grpPopupMessage.setVisible(false);
+		grpAlertButtons.setVisible(false);
+				
+		//Show information
+		showAlert("Roll for Doubles","If you can show us some doubles! We'll get you out of here, doubly fast!",false);
+	}
+	
+	
 /**
  * Allows the current user to forfeit
  */
-	public void Forefit(MouseEvent e){
+	public void forfeit(MouseEvent e){
 		
 		game.bankrupt();
 		
-		//If there is only one player left, then endGame
-		int stillInTheGame = 0;
-		for(Player p : game.players){
-			//checks if there are at least 
-			if(!p.isBankrupt()){
-				stillInTheGame++;
-			}	
-		}
-		
-		//If there is only 1 player playing now, then end game
-		if(stillInTheGame<=1){
-			endGame();
-		}
+		endGame();
+
 	}
 /**
 * Starts the trade cycle
@@ -251,9 +276,9 @@ public void showManagePopover(MouseEvent e){
 */
 public void buySchool(MouseEvent event) {
 if (game.upgrade((Subject) selectedSquare)) {
-	showAlert("Upgrade", "You've a new building in your school!");
+	showAlert("Upgrade", "You've a new building in your school!",false);
 } else {
-	showAlert("Upgrade", "Something went wrong! Do you own the color and all houses are equal buying measure?");
+	showAlert("Upgrade", "Something went wrong! Do you own the color and all houses are equal buying measure?",false);
 }
 drawBoard();
 }
@@ -263,9 +288,9 @@ drawBoard();
 */
 public void sellSchool(MouseEvent event) {
 if (((Subject) selectedSquare).sellHouse()) {
-	showAlert("Upgrade", "Things looking bad? We sold that building for you!");
+	showAlert("Upgrade", "Things looking bad? We sold that building for you!",false);
 } else {
-	showAlert("Upgrade", "Something went wrong!");
+	showAlert("Upgrade", "Something went wrong!",false);
 }
 drawBoard();
 }
@@ -276,14 +301,14 @@ drawBoard();
 * @param e
 */
 public void hideSpecialCard(MouseEvent e) {
-hideSpecialCard();
+	hideSpecialCard();
 }
 /**
 * Hides the Manage Property Screen
 * @param e
 */
 public void hideManagePropertyScreen(MouseEvent e) {
-hideManagePopover();
+	hideManagePopover();
 }
 /**
 * Closes Manage Property and Opens Manage
@@ -291,119 +316,135 @@ hideManagePopover();
 * @param e
 */
 public void closeManagePropertyUI(MouseEvent e) {
-//Close Manage Property
-showManagePropertyPopover(false);
-//Open Manage
-showManagePopover();
+	//Close Manage Property
+	showManagePropertyPopover(false);
+	//Open Manage
+	showManagePopover();
 }
 
-/**
-* Mouse Event to shows the ManageProperty Popover
-* @param e
-*/
-public void showManagePropertyScreen(MouseEvent e) {
-Square square = getCurrentLandedSquare();
-if (square instanceof Establishment) {
-	showManagePropertyPopover(true);
-}
-}
-
-
-//Example of something for a mouse event, and not an action event
-public void diceRoll(MouseEvent t) {
-
-//Set pause before dice can be rolled again
-PauseTransition pause = new PauseTransition(Duration.seconds(1));
-pause.setOnFinished(e -> {diceRollTimePassed=true;});
-pause.play();
-
-//If diceRoll Time hasn't passed, then exit method
-if(!diceRollTimePassed){
-	return;
-}
-
-if (game.canRoll()) {
-	int[] diceRoll = game.rollDice();
-	game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
-
-	imgDice1.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[0] + ".png"));
-	imgDice2.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[1] + ".png"));
-
-	//Remove the end Turn button
-	btnBoardEndTurn.setVisible(true);
-	
-	//Set the canRoll UI flag to false
-	diceRollTimePassed=false;
-	
-	//Check what's been rolled and do UI changes
-	selectedSquare = getCurrentLandedSquare();
-	if (selectedSquare instanceof Establishment) {
-		Establishment est = ((Establishment)(selectedSquare));
-		
-		showManagePopover();
-		
-		//If the landed establishment has an owner that isn't the player (they'll have to pay
-		if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
-			showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName());
+	/**
+	* Mouse Event to shows the ManageProperty Popover
+	* @param e
+	*/
+	public void showManagePropertyScreen(MouseEvent e) {
+		Square square = getCurrentLandedSquare();
+		if (square instanceof Establishment) {
+			showManagePropertyPopover(true);
 		}
-			game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+	}
+
+
+	//Example of something for a mouse event, and not an action event
+	public void diceRoll(MouseEvent t) {
+	
+		//Set pause before dice can be rolled again
+		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+		pause.setOnFinished(e -> {diceRollTimePassed=true;});
+		pause.play();
+		
+		//If diceRoll Time hasn't passed, then exit method
+		if(!diceRollTimePassed){
+			return;
+		}
+	
+	if (game.canRoll()) {
+		int[] diceRoll = game.rollDice();
+		
+		game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+	
+		imgDice1.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[0] + ".png"));
+		imgDice2.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[1] + ".png"));
+	
+		if(game.board.dice.isDoubles()){
 			
+		}
+		
+		//Remove the end Turn button
+		btnBoardEndTurn.setVisible(true);
+		
+		//Set the canRoll UI flag to false
+		diceRollTimePassed=false;
+		
+		//Check what's been rolled and do UI changes
+		selectedSquare = getCurrentLandedSquare();
+		if (selectedSquare instanceof Establishment) {
+			Establishment est = ((Establishment)(selectedSquare));
+			
+			showManagePopover();
+			
+			//If the landed establishment has an owner that isn't the player (they'll have to pay
+			if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
+				showAlert("Donations Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName(),false);
+			}
+				//If the card picked up involves moving, then run LandOn again
+				if(game.getCurrentCardEffect().isMovement()){
+					System.out.println("There is Movement in the Effect, Running landOn Again()");
+					game.landOn(game.board.Squares[game.getCurrentPlayer().getPosition()]);
+				}else{
+					System.out.println("There NO is Movement in the Effect #####");
+				}
+				
+		} else {
+			SpecialSquare specialSquare = (SpecialSquare) selectedSquare;
+			if (specialSquare.getType() == Type.ChanceCard) {
+				
+				Card pickedUpCard = game.board.experenceCardDeck.showLastCard();
+				showSpecialCard(pickedUpCard.getTitle(), pickedUpCard.getDescription(), true);
+			} else if (specialSquare.getType() == Type.CommunityChest) {
+				//Display Card UI
+				Card pickedUpCard = game.board.academiaCardDeck.showLastCard();
+				showSpecialCard(pickedUpCard.getTitle(), pickedUpCard.getDescription(), false);
+			} else if (specialSquare.getType() == Type.GotoJail) {
+				showAlert("Detention", "You've been up to no good and have been sent to Detention!",false);
+			} else if (specialSquare.getType() == Type.SuperTax) {
+				showAlert("Super Tax", "High Roller! So close to the next term, but a hefty tax bill of £100 is in! Pay £100",false);
+			} else if (specialSquare.getType() == Type.IncomeTax) {
+				showAlert("Income Tax", "You never declared your income! Pay £200",false);
+			} else if(specialSquare.getType() == Type.FreeParking) {
+				showAlert("Strike Day", "There's a strike and you can't make it to work! Enjoy the day off!",false);
+			}
+		}
+	}
+
+	//Output for UI in reguards to dice roll rules
+	if (game.ifDoubleTrouble()) {
+		showAlert("Dice Roll", "It look's like your cheeting! 3 doubles in a row? You've been sent to Detention!",false);
 	} else {
-		SpecialSquare specialSquare = (SpecialSquare) selectedSquare;
-		if (specialSquare.getType() == Type.ChanceCard) {
-			
-			Card pickedUpCard = game.board.ChanceCardsDeck.showLastCard();
-			showSpecialCard(pickedUpCard.getTitle(), pickedUpCard.getDescription(), true);
-		} else if (specialSquare.getType() == Type.CommunityChest) {
-			//Display Card UI
-			Card pickedUpCard = game.board.ComunityCheckCardsChest.showLastCard();
-			showSpecialCard(pickedUpCard.getTitle(), pickedUpCard.getDescription(), false);
-		} else if (specialSquare.getType() == Type.GotoJail) {
-			showAlert("Detention", "You've been up to no good and have been sent to Detention!");
-		} else if (specialSquare.getType() == Type.SuperTax) {
-			showAlert("Super Tax", "High Roller! So close to the next term, but a hefty tax bill of £100 is in! Pay £100");
-		} else if (specialSquare.getType() == Type.IncomeTax) {
-			showAlert("Income Tax", "You never declared your income! Pay £200");
-		} else if(specialSquare.getType() == Type.FreeParking) {
-			showAlert("Strike Day", "There's a strike and you can't make it to work! Enjoy the day off!");
+		if (game.board.dice.isDoubles()) {
+			showAlert("Dice Roll", "You've rolled double " + game.board.dice.getValues()[0] + "'s. Have another go on the house! (Click 'roll again')",false);
+			btnBoardEndTurn.setText("Roll Again!");
+		}else{
+			btnBoardEndTurn.setText("End Turn");
 		}
 	}
-}
-
-//Output for UI in reguards to dice roll rules
-if (game.ifDoubleTrouble()) {
-	showAlert("Dice Roll", "It look's like your cheeting! 3 doubles in a row? You've been sent to Detention!");
-} else {
-	if (game.board.dice.isDoubles()) {
-		showAlert("Dice Roll", "You've rolled double " + game.board.dice.getValues()[0] + "'s. Have another go on the house! (Click 'roll again')");
-		btnBoardEndTurn.setText("Roll Again!");
-	}else{
-		btnBoardEndTurn.setText("End Turn");
-	}
-}
-//Update board
-drawBoard();
-
-}
-
-/**
-*  Next Turn Button
-*  @after Prompt user to roll dice
-*/
-public void endTurn(MouseEvent event) {
-btnBoardEndTurn.setVisible(false);
-hideManagePopover();
-if (game.canRoll()) {
-	showAlert("Don't Rock and Roll", "You must roll the dice before giving up your go " + game.getCurrentPlayer().getName());
-	imgYourRoll.setVisible(true);
-} else {
-	imgYourRoll.setVisible(false);
-	//Set the next turn in the game logic
-	game.nextTurn();
-	//Update the Scene
+	//Update board
 	drawBoard();
-}
-}
+	
+	}
+
+	/**
+	*  Next Turn Button
+	*  @after Prompt user to roll dice
+	*/
+	public void endTurn(MouseEvent event) {
+		btnBoardEndTurn.setVisible(false);
+		hideManagePopover();
+		if (game.canRoll()) {
+			showAlert("Don't Rock and Roll", "You must roll the dice before giving up your go " + game.getCurrentPlayer().getName(),false);
+			imgYourRoll.setVisible(true);
+		} else {
+			imgYourRoll.setVisible(false);
+			//Set the next turn in the game logic
+			game.nextTurn();
+			//Update the Scene
+			drawBoard();
+		}
+		
+		//If the player is in Jail, show popup
+		if(game.getCurrentPlayer().isInJail()){
+			showAlert("Detention Time","Your in Jail! Pay £50 or Break out by rolling doubles!",true);
+		}
+	}
 /**
 * BUY PROPERTY
 * @param e
@@ -413,10 +454,10 @@ if (getCurrentLandedSquare().equals(selectedSquare)) if (selectedSquare instance
 	Establishment est = (Establishment) selectedSquare;
 	if (game.getCurrentPlayer().buy(est)) {
 		hideManagePopover();
-		showAlert("Property Bought", "Congratulations on your new property " + est.getName());
+		showAlert("Property Bought", "Congratulations on your new property " + est.getName(),false);
 
 	} else {
-		showAlert("Your poor!", "Could not buy " + est.getName());
+		showAlert("Your poor!", "Could not buy " + est.getName(),false);
 	}	
 }
 
@@ -457,81 +498,81 @@ drawBoard();
 */
 public void SubjectSquareClicked(MouseEvent event) {
 
-if (!tradeActive) {
-	selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
-	showManagePopover();
-} else {
-	Establishment est = (Establishment) game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
-	//If this property is either of the traders properties
-	if (tradeowner.trader == est.getOwner()) {
-		tradeowner.est.add(est);
-	} else if (othertrader.trader == est.getOwner()) {
-		othertrader.est.add(est);
-	}
+	if (!tradeActive) {
+		selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
+		showManagePopover();
+	} else {
+		Establishment est = (Establishment) game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(1)).getText())];
+		//If this property is either of the traders properties
+		if (tradeowner.trader == est.getOwner()) {
+			tradeowner.est.add(est);
+		} else if (othertrader.trader == est.getOwner()) {
+			othertrader.est.add(est);
+		}
 	setTradeInformation();
 }
 }
-/**
-* What happens when the user clicks on a square
-* @param event
-*/
-public void OtherSquareClicked(MouseEvent event) {
-
-if (!tradeActive) {
-	selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
-	showManagePopover();
-} else {
-	Establishment est = (Establishment) game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
-	//If this property is either of the traders properties
-	if (tradeowner.trader == est.getOwner()) {
-		tradeowner.est.add(est);
-	} else if (othertrader.trader == est.getOwner()) {
-		othertrader.est.add(est);
+	/**
+	* What happens when the user clicks on a square
+	* @param event
+	*/
+	public void OtherSquareClicked(MouseEvent event) {
+	
+		if (!tradeActive) {
+			selectedSquare = game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
+			showManagePopover();
+		} else {
+			Establishment est = (Establishment) game.board.Squares[getSquareIndex(((Text)((Pane) event.getSource()).getChildren().get(0)).getText())];
+			//If this property is either of the traders properties
+			if (tradeowner.trader == est.getOwner()) {
+				tradeowner.est.add(est);
+			} else if (othertrader.trader == est.getOwner()) {
+				othertrader.est.add(est);
+			}
+			setTradeInformation();
+		}
+	
 	}
-	setTradeInformation();
-}
 
-}
-
-/**
-* Sets the player of trader (if trade is active)
-* Fires when user clicks on the player bar
-* @param e
-*/
-public void playerClick(MouseEvent e) {
-if (tradeActive) {
-	String name = ((Text)((Group)(e.getSource())).getChildren().get(0)).getText();
-	for (int i = 0; i < game.players.size(); i++) {
-		if (game.players.get(i).getName().equals(name) && !game.getCurrentPlayer().getName().equals(name)) {
-			othertrader.trader = game.players.get(i);
-			btnLockTradeLeft.setVisible(true);
-			btnLockTradeRight.setVisible(true);
-			drawBoard();
-			return;
+	/**
+	* Sets the player of trader (if trade is active)
+	* Fires when user clicks on the player bar
+	* @param e
+	*/
+	public void playerClick(MouseEvent e) {
+		if (tradeActive) {
+			String name = ((Text)((Group)(e.getSource())).getChildren().get(0)).getText();
+			for (int i = 0; i < game.players.size(); i++) {
+				if (game.players.get(i).getName().equals(name) && !game.getCurrentPlayer().getName().equals(name)) {
+					othertrader.trader = game.players.get(i);
+					btnLockTradeLeft.setVisible(true);
+					btnLockTradeRight.setVisible(true);
+					drawBoard();
+					return;
+				}
+			}
 		}
 	}
-}
-}
 
 
-/**
-* Locks trade
-* @param e
-*/
-public void lockTrade(MouseEvent e) {
-
-if (((Button)(e.getSource())).getId().equals("rightLock")) {
-	btnLockTradeRight.setText("Locked");
-	tradeowner.locked = true;
-} else {
-	btnLockTradeLeft.setText("Locked");
-	othertrader.locked = true;
-}
-
-if (tradeowner.locked && othertrader.locked) {
-	tradeInformationConfirmed();
-}
-}
+	/**
+	* Locks trade
+	* @param e
+	*/
+	public void lockTrade(MouseEvent e) {
+	
+		if (((Button)(e.getSource())).getId().equals("rightLock")) {
+			btnLockTradeRight.setText("Locked");
+			tradeowner.locked = true;
+		} else {
+			btnLockTradeLeft.setText("Locked");
+			othertrader.locked = true;
+		}
+		
+		if (tradeowner.locked && othertrader.locked) {
+			tradeInformationConfirmed();
+		}
+	}
 
 
 	
@@ -742,11 +783,14 @@ if (tradeowner.locked && othertrader.locked) {
 						if (p.getPosition() == i) {
 							//Draws the players images to the locations they are
 							Image img = new Image("gui/" + p.getToken().getIconFileLocation());
-							//Need to work on moving them around so more than one can fit on screen
 							gc.setFill(Color.web(playerColors[game.getPlayerIndex(p)]));
-							gc.fillOval(30, 75, 40, 40);
-							gc.drawImage(img, 30, 75, 40, 40);
-
+							if(p.isInJail()){
+								gc.fillOval(30, 20, 50, 50);
+								gc.drawImage(img, 30, 25, 50, 50);
+							}else{
+								gc.fillOval(30, 75, 40, 40);
+								gc.drawImage(img, 30, 75, 40, 40);
+							}
 						}
 					}
 				}
@@ -1000,14 +1044,14 @@ if (tradeowner.locked && othertrader.locked) {
 	 * @param title
 	 * @param message
 	 */
-	public void showAlert(String title, String message) {
+	public void showAlert(String title, String message, boolean buttons) {
 		
 		//If there is already an alert active
 		if(grpPopupMessage.isVisible()){
 			//Wait 1 second then recall
 			//To ensure no messages are lost
 			PauseTransition wait = new PauseTransition(Duration.seconds(1));
-			wait.setOnFinished(e -> {showAlert(title,message);});
+			wait.setOnFinished(e -> {showAlert(title,message,false);});
 			wait.play();
 			//Leave
 			return;
@@ -1019,12 +1063,22 @@ if (tradeowner.locked && othertrader.locked) {
 			PopUpTitle.setText(title);
 			PopUpMessage.setText(message);
 			grpPopupMessage.toFront();
+			
+		if(buttons){
+			grpAlertButtons.setVisible(true);
+			btnAlertTwo.setText("Pay £50");
+			btnAlertOne.setText("Try for Doubles");
+		}
 	}
 	/**
 	 * Removes alert information
 	 */
 	public void hideAlert() {
-		grpPopupMessage.setVisible(false);
+		//If the alert buttons are active, they need to be pressed, not the by clicking anywhere
+		if(!grpAlertButtons.isVisible()){
+			grpPopupMessage.setVisible(false);
+			grpAlertButtons.setVisible(false);
+		}
 	}
 
 	/**
@@ -1122,7 +1176,7 @@ if (tradeowner.locked && othertrader.locked) {
 		game.trade(tradeowner.trader, tradeowner.est, Integer.parseInt(txtTradeCashLeft.getText()),
 		othertrader.trader, othertrader.est, Integer.parseInt(txtTradeCashRight.getText()));
 		stopTrade();
-		showAlert("Trade", "Trade Complete");
+		showAlert("Trade", "Trade Complete",false);
 
 	}
 	/**

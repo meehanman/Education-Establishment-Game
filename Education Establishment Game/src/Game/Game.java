@@ -1,10 +1,11 @@
 package Game;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import utils.Player;
+import utils.Settings;
 import board.Board;
 import board.Card;
+import board.Effect;
 import board.SpecialSquare;
 import board.SpecialSquare.Type;
 import board.Square;
@@ -12,6 +13,8 @@ import board.establishment.Bar;
 import board.establishment.Establishment;
 import board.establishment.Restaurant;
 import board.establishment.Subject;
+
+import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion.Setting;
 
 /**
  * 
@@ -37,6 +40,7 @@ public class Game {
 	
 	public Board board; //Contains all the Squares, 
 	public ArrayList<Player> players = new ArrayList<Player>();
+	public Settings settings;
 	public int currentTurn; //Holds the location in the ArrayList of the players go
 	private boolean extraTurn; //Used to track rolling doubles next go will call same player if not 0)
 	private boolean diceRolled = false;
@@ -49,11 +53,15 @@ public class Game {
 		this.players = players;
 		
 		board = new Board();
+		
+		settings = new Settings();
 	
 	}
 	
+
 	/**
-	 * LOGIC: What to happen when a player lands on a square
+	 * LOGIC for what happens when a user lands on a square
+	 * @param square The Square that the user has landed on
 	 */
 	public void landOn(Square square){
 		//If its an establishment then it can be baught
@@ -64,12 +72,12 @@ public class Game {
 			SpecialSquare specialSquare = (SpecialSquare)square;
 			if(specialSquare.getType()==Type.ChanceCard){
 				//Pick up Card and be affected by it
-				board.ChanceCardsDeck.takeCard();
+				board.experenceCardDeck.takeCard();
 				//Set Flag to Not Community Card
 				isCommunityCard = false;
 			}else if(specialSquare.getType()==Type.CommunityChest){
 				//Pick up Card
-				board.ComunityCheckCardsChest.takeCard();
+				board.academiaCardDeck.takeCard();
 				//Set Flag to Community Card
 				isCommunityCard = true;
 			}else if(specialSquare.getType()==Type.GotoJail){
@@ -78,11 +86,13 @@ public class Game {
 				getCurrentPlayer().subBalance(200);
 			}else if(specialSquare.getType()==Type.IncomeTax){
 				getCurrentPlayer().subBalance(200);
-			}
-		}
-		
+			}						
+		} 
 	}
-	
+	/**
+	 * Process the Donation "Rent" for a particular Establishment when landing on it
+	 * @param square
+	 */
 	public void rent(Square square){
 		Establishment est = ((Establishment)(square));
 		String typeOfSquare = est.getSquareType();
@@ -108,6 +118,7 @@ public class Game {
 			System.out.println("landOn(): Establishment doesn't have an owner, or the owner is this owner.."+square.getName());
 		}
 	}
+	
 	
 	public boolean pay(Subject sub){
 		if(getCurrentPlayer().giveMoney(sub.getOwner(),sub.getRent())){
@@ -199,22 +210,9 @@ public class Game {
 			}
 		}
 		//check if movement caused
-		if(takeCard.getEffect().isMovement()){
-			//check if pass go.
-			if(takeCard.getEffect().getPosition() < getCurrentPlayer().getPosition()){
-				//add bonus for passing go.
-				System.out.println("ActionCard: Card Effect is Movement");
-				player.addBalance(200);
-			}
-			//move position
-//**************************************************************************
-// THIS LINE MAY CAUSE PLAYER TO LAND ON GO COLLECTING 400 INSTEAD OF PASSING?
-//			player.incrementPosition(takeCard.getEffect().getPosition());
-			
-			
-			//call land on to pay rent etc for new landed on square.
-			//landOn(board.Squares[player.getPosition()]);
-			//******************************************************
+		if(takeCard.getEffect().isMovement()){		
+
+			player.incrementPosition(takeCard.getEffect().getPosition());
 		}
 	}
 	/**
@@ -222,9 +220,9 @@ public class Game {
 	 */
 	public void actionCurrentCard(){
 		if(isCommunityCard){
-			actionCard(getCurrentPlayer(),board.ComunityCheckCardsChest.showLastCard());
+			actionCard(getCurrentPlayer(),board.academiaCardDeck.showLastCard());
 		}else{
-			actionCard(getCurrentPlayer(),board.ChanceCardsDeck.showLastCard());
+			actionCard(getCurrentPlayer(),board.experenceCardDeck.showLastCard());
 		}
 		
 	}
@@ -281,22 +279,37 @@ public class Game {
 	public int[] rollDice(){
 		//Role the Dice
 		int[] diceRoll = board.dice.rollDice();
-
+		
 		//Rolling Doubles
 		if(board.dice.isDoubles()){
-			System.out.println("rollDice(): Got doubles!");
-			extraTurn=true;
-			diceRolled=false;
-			//Starts counter for 3 rolls = GotoJail
-			doubledRolled++;
-			if(doubledRolled>=3){
-				getCurrentPlayer().SendToJail();
+			//Get them out of Jail
+			if(getCurrentPlayer().isInJail()){
+				getCurrentPlayer().freeFromJail();
+			}else{
+				System.out.println("rollDice(): Got doubles!");
+				extraTurn=true;
+				diceRolled=false;
+				//If the player is in Jail and Rolls Doubles, then free them
+				
+				//Starts counter for 3 rolls = GotoJail
+				doubledRolled++;
+				if(doubledRolled>=3){
+					getCurrentPlayer().SendToJail();
+					doubledRolled=0;
+				}
 			}
-		}else{
+			
+		}else{			
 			//Stop this player rolling the dice again
 			diceRolled=true;
 			extraTurn=false;
 			doubledRolled=0;
+			
+			//If they are in Jail and didn't roll doubles
+			if(getCurrentPlayer().isInJail()){
+				//Just return, don't move the player
+				return diceRoll;
+			}
 		}
 		//move the player
 		movePlayer(board.dice.getValue());
@@ -508,7 +521,9 @@ public class Game {
 				}
 			}
 		}
+		
 		getCurrentPlayer().flagBankrupt();
+		getCurrentPlayer().setBalance(0);
 	}
 	
 	/**
@@ -564,6 +579,40 @@ public class Game {
 			return false;
 		}
 	}
-	
+	/**
+	 * Returns the current Effect of the last card
+	 * 
+	 * @return Effect of last card called
+	 */
+	public Effect getCurrentCardEffect(){
+		//Get current Effect
+		try{
+			return isCommunityCard?board.academiaCardDeck.showLastCard().getEffect():board.experenceCardDeck.showLastCard().getEffect();
+		}catch(NullPointerException e){
+			System.out.println("\nNo Card Effect Available\n");
+		}
+		return new Effect();
+	}
+	/**
+	 *  Returns if the game has the required amount of players present
+	 *  If False, the UI will end the game
+	 */
+	public boolean requiredActivePlayers(){
+		//If there is only one player left, then endGame
+		int stillInTheGame = 0;
+		for(Player p : players){
+			//checks if there are at least 
+			if(!p.isBankrupt()){
+				stillInTheGame++;
+			}	
+		}
+		
+		//If there is only 1 player playing now, then end game
+		if(stillInTheGame<=settings.PlayUntilNPlayers){
+			return false;
+		}else{
+			return true;
+		}
+	}
 		
 }

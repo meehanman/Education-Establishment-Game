@@ -920,6 +920,30 @@
                   <Text layoutX="8.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click to Continue..." textAlignment="CENTER" wrappingWidth="226.13671875" />
                </children>
             </Pane>
+            <Group fx:id="grpAlertButtons" layoutX="3.0" layoutY="-8.0" visible="false">
+               <children>
+                  <Button fx:id="btnAlertOne" layoutX="136.0" layoutY="756.0" mnemonicParsing="false" text="Try for Doubles" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="greenGrad" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="btnAlertTwo" layoutX="26.0" layoutY="756.0" mnemonicParsing="false" text="Pay £50" textFill="WHITE">
+                     <styleClass>
+                        <String fx:value="settings-button" />
+                        <String fx:value="buttonCrusor" />
+                        <String fx:value="greenGrad" />
+                     </styleClass>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Group>
          </children>
       </Group>
       <Button fx:id="btnBoardEndTurn" layoutX="34.0" layoutY="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="End Turn" textFill="WHITE">
@@ -1275,6 +1299,16 @@
          <font>
             <Font size="15.0" />
          </font>
+      </Button>
+      <Button fx:id="btnTest" layoutX="41.0" layoutY="799.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <styleClass>
+            <String fx:value="settings-button" />
+            <String fx:value="redGrad" />
+            <String fx:value="buttonCrusor" />
+         </styleClass>
       </Button>
       
    </children>
