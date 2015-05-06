@@ -21,7 +21,7 @@
          <children>
             <Pane prefHeight="61.0" prefWidth="693.0" styleClass="settings-overlay-top">
                <children>
-                  <Text fill="WHITE" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Setup" textAlignment="CENTER" wrappingWidth="693.0">
+                  <Text fx:id="lblGameSetup" fill="WHITE" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Setup" textAlignment="CENTER" wrappingWidth="693.0">
                      <font>
                         <Font size="31.0" />
                      </font>

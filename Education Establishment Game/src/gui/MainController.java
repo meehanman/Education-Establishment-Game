@@ -1,5 +1,7 @@
 package gui;
 
+import game.Game;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import utils.Player;
-import Game.Game;
+import utils.Settings;
 import board.Card;
 import board.SpecialSquare;
 import board.SpecialSquare.Type;
@@ -105,7 +107,7 @@ public class MainController implements Initializable {
 	@FXML Button btnAlertOne, btnAlertTwo;
 	@FXML Group grpAlertButtons;
 	
-	@FXML Button btnTest;
+	@FXML Button btnTest,btnPayBills;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -125,9 +127,7 @@ public class MainController implements Initializable {
 
 
 		}
-		
-		GUI.string = "hello";
-				
+						
 		//Event Handlers
 		btnBackManageProperty.setOnMouseClicked		(this::closeManagePropertyUI);
 		btnBoardEndTurn.setOnMouseClicked			(this::endTurn);
@@ -157,6 +157,7 @@ public class MainController implements Initializable {
 		
 		btnAlertOne.setOnMouseClicked				(this::tryForDoubles);
 		btnAlertTwo.setOnMouseClicked				(this::payJailTime);
+		btnPayBills.setOnMouseClicked				(this::payBills);
 		
 		btnTest.setOnMouseClicked					(this::testButton);
 		//btnTest.setText("Test Jail");
@@ -203,13 +204,20 @@ public class MainController implements Initializable {
 	//////////
 	//////////         MOUSE EVENT HANDLERS
 	/////////////////////////////////////////////////////////////////////////////
-	
+	public void payBills(MouseEvent e){
+		if(game.payBills()){
+			btnPayBills.setVisible(false);
+		}else{
+			showAlert("Pay Up", "You need to pay the balance "+game.getBillAmount()+"to continue."
+					+ ". Otherwise you will need to forfeit", false);
+		}
+	}
 	public void testButton(MouseEvent e){
 		game.players.get(1).SendToJail();
 	}
 	
 	public void payJailTime(MouseEvent e){
-		game.getCurrentPlayer().subBalance(game.settings.GetOutOfJailAmount);
+		game.getCurrentPlayer().subBalance(Settings.GetOutOfJailAmount);
 		game.getCurrentPlayer().freeFromJail();
 		
 		//Hide alerts
@@ -357,9 +365,6 @@ public void closeManagePropertyUI(MouseEvent e) {
 		imgDice1.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[0] + ".png"));
 		imgDice2.setImage(new Image("\\gui\\img\\dice\\" + diceRoll[1] + ".png"));
 	
-		if(game.board.dice.isDoubles()){
-			
-		}
 		
 		//Remove the end Turn button
 		btnBoardEndTurn.setVisible(true);

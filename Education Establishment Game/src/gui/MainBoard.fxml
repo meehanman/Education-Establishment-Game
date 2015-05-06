@@ -893,7 +893,7 @@
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
-            <String fx:value="greenGrad" />
+            <String fx:value="green" />
          </styleClass>
          <font>
             <Font size="20.0" />
@@ -950,7 +950,7 @@
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
-            <String fx:value="redGrad" />
+            <String fx:value="red" />
          </styleClass>
          <font>
             <Font size="20.0" />
@@ -960,7 +960,7 @@
          <styleClass>
             <String fx:value="settings-button" />
             <String fx:value="buttonCrusor" />
-            <String fx:value="greenGrad" />
+            <String fx:value="green" />
          </styleClass>
          <font>
             <Font size="20.0" />
@@ -1293,21 +1293,31 @@
       <Button fx:id="btnForfeit" layoutX="41.0" layoutY="849.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
          <styleClass>
             <String fx:value="settings-button" />
-            <String fx:value="redGrad" />
+            <String fx:value="red" />
             <String fx:value="buttonCrusor" />
          </styleClass>
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnTest" layoutX="41.0" layoutY="799.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Forfeit from Game" textFill="WHITE">
+      <Button fx:id="btnTest" layoutX="41.0" layoutY="799.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="187.0" text="Test Button" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
          <styleClass>
             <String fx:value="settings-button" />
-            <String fx:value="redGrad" />
+            <String fx:value="brown" />
             <String fx:value="buttonCrusor" />
+         </styleClass>
+      </Button>
+      <Button fx:id="btnPayBills" layoutX="41.0" layoutY="419.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Play Bills" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <styleClass>
+            <String fx:value="settings-button" />
+            <String fx:value="buttonCrusor" />
+            <String fx:value="orange" />
          </styleClass>
       </Button>
       
