@@ -1,5 +1,7 @@
 package utils;
 
+import gui.GameSetupController;
+
 import java.util.Locale;
 
 /**
