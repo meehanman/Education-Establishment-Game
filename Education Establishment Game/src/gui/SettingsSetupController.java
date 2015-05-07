@@ -81,6 +81,8 @@ public class SettingsSetupController implements Initializable{
 		//Set the starting money
 		for(Player p : MainController.game.players){
 			p.setBalance(Settings.StartingMoney);
+//!*!*!*!*!
+//!*!*!*!*!
 		}
 		
 		

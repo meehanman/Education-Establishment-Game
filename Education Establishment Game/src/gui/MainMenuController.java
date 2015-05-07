@@ -45,15 +45,19 @@ public class MainMenuController implements Initializable{
 	//Language Settings
 	public void setEN(MouseEvent e){
 		Settings.language = Locale.ENGLISH;
+		updateLocaleValues();
 	}
 	public void setFR(MouseEvent e){
 		Settings.language = Locale.FRENCH;
+		updateLocaleValues();
 	}
 	public void setDE(MouseEvent e){
 		Settings.language = Locale.GERMAN;
+		updateLocaleValues();
 	}
 	public void setSP(MouseEvent e){
 		Settings.language = new Locale("es", "ES");
+		updateLocaleValues();
 	}
 	/**
 	 * Set the local for buttons on screen
