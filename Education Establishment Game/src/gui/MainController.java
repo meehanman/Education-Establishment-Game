@@ -28,7 +28,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import utils.LanguageController;
 import utils.Player;
 import utils.Settings;
 import board.Card;
@@ -131,23 +130,14 @@ public class MainController implements Initializable {
 						
 		//Event Handlers
 		btnBackManageProperty.setOnMouseClicked		(this::closeManagePropertyUI); 
-		btnBackManageProperty.setText(LanguageController.getMessage("Back"));
 		btnBoardEndTurn.setOnMouseClicked			(this::endTurn);
-		btnBoardEndTurn.setText(LanguageController.getMessage("EndTurn"));
 		btnBoardManage.setOnMouseClicked			(this::showManagePopover);
-		btnBoardManage.setText(LanguageController.getMessage("Manage"));
 		btnBoardTrade.setOnMouseClicked				(this::startTrade);
-		btnBoardTrade.setText(LanguageController.getMessage("Trade"));
 		btnBuyHouseManageProperty.setOnMouseClicked	(this::buySchool);
-		btnBuyHouseManageProperty.setText(LanguageController.getMessage("BuyHouse"));
 		btnLockTradeLeft.setOnMouseClicked			(this::lockTrade);
-		btnLockTradeLeft.setText(LanguageController.getMessage("LockTrade"));
 		btnLockTradeRight.setOnMouseClicked			(this::lockTrade);
-		btnLockTradeRight.setText(LanguageController.getMessage("LockTrade"));
 		btnMortgageManageProperty.setOnMouseClicked	(this::mortgageProperty);
-		btnMortgageManageProperty.setText(LanguageController.getMessage("MortgageProperty"));
 		btnSellHouseManageProperty.setOnMouseClicked(this::sellSchool);
-		btnSellHouseManageProperty.setText(LanguageController.getMessage("SellHouse"));
 
 		grayOut.setOnMouseClicked					(this::hideAlert);
 		grpPopupMessage.setOnMouseClicked			(this::hideAlert);
@@ -155,24 +145,19 @@ public class MainController implements Initializable {
 		pneSpecialCard.setOnMouseClicked			(this::hideSpecialCard);
 
 		ManageBuy.setOnMouseClicked					(this::buyProperty);
-		ManageBuy.setText(LanguageController.getMessage("EndTurn"));
 		ManageClose.setOnMouseClicked				(this::hideManagePropertyScreen);
-		ManageClose.setText(LanguageController.getMessage("Close"));
 		ManageManage.setOnMouseClicked				(this::showManagePropertyScreen);
-		ManageManage.setText(LanguageController.getMessage("Manage"));
 		ManageTrade.setOnMouseClicked				(this::startTrade);
-		ManageTrade.setText(LanguageController.getMessage("Trade"));
 		pneSpecialCard.setOnMouseClicked			(this::hideSpecialCard);
 		
 		txtStopTrade.setOnMouseClicked				(this::stopTrade);
 		grpDice.setOnMouseClicked					(this::diceRoll);
 		
 		btnForfeit.setOnMouseClicked				(this::forfeit);
-		btnForfeit.setText(LanguageController.getMessage("ForfeitFromGame"));
+		
 		btnAlertOne.setOnMouseClicked				(this::tryForDoubles);
 		btnAlertTwo.setOnMouseClicked				(this::payJailTime);
 		btnPayBills.setOnMouseClicked				(this::payBills);
-		btnPayBills.setText(LanguageController.getMessage("PayBills"));
 		
 		btnTest.setOnMouseClicked					(this::testButton);
 		//btnTest.setText("Test Jail");
@@ -224,8 +209,8 @@ public class MainController implements Initializable {
 		if(game.payBills()){
 			btnPayBills.setVisible(false);
 		}else{
-			showAlert(LanguageController.getMessage("PayUp"), LanguageController.getMessage("YouNeedToPayTheBalance")+game.getBillAmount()+"to continue."
-					+ LanguageController.getMessage("OtherwiseYouWillNeedToForfeit"), false);
+			showAlert("Pay Up", "You need to pay the balance "+game.getBillAmount()+"to continue."
+					+ ". Otherwise you will need to forfeit.", false);
 		}
 	}
 	public void testButton(MouseEvent e){
@@ -241,7 +226,7 @@ public class MainController implements Initializable {
 		grpAlertButtons.setVisible(false);
 		
 		//Show information
-		showAlert(LanguageController.getMessage("Paid"),LanguageController.getMessage("GoodCause"),false);
+		showAlert("Paid","We will use this money for good causes! You can roll!",false);
 	}
 	public void tryForDoubles(MouseEvent e){
 		//Hide alerts
@@ -249,7 +234,7 @@ public class MainController implements Initializable {
 		grpAlertButtons.setVisible(false);
 				
 		//Show information
-		showAlert(LanguageController.getMessage("RollForDoubles"),LanguageController.getMessage("ShowUsTheDoubles"),false);
+		showAlert("Roll for Doubles","If you can show us some doubles! We'll get you out of here, doubly fast!",false);
 	}
 	
 	
@@ -302,9 +287,9 @@ public void showManagePopover(MouseEvent e){
 */
 public void buySchool(MouseEvent event) {
 if (game.upgrade((Subject) selectedSquare)) {
-	showAlert(LanguageController.getMessage("Upgrade"), LanguageController.getMessage("NewBuild"),false);
+	showAlert("Upgrade", "You've a new building in your school!",false);
 } else {
-	showAlert(LanguageController.getMessage("Upgrade"), LanguageController.getMessage("WrongColorEqual"),false);
+	showAlert("Upgrade", "Something went wrong! Do you own the color and all houses are equal buying measure?",false);
 }
 drawBoard();
 }
@@ -314,9 +299,9 @@ drawBoard();
 */
 public void sellSchool(MouseEvent event) {
 if (((Subject) selectedSquare).sellHouse()) {
-	showAlert(LanguageController.getMessage("Upgrade"), LanguageController.getMessage("SoldBuilding"),false);
+	showAlert("Upgrade", "Things looking bad? We sold that building for you!",false);
 } else {
-	showAlert(LanguageController.getMessage("Upgrade"), LanguageController.getMessage("SomthingWentWrong"),false);
+	showAlert("Upgrade", "Something went wrong!",false);
 }
 drawBoard();
 }
@@ -399,9 +384,9 @@ public void closeManagePropertyUI(MouseEvent e) {
 			if(est.hasOwner() && !(est.getOwner().equals(game.getCurrentPlayer()))){
 				//If payBills returns true, then the player has paid their bill
 				if(game.payBills()){
-					showAlert(LanguageController.getMessage("RentDue"), game.getCurrentPlayer().getName()+LanguageController.getMessage("Donated")+est.getRent()+LanguageController.getMessage("To")+est.getName(),false);
+					showAlert("Rent Due", game.getCurrentPlayer().getName()+" has donated £"+est.getRent()+" to "+est.getName(),false);
 				}else{
-					showAlert(LanguageController.getMessage("RentDue"), LanguageController.getMessage("BillOf")+game.getBillAmount()+LanguageController.getMessage("NeedsPaid"),false);
+					showAlert("Rent Due", "You have a bill of "+game.getBillAmount()+" that needs to be paid! Please mortgage properties or forfeit to continue!",false);
 					btnPayBills.setVisible(true);
 					btnBoardEndTurn.setVisible(false);
 				}
@@ -426,26 +411,26 @@ public void closeManagePropertyUI(MouseEvent e) {
 				Card pickedUpCard = game.board.academiaCardDeck.showLastCard();
 				showSpecialCard(pickedUpCard.getTitle(), pickedUpCard.getDescription(), false);
 			} else if (specialSquare.getType() == Type.GotoJail) {
-				showAlert(LanguageController.getMessage("Detention"), LanguageController.getMessage("NoGoodDetention"),false);
+				showAlert("Detention", "You've been up to no good and have been sent to Detention!",false);
 			} else if (specialSquare.getType() == Type.SuperTax) {
-				showAlert(LanguageController.getMessage("SuperTax"), LanguageController.getMessage("HighRoller"),false);
+				showAlert("Super Tax", "High Roller! So close to the next term, but a hefty tax bill of £100 is in! Pay £100",false);
 			} else if (specialSquare.getType() == Type.IncomeTax) {
-				showAlert(LanguageController.getMessage("IncomeTax"), LanguageController.getMessage("DeclaredIncome"),false);
+				showAlert("Income Tax", "You never declared your income! Pay £200",false);
 			} else if(specialSquare.getType() == Type.FreeParking) {
-				showAlert(LanguageController.getMessage("StrikeDay"), LanguageController.getMessage("StrikeNoWork"),false);
+				showAlert("Strike Day", "There's a strike and you can't make it to work! Enjoy the day off!",false);
 			}
 		}
 	}
 
 	//Output for UI in reguards to dice roll rules
 	if (game.ifDoubleTrouble()) {
-		showAlert(LanguageController.getMessage("DiceRoll"), LanguageController.getMessage("3Doubles"),false);
+		showAlert("Dice Roll", "It look's like your cheeting! 3 doubles in a row? You've been sent to Detention!",false);
 	} else {
 		if (game.board.dice.isDoubles()) {
-			showAlert(LanguageController.getMessage("DiceRoll"), LanguageController.getMessage("RolledDouble") + game.board.dice.getValues()[0] + LanguageController.getMessage("AnotherGo"),false);
-			btnBoardEndTurn.setText(LanguageController.getMessage("RollAgain"));
+			showAlert("Dice Roll", "You've rolled double " + game.board.dice.getValues()[0] + "'s. Have another go on the house! (Click 'roll again')",false);
+			btnBoardEndTurn.setText("Roll Again!");
 		}else{
-			btnBoardEndTurn.setText(LanguageController.getMessage("EndTurn"));
+			btnBoardEndTurn.setText("End Turn");
 		}
 	}
 	//Update board
@@ -461,7 +446,7 @@ public void closeManagePropertyUI(MouseEvent e) {
 		btnBoardEndTurn.setVisible(false);
 		hideManagePopover();
 		if (game.canRoll()) {
-			showAlert(LanguageController.getMessage(LanguageController.getMessage("Don'tRockAndRoll")), LanguageController.getMessage("YouMustRollTheDiceBeforeGivingUpYourGo") + game.getCurrentPlayer().getName(),false);
+			showAlert("Don't Rock and Roll", "You must roll the dice before giving up your go " + game.getCurrentPlayer().getName(),false);
 			imgYourRoll.setVisible(true);
 		} else {
 			imgYourRoll.setVisible(false);
@@ -473,7 +458,7 @@ public void closeManagePropertyUI(MouseEvent e) {
 		
 		//If the player is in Jail, show popup
 		if(game.getCurrentPlayer().isInJail()){
-			showAlert(LanguageController.getMessage("DetentionTime"),LanguageController.getMessage("InJail"),true);
+			showAlert("Detention Time","Your in Jail! Pay £50 or Break out by rolling doubles!",true);
 		}
 	}
 /**
@@ -485,10 +470,10 @@ if (getCurrentLandedSquare().equals(selectedSquare)) if (selectedSquare instance
 	Establishment est = (Establishment) selectedSquare;
 	if (game.getCurrentPlayer().buy(est)) {
 		hideManagePopover();
-		showAlert(LanguageController.getMessage("PropertyBought"), LanguageController.getMessage("CongratsOnProperty") + est.getName(),false);
+		showAlert("Property Bought", "Congratulations on your new property " + est.getName(),false);
 
 	} else {
-		showAlert(LanguageController.getMessage("YourPoor"), LanguageController.getMessage("CouldNotBuy") + est.getName(),false);
+		showAlert("Your poor!", "Could not buy " + est.getName(),false);
 	}	
 }
 
@@ -510,13 +495,13 @@ if (square instanceof Establishment) {
 			btnMortgageManageProperty.setVisible(true);
 			//If the user was able to unMortgage the establishment
 			if (est.unMortgage()) {
-				btnMortgageManageProperty.setText(LanguageController.getMessage("Mortgage"));
+				btnMortgageManageProperty.setText("Mortgage");
 			} else {
-				btnMortgageManageProperty.setText(LanguageController.getMessage("UnMortgage"));
+				btnMortgageManageProperty.setText("UnMortgage");
 			}
 		} else {
 			est.Mortgage();
-			btnMortgageManageProperty.setText(LanguageController.getMessage("UnMortgage"));
+			btnMortgageManageProperty.setText("UnMortgage");
 		}
 	}
 }
@@ -593,10 +578,10 @@ public void SubjectSquareClicked(MouseEvent event) {
 	public void lockTrade(MouseEvent e) {
 	
 		if (((Button)(e.getSource())).getId().equals("rightLock")) {
-			btnLockTradeRight.setText(LanguageController.getMessage("Locked"));
+			btnLockTradeRight.setText("Locked");
 			tradeowner.locked = true;
 		} else {
-			btnLockTradeLeft.setText(LanguageController.getMessage("Locked"));
+			btnLockTradeLeft.setText("Locked");
 			othertrader.locked = true;
 		}
 		
@@ -950,18 +935,18 @@ public void SubjectSquareClicked(MouseEvent event) {
 			txtManagePropertyOwnedBy.setText("Owned by" + establishment.getOwner().getName());
 			//If the owner is the current owner, then show the mortgage value
 			if (!establishment.isMortgaged() && establishment.getOwner().equals(game.getCurrentPlayer())) {
-				btnMortgageManageProperty.setText(LanguageController.getMessage("Mortgage"));
+				btnMortgageManageProperty.setText("Mortgage");
 				btnBuyHouseManageProperty.setVisible(true);
 				btnSellHouseManageProperty.setVisible(true);
 			} else {
-				btnMortgageManageProperty.setText(LanguageController.getMessage("UnMortgage"));
+				btnMortgageManageProperty.setText("UnMortgage");
 				btnBuyHouseManageProperty.setVisible(false);
 				btnSellHouseManageProperty.setVisible(false);
 			}
 			btnMortgageManageProperty.setVisible(true);
 			
 		} else {
-			txtManagePropertyOwnedBy.setText(LanguageController.getMessage("NotOwned"));
+			txtManagePropertyOwnedBy.setText("Not Owned");
 			btnMortgageManageProperty.setVisible(false);
 			btnBuyHouseManageProperty.setVisible(false);
 			btnSellHouseManageProperty.setVisible(false);
@@ -1068,7 +1053,7 @@ public void SubjectSquareClicked(MouseEvent event) {
 				btnPayBills.setVisible(false);
 			}else{
 				//Otherwise they need to pay
-				showAlert(LanguageController.getMessage("RentDue"), LanguageController.getMessage("BillOf")+game.getBillAmount()+LanguageController.getMessage("NeedsPaid"),false);
+				showAlert("Rent Due", "You have a bill of "+game.getBillAmount()+" that needs to be paid! Please mortgage properties or forfeit to continue!",false);
 				btnPayBills.setVisible(true);
 				btnBoardEndTurn.setVisible(false);
 			}
@@ -1189,16 +1174,16 @@ public void SubjectSquareClicked(MouseEvent event) {
 	public void clearTradeInformation() {
 
 		//Left Trader
-		txtUsernameTradeLeft.setText(LanguageController.getMessage("SelectUserAbove"));
+		txtUsernameTradeLeft.setText("Select User Above");
 		txtPropertiesTradeLeft.setText("");
 		txtTradeCashLeft.setText("");
-		btnLockTradeLeft.setText(LanguageController.getMessage("LockTrade"));
+		btnLockTradeLeft.setText("Lock Trade");
 
 		//Right Trader
-		txtUsernameTradeRight.setText(LanguageController.getMessage("SelectUserAbove"));
+		txtUsernameTradeRight.setText("Select User Above");
 		txtPropertiesTradeRight.setText("");
 		txtTradeCashRight.setText("");
-		btnLockTradeRight.setText(LanguageController.getMessage("LockTrade"));
+		btnLockTradeRight.setText("Lock Trade");
 	}
 
 	/**
@@ -1216,7 +1201,7 @@ public void SubjectSquareClicked(MouseEvent event) {
 		game.trade(tradeowner.trader, tradeowner.est, Integer.parseInt(txtTradeCashLeft.getText()),
 		othertrader.trader, othertrader.est, Integer.parseInt(txtTradeCashRight.getText()));
 		stopTrade();
-		showAlert(LanguageController.getMessage("Trade"), LanguageController.getMessage("TradeComplete"),false);
+		showAlert("Trade", "Trade Complete",false);
 
 	}
 	/**
