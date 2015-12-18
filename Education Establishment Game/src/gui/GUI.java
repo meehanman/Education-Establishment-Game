@@ -10,11 +10,8 @@ import utils.Settings;
 /**
  * 
  * GUI for Education Establishment Game
- * (Just testing and class could be moved to Game)
  * 
  * @author Dean
- *
- * @see https://www.youtube.com/watch?v=wOUmUcVbO2s (Totorial on JavaFX)
  */
 
 public class GUI extends Application{
